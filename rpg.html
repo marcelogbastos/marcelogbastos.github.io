@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOON DICE RPG - Manual Digital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎲</text></svg>">
+    <style>
+        /* Configuração de Variáveis de Cor */
+        :root {
+            --bg-primary: #f1f5f9; /* slate-100 */
+            --bg-secondary: #ffffff; /* white */
+            --bg-sidebar: #f8fafc; /* slate-50 */
+            --text-primary: #1e293b; /* slate-800 */
+            --text-secondary: #475569; /* slate-600 */
+            --text-nav: #334155; /* slate-700 */
+            --text-nav-hover: #000000;
+            --accent-color: #ef4444; /* red-500 */
+            --accent-color-darker: #dc2626; /* red-600 */
+            --accent-color-darkest: #b91c1c; /* red-700 */
+            --accent-hover-bg: #fee2e2; /* red-100 */
+            --accent-hover-text: #b91c1c; /* red-700 */
+            --nav-link-active-bg: var(--accent-color);
+            --nav-link-active-text: #ffffff;
+            --shadow-color: rgba(0,0,0,0.1);
+            --border-color: #e5e7eb; /* slate-200 */
+            --button-focus-ring: var(--accent-color-darker);
+            --sidebar-width-expanded: 16rem; /* md:w-64 */
+            --sidebar-width-collapsed: 4.5rem; /* md:w-18 */
+        }
+
+        body.dark-mode {
+            --bg-primary: #0f172a; /* slate-900 */
+            --bg-secondary: #1e293b; /* slate-800 */
+            --bg-sidebar: #1e293b; /* slate-800 */
+            --text-primary: #cbd5e1; /* slate-300 */
+            --text-secondary: #94a3b8; /* slate-400 */
+            --text-nav: #cbd5e1; /* slate-300 */
+            --text-nav-hover: #ffffff;
+            --accent-color: #f87171; /* red-400 */
+            --accent-color-darker: #ef4444; /* red-500 */
+            --accent-color-darkest: #dc2626; /* red-600 */
+            --accent-hover-bg: #334155; /* slate-700 */
+            --accent-hover-text: var(--accent-color);
+            --nav-link-active-bg: var(--accent-color-darker);
+            --nav-link-active-text: #ffffff;
+            --shadow-color: rgba(0,0,0,0.4);
+            --border-color: #334155; /* slate-700 */
+            --button-focus-ring: var(--accent-color);
+        }
+
+        /* Estilos Globais */
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            overscroll-behavior: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        body.dark-mode ::-webkit-scrollbar-thumb { background: #555; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+        body.dark-mode ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
+        
+        /* Seções de Conteúdo */
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+
+        /* Página do Livro */
+        .book-page {
+            background-color: var(--bg-secondary);
+            padding: 1.5rem; /* p-6 */
+            border-radius: 0.5rem; /* rounded-lg */
+            box-shadow: 0 4px 10px var(--shadow-color);
+            min-height: calc(100vh - 3rem); /* Ajustado para p-6 */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .book-page h2 { color: var(--accent-color-darkest); transition: color 0.3s ease; }
+        .book-page h3, .book-page h4 {
+            color: var(--text-secondary); 
+            font-weight: 600; 
+            transition: color 0.3s ease;
+        }
+        body.dark-mode .book-page h3, body.dark-mode .book-page h4 { color: var(--text-nav); }
+        .book-page p, .book-page li { color: var(--text-primary); line-height: 1.65; }
+        .book-page strong { color: var(--text-primary); font-weight: 700; }
+        body.dark-mode .book-page strong { color: var(--accent-color); }
+
+        /* Barra Lateral e Navegação */
+        #sidebar {
+            background-color: var(--bg-sidebar);
+            transition: background-color 0.3s ease, width 0.3s ease;
+            width: var(--sidebar-width-expanded); /* Default expanded width for desktop */
+        }
+        #sidebar h1.sidebar-title { /* Título "TOON DICE RPG" */
+            color: var(--accent-color-darker);
+            transition: color 0.3s ease, opacity 0.3s ease;
+        }
+        #tableOfContents a {
+            color: var(--text-nav);
+            transition: all 0.2s ease;
+            padding: 0.625rem 1rem; /* py-2.5 px-4 */
+            border-radius: 0.375rem; /* rounded-md */
+            display: flex;
+            align-items: center;
+            white-space: nowrap; /* Impede que o texto quebre linha */
+            overflow: hidden; /* Esconde o texto que transborda */
+        }
+        .nav-icon {
+            flex-shrink: 0; /* Impede que o ícone encolha */
+            margin-right: 0.75rem; /* mr-3 */
+            width: 1.25rem; /* w-5 */
+            height: 1.25rem; /* h-5 */
+        }
+        .nav-text {
+            transition: opacity 0.2s ease, max-width 0.3s ease;
+            opacity: 1;
+            max-width: 100px; /* Suficiente para o texto não ser cortado inicialmente */
+        }
+        #tableOfContents a:hover {
+            background-color: var(--accent-hover-bg);
+            color: var(--accent-hover-text);
+        }
+        #tableOfContents a.active-link {
+            background-color: var(--nav-link-active-bg);
+            color: var(--nav-link-active-text);
+            font-weight: 600;
+        }
+        #tableOfContents a.active-link .nav-icon {
+            color: var(--nav-link-active-text); /* Garante que o ícone também mude de cor */
+        }
+
+        /* Estilos para Sidebar Recolhida (Desktop) */
+        body.sidebar-collapsed #sidebar {
+            width: var(--sidebar-width-collapsed);
+        }
+        body.sidebar-collapsed #sidebar h1.sidebar-title {
+            opacity: 0;
+            pointer-events: none; /* Esconde completamente o título */
+        }
+        body.sidebar-collapsed .nav-text {
+            opacity: 0;
+            max-width: 0;
+            pointer-events: none;
+        }
+        body.sidebar-collapsed #tableOfContents a {
+            justify-content: center; /* Centraliza o ícone */
+            padding-left: 0.5rem; /* Ajusta padding para ícone */
+            padding-right: 0.5rem;
+        }
+        body.sidebar-collapsed .nav-icon {
+            margin-right: 0; /* Remove margem quando texto está oculto */
+        }
+        
+        /* Botões de Toggle (incluindo o novo botão de impressão) */
+        #themeToggle, #mobileNavToggle, #sidebarToggle, #printButton {
+            color: var(--text-nav);
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+        #themeToggle:hover, #mobileNavToggle:hover, #sidebarToggle:hover, #printButton:hover {
+            background-color: var(--accent-hover-bg);
+            color: var(--accent-hover-text);
+        }
+        #themeToggle:focus, #mobileNavToggle:focus, #sidebarToggle:focus, #printButton:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--button-focus-ring);
+        }
+        
+        /* Ajustes Responsivos */
+        @media (max-width: 768px) { /* md breakpoint */
+            #sidebar {
+                width: 100%; /* Full width on mobile */
+                max-height: 50vh; 
+                overflow-y: auto;
+                margin-bottom: 1rem;
+                position: static; 
+            }
+            #sidebarToggle { display: none; } /* Esconde o toggle da sidebar em mobile */
+            body.sidebar-collapsed #sidebar { /* No mobile, 'sidebar-collapsed' não deve encolher a sidebar */
+                width: 100%;
+            }
+            body.sidebar-collapsed #sidebar h1.sidebar-title { /* Título visível no mobile mesmo se sidebar-collapsed */
+                opacity: 1;
+                pointer-events: auto;
+            }
+            body.sidebar-collapsed .nav-text { /* Texto do menu visível no mobile */
+                opacity: 1;
+                max-width: 100px;
+                pointer-events: auto;
+            }
+            body.sidebar-collapsed #tableOfContents a { /* Layout normal do link no mobile */
+                justify-content: flex-start;
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            body.sidebar-collapsed .nav-icon {
+                margin-right: 0.75rem;
+            }
+
+            #mobileNavToggle { display: block; } /* Alterado para block para ser visível */
+            #tableOfContents { display: none; }
+            #tableOfContents.mobile-nav-active { display: block; }
+            .main-layout { flex-direction: column; }
+            #contentArea { width: 100%; margin-left: 0; }
+            .book-page { min-height: auto; padding: 1rem; }
+            .text-4xl { font-size: 2rem; } /* text-3xl */
+            .text-3xl { font-size: 1.5rem; } /* text-2xl */
+        }
+        @media (min-width: 769px) {
+            #mobileNavToggle { display: none; } /* Esconde o toggle mobile em desktop */
+        }
+
+        /* Estilos de Impressão */
+        @media print {
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                font-family: 'Times New Roman', Times, serif !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                font-size: 12pt !important; /* Base font size for print */
+            }
+
+            #sidebar,
+            #mobileNavToggle,
+            #sidebarToggle,
+            #themeToggle,
+            #printButton,
+            header /* Exemplo se houver um <header> separado */ {
+                display: none !important;
+            }
+
+            .main-layout {
+                display: block !important; /* Remove flex for print */
+            }
+
+            #contentArea {
+                width: 100% !important;
+                margin-left: 0 !important;
+                padding: 20mm !important; /* Margens de impressão */
+                float: none !important;
+            }
+
+            .book-page {
+                box-shadow: none !important;
+                border: none !important;
+                min-height: auto !important;
+                padding: 0 !important;
+                background-color: #ffffff !important;
+                border-radius: 0 !important;
+            }
+
+            .content-section {
+                display: block !important;
+                page-break-before: auto;
+                page-break-inside: avoid;
+                margin-bottom: 15px; /* Espaço entre seções */
+            }
+            .content-section.active {
+                /* Não é necessário, pois todos são display: block */
+            }
+
+            .book-page h2, .book-page h3, .book-page h4,
+            .book-page p, .book-page li, .book-page strong {
+                color: #000000 !important;
+                background-color: transparent !important; /* Remove any background colors from text elements */
+            }
+
+            .book-page h2 {
+                font-size: 18pt !important;
+                margin-top: 1.5em; /* Espaço antes de H2 */
+                margin-bottom: 0.5em;
+                page-break-after: avoid;
+                page-break-before: auto; /* Permite que comece nova página se necessário */
+            }
+            .book-page h2:first-child {
+                 margin-top: 0; /* Remove margin top for the very first h2 if it's at the top of a page */
+            }
+            .book-page h3 {
+                font-size: 14pt !important;
+                margin-top: 1.2em;
+                margin-bottom: 0.4em;
+                page-break-after: avoid;
+            }
+            .book-page h4 {
+                font-size: 12pt !important;
+                font-weight: bold !important;
+                margin-top: 1em;
+                margin-bottom: 0.3em;
+                page-break-after: avoid;
+            }
+            .book-page p, .book-page li {
+                font-size: 11pt !important; /* Um pouco menor para mais conteúdo por página */
+                line-height: 1.5 !important;
+                orphans: 3; /* Mínimo de linhas no final da página */
+                widows: 3;  /* Mínimo de linhas no início da página */
+            }
+            .book-page ul, .book-page ol {
+                margin-bottom: 1em;
+                padding-left: 20px; /* Indentação para listas */
+            }
+            .book-page li {
+                margin-bottom: 0.3em;
+            }
+
+
+            a { /* Estilo para links na impressão */
+                color: #000000 !important;
+                text-decoration: none !important; /* Remove sublinhado se desejar */
+            }
+            /* Opcional: mostrar URLs de links externos */
+            /* a[href^="http"]:after { content: " (" attr(href) ")"; font-size: 9pt; } */
+
+
+            img {
+                max-width: 100% !important;
+                height: auto !important;
+                display: block;
+                margin: 1em 0;
+                page-break-inside: avoid;
+            }
+
+            ::-webkit-scrollbar {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+
+    <div class="main-layout md:flex min-h-screen">
+        <aside id="sidebar" class="p-4 md:p-6 shadow-lg md:min-h-screen md:sticky md:top-0 md:overflow-y-auto">
+            <div class="flex justify-between items-center mb-4">
+                <h1 class="sidebar-title text-2xl font-bold truncate" style="font-family: 'Pacifico', cursive;">TOON DICE RPG</h1>
+                <div class="flex items-center">
+                    <button id="sidebarToggle" class="p-2 rounded-md focus:outline-none mr-1 hidden md:block" aria-label="Recolher/Expandir menu">
+                        </button>
+                    <button id="themeToggle" class="p-2 rounded-md focus:outline-none mr-1" aria-label="Alternar tema">
+                        </button>
+                    <button id="printButton" class="p-2 rounded-md focus:outline-none md:mr-0 mr-1" aria-label="Imprimir conteúdo">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096a8.502 8.502 0 0110.56 0m-10.56 0L6 13.959c-.271.04-.536.083-.8.128m11.36-.256c.264-.045.529-.088.8-.128m-12.16 0A14.954 14.954 0 0112 13.5c1.207 0 2.372.124 3.44.362m-6.88 0V12a2.25 2.25 0 012.25-2.25h3.375c1.24 0 2.25 1.01 2.25 2.25v1.862M6.72 13.829c-.24.03-.48.062-.72.096m.72-.096h10.56m-10.56 0L6 13.959c-.271.04-.536.083-.8.128m11.36-.256c.264-.045.529-.088.8-.128m0 0A14.954 14.954 0 0012 13.5c-1.207 0-2.372.124-3.44.362m6.88 0V12a2.25 2.25 0 01-2.25-2.25h-3.375a2.25 2.25 0 01-2.25 2.25v1.862m0 0L6.72 13.829m0 0l-.22.03c-.24.03-.48.062-.72.096m11.28-.096L17.28 13.83c.24.03.48.062.72.096M12 10.5h.008v.008H12V10.5zm0 3.75h.008v.008H12v-.008zM4.5 7.5A2.25 2.25 0 016.75 5.25h10.5A2.25 2.25 0 0119.5 7.5v8.25A2.25 2.25 0 0117.25 18H6.75A2.25 2.25 0 014.5 15.75V7.5z" />
+                        </svg>
+                    </button>
+                    <button id="mobileNavToggle" class="p-2 rounded-md md:hidden" aria-label="Alternar navegação móvel">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <nav id="tableOfContents" class="space-y-1">
+                <a href="#capa">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 1.00002L1.00001 7L12 13L23 7L12 1.00002ZM12 14.6L3.5 9.80002V17C3.5 17.4 3.80001 17.7 4.20001 17.8L11.7 22.8C11.9 22.9 12.1 22.9 12.3 22.8L19.8 17.8C20.2 17.7 20.5 17.4 20.5 17V9.80002L12 14.6Z"></path></svg>
+                    <span class="nav-text">Capa</span>
+                </a>
+                <a href="#sistema_basico">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span class="nav-text">Sistema Básico</span>
+                </a>
+                <a href="#acoes_combate">
+                     <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M18.364 5.63605C18.7545 5.24552 19.3877 5.24552 19.7782 5.63605L20.4853 6.34315C20.8758 6.73367 20.8758 7.36684 20.4853 7.75736L10.5858 17.6569C10.0001 18.2426 9.05029 18.2426 8.46452 17.6569L4.22188 13.4142C3.6361 12.8284 3.63609 11.8787 4.22188 11.2929L8.46452 7.05025C9.05029 6.46448 10.0001 6.46448 10.5858 7.05025L11.9498 8.41421L18.364 5.63605ZM13.364 9.82843L10.5858 12.6066L8.46452 10.4853L11.2427 7.70711L13.364 9.82843Z"></path></svg>
+                    <span class="nav-text">Ações em Combate</span>
+                </a>
+                <a href="#combate">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M18.73,3.33a1,1,0,0,0-1.41,0L14.59,6.06l2.83,2.83,2.73-2.73a1,1,0,0,0,0-1.41ZM13.17,7.47,4.22,16.42a2,2,0,0,0,0,2.82L5.64,20.6a2,2,0,0,0,2.82,0L17.41,11.66Z"/></svg>
+                    <span class="nav-text">Combate</span>
+                </a>
+                <a href="#magia">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2C11.3377 2.0007 10.6866 2.19651 10.1252 2.56501L3.48521 7.73C2.98808 8.05922 2.66663 8.5901 2.66663 9.16501V14.83C2.66663 15.4049 2.98808 15.9358 3.48521 16.265L10.1252 21.43C10.6866 21.8028 11.3377 21.9993 12 22C12.6623 21.9993 13.3134 21.8028 13.8748 21.43L20.5148 16.265C21.0119 15.9358 21.3334 15.4049 21.3334 14.83V9.16501C21.3334 8.5901 21.0119 8.05922 20.5148 7.73L13.8748 2.56501C13.3134 2.19651 12.6623 2.0007 12 2ZM12 4.15001L18.3334 8.25001V12.75L12 16.85L5.66663 12.75V8.25001L12 4.15001Z"></path></svg>
+                    <span class="nav-text">Magia</span>
+                </a>
+                <a href="#criacao_personagem">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span class="nav-text">Criação de Personagem</span>
+                </a>
+                <a href="#pontos_especiais">
+                     <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12C20 16.4183 16.4183 20 12 20ZM13 12H16V14H13V17H11V14H8V12H11V9H13V12Z"></path></svg>
+                    <span class="nav-text">Pontos Especiais (PE)</span>
+                </a>
+                <a href="#racas">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <span class="nav-text">Raças</span>
+                </a>
+                <a href="#emocoes">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM9 9C9.55228 9 10 8.55228 10 8C10 7.44772 9.55228 7 9 7C8.44772 7 8 7.44772 8 8C8 8.55228 8.44772 9 9 9ZM15 9C15.5523 9 16 8.55228 16 8C16 7.44772 15.5523 7 15 7C14.4477 7 14 7.44772 14 8C14 8.55228 14.4477 9 15 9ZM17.0008 15.2001C16.9484 15.8002 16.3002 16.5523 15.0001 16.9484C13.7001 17.3444 12.6557 17.0008 12.0008 17.0008C11.3458 17.0008 10.3014 17.3444 9.00136 16.9484C7.70121 16.5523 7.05308 15.8002 7.00076 15.2001C6.90856 14.1476 7.82656 13.0008 9.50076 13.0008H14.5008C16.1749 13.0008 17.0929 14.1476 17.0008 15.2001Z"></path></svg>
+                    <span class="nav-text">Emoções</span>
+                </a>
+                <a href="#progressao_xp">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.846 5.671a1 1 0 00.95.69h5.969c.969 0 1.371 1.24.588 1.81l-4.828 3.522a1 1 0 00-.364 1.118l1.846 5.671c.3.921-.755 1.688-1.54 1.118l-4.828-3.522a1 1 0 00-1.176 0l-4.828 3.522c-.784.57-1.838-.197-1.539-1.118l1.846-5.671a1 1 0 00-.364-1.118L2.98 11.1c-.783-.57-.38-1.81.588-1.81h5.969a1 1 0 00.95-.69l1.846-5.671z"></path></svg>
+                    <span class="nav-text">Progressão e XP</span>
+                </a>
+                <a href="#regras_narrativas_mestre">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M4 20H2V22H4V20ZM6 17H8V19H6V17ZM10 17H12V19H10V17ZM14 17H16V19H14V17ZM18 17H20V19H18V17ZM6 14H8V16H6V14ZM10 14H12V16H10V14ZM14 14H16V16H14V14ZM18 14H20V16H18V14ZM6 11H8V13H6V11ZM10 11H12V13H10V11ZM14 11H16V13H14V11ZM18 11H20V13H18V11ZM6 8H8V10H6V8ZM10 8H12V10H10V8ZM14 8H16V10H14V8ZM18 8H20V10H18V8ZM6 5H8V7H6V5ZM10 5H12V7H10V5ZM14 5H16V7H14V5ZM18 5H20V7H18V5ZM22 2H2V4H4V20H20V4H22V2Z"></path></svg>
+                    <span class="nav-text">Regras Narrativas & Mestre</span>
+                </a>
+                <a href="#bestiario">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19,2H5A3,3,0,0,0,2,5V19a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V5A3,3,0,0,0,19,2Zm-7,2.25a.75.75,0,0,1,.75.75v5.5a.75.75,0,0,1-1.5,0V5A.75.75,0,0,1,12,4.25ZM19,20H5a1,1,0,0,1-1-1V5A1,1,0,0,1,5,4h5V10a2,2,0,0,0,2,2h0a2,2,0,0,0,2-2V4h5a1,1,0,0,1,1,1V19A1,1,0,0,1,19,20Z"/></svg>
+                    <span class="nav-text">Bestiário</span>
+                </a>
+                <a href="#chefes">
+                    <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2ZM12 14C10.8954 14 10 13.1046 10 12C10 10.8954 10.8954 10 12 10C13.1046 10 14 10.8954 14 12C14 13.1046 13.1046 14 12 14ZM7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17C9.23858 17 7 14.7614 7 12Z"></path></svg>
+                    <span class="nav-text">Chefões</span>
+                </a>
+                <a href="#fichas_monstros">
+                    <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span class="nav-text">Fichas de Monstros</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main id="contentArea" class="w-full md:flex-1 p-4 md:p-6">
+            <div class="book-page space-y-6">
+
+                <section id="capa" class="content-section active">
+                    <h2 class="text-4xl font-bold mb-4 text-center md:text-left" style="font-family: 'Pacifico', cursive;">TOON DICE RPG</h2>
+                    <p class="text-lg">Um RPG do balacobaco muito simples e parecido com desenho no estilo hora de aventura perfeito pra one shots e aventuras rápidas e aleatórias.</p>
+                    <img src="https://placehold.co/600x380/a7f3d0/166534?text=🎲%20Toon%20Dice%20Quest!%20🌲&font=Pacifico&font_size=30" alt="Imagem de capa do Toon Dice RPG: Quest com um dado e uma árvore num fundo verde claro" class="mt-6 rounded-lg shadow-md mx-auto max-w-full h-auto">
+                </section>
+
+                <section id="sistema_basico" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">SISTEMA BÁSICO</h2>
+                    <div class="space-y-3">
+                        <div><h3 class="text-xl font-semibold">Dados:</h3><p>Usa-se apenas d6.</p></div>
+                        <div><h3 class="text-xl font-semibold">Testes:</h3><p>Role 1d6. Se o resultado for maior ou igual à dificuldade (ou defesa, no caso de ataques), o teste é bem-sucedido.</p></div>
+                        <div><h3 class="text-xl font-semibold">Crítico:</h3><p>Um 6 natural é considerado sucesso crítico, podendo ter efeitos especiais (como +1 em dano ou atingir alvos extras).</p></div>
+                    </div>
+                </section>
+                <section id="acoes_combate" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">AÇÕES EM COMBATE</h2>
+                    <ul class="list-disc list-inside space-y-2 pl-4">
+                        <li><strong>Ação de Movimento:</strong> Se mover, sacar itens, magias leves, etc.</li>
+                        <li><strong>Ação Padrão:</strong> Atacar, usar magia média ou habilidade.</li>
+                        <li><strong>Ação Completa:</strong> Magias fortes, manobras especiais. Consome o turno todo.</li>
+                    </ul>
+                </section>
+                <section id="combate" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">COMBATE</h2>
+                    <div class="space-y-3">
+                        <div><h3 class="text-xl font-semibold">Ataque físico:</h3><p>Dano base: 1d3 (arredondado para cima)</p><p>Bônus de arma:</p><ul class="list-disc list-inside pl-6"><li>Pequena/Média: +1</li><li>Grande: +2</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">Para acertar:</h3><p>Resultado da rolagem precisa ser ≥ à Defesa do alvo (Destreza +1, máximo 5).</p></div>
+                    </div>
+                </section>
+                <section id="magia" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">MAGIA</h2>
+                    <div class="space-y-3">
+                        <p>Todos podem usar magia.</p><p>Magias custam ação e PV, dependendo do tipo:</p><ul class="list-disc list-inside pl-4"><li><strong>Leve/Status:</strong> Ação de movimento.</li><li><strong>Média:</strong> Ação padrão.</li><li><strong>Forte:</strong> Ação completa e -2PV.</li></ul>
+                        <div><h3 class="text-xl font-semibold">Dano de Magia:</h3><ul class="list-disc list-inside pl-4"><li><strong>Leve/Status:</strong> Sem dano.</li><li><strong>Média:</strong> 1d3.</li><li><strong>Forte:</strong> 1d6.</li></ul><p>6 natural: +1 de dano ou +1 alvo em magias de status.</p></div>
+                        <p>Magias podem ser usadas até 3 vezes seguidas, com custo e tempo aumentando até virar ação completa.</p>
+                    </div>
+                </section>
+                <section id="criacao_personagem" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">CRIAÇÃO DE PERSONAGEM</h2>
+                    <div class="space-y-3">
+                        <p>Distribua 5 pontos entre os atributos:</p><ul class="list-disc list-inside pl-4"><li>Inteligência</li><li>Força</li><li>Destreza</li><li>Carisma</li></ul>
+                        <p>Um atributo pode ser reduzido até -2 para ganhar pontos extras.</p>
+                        <div><h3 class="text-xl font-semibold">Ficha de Personagem:</h3><ul class="list-disc list-inside pl-4"><li><strong>Nome:</strong></li><li><strong>Raça:</strong> Escolha uma (veja abaixo).</li><li><strong>Vida (PV):</strong> 15 ou 3d6 + modificador da raça.</li><li><strong>Defesa:</strong> Destreza +1 (máximo 5).</li><li><strong>Pontos Especiais (PE):</strong> Começa com 3. Recupera todos no início de cada sessão.</li><li><strong>Emoção Predominante:</strong> Até duas.</li><li><strong>Item/Arma Inicial:</strong> Definido pelo jogador, com aprovação do mestre.</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">Inventário:</h3><p>Cada jogador pode declarar 1 item útil por sessão que "convenientemente" está no inventário.</p></div>
+                    </div>
+                </section>
+                <section id="pontos_especiais" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">PONTOS ESPECIAIS (PE)</h2>
+                    <div class="space-y-3">
+                        <p>Cada personagem tem 3 PE por sessão.</p>
+                        <div><h3 class="text-xl font-semibold">Gastos de PE:</h3><ul class="list-disc list-inside pl-4"><li>Ativar habilidades raciais.</li><li>+1 em um teste (antes da rolagem; não pode ser usado para dano).</li><li>Curar 2 PV (limitado a 1 uso por combate).</li></ul></div>
+                        <p>O mestre pode permitir recuperação parcial de PE com descansos longos.</p>
+                    </div>
+                </section>
+                <section id="racas" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">RAÇAS</h2>
+                    <div class="space-y-4">
+                        <div><h3 class="text-xl font-semibold">Anão</h3><p><strong>Pontos:</strong> Força +1, Destreza -1, PV +5</p><p><strong>Habilidade:</strong> Berserk (1 PE = +1 chance de crítico/sucesso por um turno)</p></div>
+                        <div><h3 class="text-xl font-semibold">Vampiro</h3><p><strong>Pontos:</strong> Destreza +2, Carisma -1, PV +2</p><p><strong>Habilidade:</strong> Sanguessuga (se tirar 5 ou 6 em ataque, cura o mesmo dano causado)</p></div>
+                        <div><h3 class="text-xl font-semibold">Fantasma</h3><p><strong>Pontos:</strong> Destreza +1, Força -2, PV = 3 fixos</p><p><strong>Habilidade:</strong> Intangível (só toma dano de magia)</p></div>
+                        <div><h3 class="text-xl font-semibold">Minotauro</h3><p><strong>Pontos:</strong> Força +2, Destreza -2, PV +7</p><p><strong>Habilidade:</strong> Medonho (pode assustar seres menores com testes de Carisma)</p></div>
+                        <div><h3 class="text-xl font-semibold">Furry</h3><p><strong>Pontos:</strong> +2 pontos em 2 status diferentes e -2 em 1 status | PV +1d3</p><p><strong>Habilidade:</strong> Nenhuma, apenas variedade</p></div>
+                        <div><h3 class="text-xl font-semibold">Animal Falante</h3><p><strong>Pontos:</strong> +2 em um atributo | -1 em dois | PV +1d3+2</p><p><strong>Habilidade (escolher uma):</strong></p><ul class="list-disc list-inside pl-6"><li>Voar (pode voar livremente)</li><li>Atropelar (1 PE = 3 de dano e atordoa por 1d3 turnos)</li><li>Cura aprimorada (cura o dobro com PE)</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">Slime</h3><p><strong>Pontos:</strong> Destreza +2, PV -6</p><p><strong>Habilidade:</strong> Engolir (pode copiar características de criaturas temporariamente)</p></div>
+                        <div><h3 class="text-xl font-semibold">Elfo</h3><p><strong>Pontos:</strong> Inteligência +1, Força -1, PV -2</p><p><strong>Habilidade:</strong> Sangue Mágico (gasta PV em vez de ação para conjurar magias; pode substituir PV por PE)</p></div>
+                        <div><h3 class="text-xl font-semibold">Humano</h3><p><strong>Pontos:</strong> +1 ponto livre, PV +0</p><p><strong>Habilidade:</strong> Adrenalina (com PV &lt; Destreza+3, não precisa testar Destreza)</p></div>
+                        <div><h3 class="text-xl font-semibold">Goblin</h3><p><strong>Pontos:</strong> Inteligência +1, Destreza +1, Força -1, PV -5</p><p><strong>Habilidade:</strong> Gambiarras (testes de inteligência simples são automáticos fora de combate)</p></div>
+                        <div><h3 class="text-xl font-semibold">Pelúcios</h3><p><strong>Pontos:</strong> Carisma +2, Inteligência -1, Força -1, Vida -1PV</p><p><strong>Habilidade:</strong> Olhar Fofo (pode gastar 1 PE para evitar um ataque de monstros)</p></div>
+                        <div><h3 class="text-xl font-semibold">Robô</h3><p><strong>Pontos:</strong> Força +1, Inteligência +2, Destreza +1, Vida +7 PV</p><p><strong>Habilidade:</strong> Inteligência Artificial (pode gastar 1 PE para conseguir informações sobre algo)</p><p><strong>Observação:</strong> Não tem emoções predominantes.</p></div>
+                        <div><h3 class="text-xl font-semibold">Pequeninos</h3><p><strong>Pontos:</strong> Força -2, Destreza +2, Carisma +1, Vida -2 PV</p><p><strong>Habilidade:</strong> Facilidade de entrar em lugares pequenos</p></div>
+                        <div><h3 class="text-xl font-semibold">Esqueleto</h3><p><strong>Pontos:</strong> Força -1, Destreza +1, Vida -4 PV</p><p><strong>Habilidade:</strong> Desmontar (pode se desmontar e evitar o dano de um ataque, mas precisa gastar 1 PE e uma ação completa para se remontar)</p></div>
+                        <div><h3 class="text-xl font-semibold">Amálgama</h3><p><strong>Pontos:</strong> Força +1, Destreza +2, Carisma -1, PV -3</p><p><strong>Habilidade:</strong> Imitação de Raça (pode copiar uma habilidade racial de outra raça, mas só uma vez por sessão)</p></div>
+                        <div><h3 class="text-xl font-semibold">Amigo Imaginário</h3><p><strong>Pontos:</strong> Inteligência +1, Carisma +2, Vida -4 PV</p><p><strong>Habilidade:</strong> Medo do Abandono (se estiver sozinho, o PE usado vale o dobro, por exemplo, cura 4 PV ou dá +2 de bônus em rolagem)</p></div>
+                        <div><h3 class="text-xl font-semibold">Insetoide</h3><p><strong>Pontos:</strong> Força +2, Destreza +2, Carisma -2, Vida -3 PV</p><p><strong>Habilidade:</strong> Multiplicação (pode dividir seu corpo em várias partes menores, mas ao fazer isso, a vida é dividida igualmente entre elas)</p></div>
+                    </div>
+                </section>
+                <section id="emocoes" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">EMOÇÕES</h2>
+                    <div class="space-y-4">
+                        <div><h3 class="text-xl font-semibold">1. Raiva</h3><ul class="list-disc list-inside pl-4"><li><strong>Explosiva:</strong> Ao ver um aliado importante ser ferido, o próximo ataque tem +1 de dano.</li><li><strong>Ódio:</strong> Testes de Força recebem +1 (exceto ataques).</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">2. Medo</h3><ul class="list-disc list-inside pl-4"><li><strong>Evasivo:</strong> +1 em todos testes de agilidade.</li><li><strong>Paranóico:</strong> +1d3 na iniciativa em ataques surpresa.</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">3. Amor</h3><ul class="list-disc list-inside pl-4"><li><strong>Possessivo:</strong> +2 em testes quando está próximo da pessoa amada (escolher uma da party).</li><li><strong>Obediente:</strong> +2 em testes quando faz algo que a pessoa amada pediu.</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">4. Coragem</h3><ul class="list-disc list-inside pl-4"><li><strong>Impetuosa:</strong> Recebe +1 em testes ao ser a primeira pessoa a reagir em uma nova situação.</li><li><strong>Confiante:</strong> Ganha +1 em testes realizados completamente por conta própria.</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">5. Felicidade</h3><ul class="list-disc list-inside pl-4"><li><strong>Empolgado:</strong> Utiliza 1 PE para oferecer +1 em dois testes de um parceiro.</li><li><strong>Esperançoso:</strong> Usa 1 PE para +2 em um teste (bônus de +1 por cada aliado que colaborar, limitado a 2).</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">6. Surpresa</h3><ul class="list-disc list-inside pl-4"><li><strong>Improvisação:</strong> Quando pega de surpresa, o personagem pode agir de forma inventiva, obtendo +1 em testes de perícia.</li><li><strong>Confusão:</strong> O personagem se sente desorientado após o susto, resultando em -1 em testes de ataque ou defesa até o início do próximo turno.</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">7. Tristeza</h3><ul class="list-disc list-inside pl-4"><li><strong>Desmotivação:</strong> O personagem se sente desencorajado, recebendo -1 em testes de ataque ou habilidade.</li><li><strong>Contemplativo:</strong> Durante períodos de tristeza, o personagem recebe +1 em testes que envolvem conhecimento ou recordações.</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">8. Desorganização</h3><ul class="list-disc list-inside pl-4"><li><strong>Desordenado:</strong> O personagem realiza ações insensatas, mas assegura um sucesso automático no próximo teste.</li></ul></div>
+                    </div>
+                </section>
+                <section id="progressao_xp" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">PROGRESSÃO E XP</h2>
+                    <div class="space-y-3">
+                        <div><h3 class="text-xl font-semibold">XP por combate (nível de dificuldade):</h3><ul class="list-disc list-inside pl-4"><li>Simples: 1 XP</li><li>Moderado: 3 XP</li><li>Difícil: 5 XP</li></ul></div>
+                        <div><h3 class="text-xl font-semibold">Níveis:</h3><ul class="list-disc list-inside pl-4"><li>Lv 0: 0 XP | +0 PV</li><li>Lv 1: 10 XP | +2 PV</li><li>Lv 2: 20 XP | +3 PV</li><li>Lv 3: 30 XP | +5 PV</li><li>Lv 4: 40 XP | +5 PV</li><li>Lv 5: 50 XP | +10 PV</li></ul><p>+1 ponto de atributo a cada nível.</p></div>
+                    </div>
+                </section>
+                <section id="regras_narrativas_mestre" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">REGRAS NARRATIVAS E MESTRE</h2>
+                    <ul class="list-disc list-inside space-y-2 pl-4">
+                        <li>O mestre tem a liberdade de intervir para preservar a atmosfera caótica e criativa.</li>
+                        <li>Os jogadores podem tentar usar uma abordagem narrativa "inventiva" envolvendo emoções, objetos e imaginação.</li>
+                        <li>Caso um personagem venha a falecer, o mestre pode permitir uma negociação com a Morte ou acontecimentos extraordinários para trazê-lo de volta.</li>
+                    </ul>
+                </section>
+                <section id="bestiario" class="content-section">
+                    <h2 class="text-3xl font-semibold mb-4">Bestiário</h2>
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-2xl font-semibold mb-2">Monstros Comuns</h3>
+                            <div class="space-y-3 pl-4">
+                                <div>
+                                    <h4 class="text-xl font-semibold">Esqueleto de Terninho</h4>
+                                    <p><strong>PV:</strong> 6</p>
+                                    <p><strong>Defesa:</strong> 3</p>
+                                    <p><strong>Ataque:</strong> 1d3+1 (carimbada de ossos)</p>
+                                    <p><strong>Habilidade:</strong> Invocar Amigo: Pode chamar um Esqueleto de Terninho por rodada.</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-semibold">Cão de Pano</h4>
+                                    <p><strong>PV:</strong> 8</p>
+                                    <p><strong>Defesa:</strong> 4</p>
+                                    <p><strong>Ataque:</strong> 1d4 (mordida de pano)</p>
+                                    <p><strong>Habilidade:</strong> Choro de Alarme: Pode alertar todos os inimigos em 3 quadrados com um uivo. (Eles sabem a posição do grupo)</p>
+                                </div>
+                                <p class="italic text-gray-500 dark:text-gray-400 mt-4">Mais monstros comuns serão adicionados em breve...</p>
+                            </div>
+                        </div>
+                        </div>
+                </section>
+                <section id="chefes" class="content-section">
+                     <h2 class="text-3xl font-semibold mb-4">Chefões</h2>
+                     <div class="space-y-3">
+                        <p>Esta seção será dedicada aos adversários mais formidáveis do TOON DICE RPG!</p>
+                        <p>Aqui você encontrará:</p>
+                        <ul class="list-disc list-inside pl-4">
+                            <li>Estatísticas detalhadas de cada Chefão.</li>
+                            <li>Suas habilidades únicas e táticas de combate.</li>
+                            <li>Possíveis recompensas por derrotá-los.</li>
+                            <li>Dicas para o Mestre sobre como interpretá-los e tornar os encontros memoráveis.</li>
+                        </ul>
+                        <p class="italic text-gray-500 dark:text-gray-400 mt-4">Aguarde por criaturas épicas e desafios de arrepiar os pelos (ou escamas, ou circuitos)!</p>
+                     </div>
+                </section>
+                <section id="fichas_monstros" class="content-section">
+                     <h2 class="text-3xl font-semibold mb-4">Fichas de Monstros</h2>
+                     <div class="space-y-3">
+                        <p>Para facilitar a vida do Mestre, esta seção trará fichas prontas para usar dos diversos monstros e criaturas que habitam o mundo de TOON DICE RPG.</p>
+                        <p>Cada ficha incluirá:</p>
+                        <ul class="list-disc list-inside pl-4">
+                            <li>Nome da Criatura</li>
+                            <li>Pontos de Vida (PV)</li>
+                            <li>Defesa</li>
+                            <li>Ataques (com dano e efeitos)</li>
+                            <li>Habilidades Especiais</li>
+                            <li>Comportamento e Táticas Sugeridas</li>
+                            <li>Nível de XP (se aplicável)</li>
+                        </ul>
+                        <p class="italic text-gray-500 dark:text-gray-400 mt-4">Fichas detalhadas e prontas para a ação em breve!</p>
+                     </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elementos da UI
+            const sidebarToggleButton = document.getElementById('sidebarToggle');
+            const themeToggleButton = document.getElementById('themeToggle');
+            const printButton = document.getElementById('printButton');
+            const mobileNavToggleButton = document.getElementById('mobileNavToggle');
+            const tableOfContents = document.getElementById('tableOfContents');
+            const navLinks = tableOfContents.querySelectorAll('a');
+            const contentSections = document.querySelectorAll('.content-section');
+
+            // Ícones SVG como strings
+            const sidebarToggleIconExpand = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15L12.75 12l-7.5 7.5" /></svg>`;
+            const sidebarToggleIconCollapse = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" /></svg>`;
+            const themeIconSun = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>`;
+            const themeIconMoon = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" /></svg>`;
+
+            // --- Funcionalidade de Impressão ---
+            if (printButton) {
+                printButton.addEventListener('click', () => {
+                    window.print();
+                });
+            }
+
+            // --- Toggle da Sidebar e Gerenciamento de Ícone ---
+            if (sidebarToggleButton) {
+                // Define o ícone inicial da sidebar
+                if (document.body.classList.contains('sidebar-collapsed')) {
+                    sidebarToggleButton.innerHTML = sidebarToggleIconExpand;
+                } else {
+                    sidebarToggleButton.innerHTML = sidebarToggleIconCollapse;
+                }
+
+                sidebarToggleButton.addEventListener('click', () => {
+                    document.body.classList.toggle('sidebar-collapsed');
+                    // Atualiza o ícone da sidebar
+                    if (document.body.classList.contains('sidebar-collapsed')) {
+                        sidebarToggleButton.innerHTML = sidebarToggleIconExpand;
+                    } else {
+                        sidebarToggleButton.innerHTML = sidebarToggleIconCollapse;
+                    }
+                });
+            }
+
+            // --- Toggle do Tema e Gerenciamento de Ícone ---
+            const updateThemeIcon = () => {
+                if (themeToggleButton) {
+                    if (document.body.classList.contains('dark-mode')) {
+                        themeToggleButton.innerHTML = themeIconSun; // Mostra sol para mudar para claro
+                    } else {
+                        themeToggleButton.innerHTML = themeIconMoon; // Mostra lua para mudar para escuro
+                    }
+                }
+            };
+            
+            if (themeToggleButton) {
+                themeToggleButton.addEventListener('click', () => {
+                    document.body.classList.toggle('dark-mode');
+                    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+                    updateThemeIcon();
+                });
+            }
+
+            // Carrega o tema salvo do localStorage ou usa a preferência do sistema
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+            } else if (savedTheme === 'light') {
+                document.body.classList.remove('dark-mode');
+            } else if (prefersDark) {
+                document.body.classList.add('dark-mode');
+            }
+            updateThemeIcon(); // Atualiza o ícone do tema ao carregar a página
+
+
+            // --- Toggle da Navegação Mobile ---
+            if (mobileNavToggleButton && tableOfContents) {
+                mobileNavToggleButton.addEventListener('click', () => {
+                    tableOfContents.classList.toggle('mobile-nav-active');
+                });
+            }
+
+            // --- Navegação e Estado Ativo dos Links ---
+            function setActiveLink(hash) {
+                navLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    if (link.getAttribute('href') === hash) {
+                        link.classList.add('active-link');
+                    }
+                });
+            }
+
+            function showSection(hash, shouldScroll = true) {
+                let sectionFound = false;
+                contentSections.forEach(section => {
+                    if (`#${section.id}` === hash) {
+                        section.classList.add('active');
+                        if (shouldScroll) {
+                           // O scroll padrão do navegador ao mudar o hash é geralmente suficiente.
+                           // Se precisar de scroll customizado:
+                           // section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                        sectionFound = true;
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+                if (sectionFound) {
+                    setActiveLink(hash);
+                }
+                return sectionFound;
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    // Atualiza o hash na URL, o que acionará o 'hashchange' listener
+                    window.location.hash = targetId; 
+
+                    // Em telas mobile, fecha o menu de navegação após o clique
+                    if (window.innerWidth <= 768 && tableOfContents.classList.contains('mobile-nav-active')) {
+                        tableOfContents.classList.remove('mobile-nav-active');
+                    }
+                });
+            });
+            
+            // Lida com a carga inicial da página e mudanças no hash da URL
+            function handleHashChange() {
+                const hash = window.location.hash || '#capa'; // Padrão para #capa se não houver hash
+                if (!showSection(hash, false)) { // false para não scrollar na carga inicial se o navegador já o fez
+                    // Se a seção do hash não for encontrada, volta para a capa
+                    showSection('#capa', false);
+                    window.location.hash = '#capa'; // Corrige o hash na URL
+                }
+            }
+
+            window.addEventListener('hashchange', handleHashChange);
+            handleHashChange(); // Chamada inicial para mostrar a seção correta no carregamento
+
+        });
+    </script>
+</body>
+</html>
