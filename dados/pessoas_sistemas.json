@@ -1,0 +1,350 @@
+[
+  {
+    "nome": "CELEPAR",
+    "tipo": "pasta",
+    "filhos": [
+      {
+        "nome": "Cassiano",
+        "tipo": "pasta",
+        "filhos": [
+          {
+            "nome": "CH JPA",
+            "tipo": "pasta",
+            "filhos": [
+              {
+                "nome": "Hiago",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "nan",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "APPA",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nome": "Djulles",
+        "tipo": "pasta",
+        "filhos": [
+          {
+            "nome": "CH GYN",
+            "tipo": "pasta",
+            "filhos": [
+              {
+                "nome": "Arlindo",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "nan",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "APEX",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nome": "Danubia",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "nan",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "CNH Social",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "Delegação de Poderes",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "SisGev",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "nome": "Renato B.",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "nan",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "ABASTECE",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "DER",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "Registro de Preço",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "SCM",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nome": "CH JPA",
+            "tipo": "pasta",
+            "filhos": [
+              {
+                "nome": "Hiago",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "nan",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "GAT",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "GLIFI",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "INDSEC",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "SISBRIGADAS",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nome": "CWB",
+            "tipo": "pasta",
+            "filhos": [
+              {
+                "nome": "Anibal",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "Franciely",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "Aprova PR",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "Carteira do Idoso 65+",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "DSDS - Detran Gestão de Saúde Digital",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "GMSE",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "PROAJU",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "Porte Escolar",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "RHSEED",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "SERP",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "SGA",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "Sistema de Ponto",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nome": "Paiva",
+        "tipo": "pasta",
+        "filhos": [
+          {
+            "nome": "CH GYN",
+            "tipo": "pasta",
+            "filhos": [
+              {
+                "nome": "Renato B.",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "nan",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "SGRBAT",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "SRI",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nome": "CH JPA",
+            "tipo": "pasta",
+            "filhos": [
+              {
+                "nome": "Hiago",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "nan",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "Protege Fácil Evolução",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "Protege Fácil Sustentação",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "nome": "CWB",
+            "tipo": "pasta",
+            "filhos": [
+              {
+                "nome": "Anibal",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "Franciely",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "SICIN",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nome": "Vanessa",
+        "tipo": "pasta",
+        "filhos": [
+          {
+            "nome": "CWB",
+            "tipo": "pasta",
+            "filhos": [
+              {
+                "nome": "Anibal",
+                "tipo": "pasta",
+                "filhos": [
+                  {
+                    "nome": "Franciely",
+                    "tipo": "pasta",
+                    "filhos": [
+                      {
+                        "nome": "CUP",
+                        "tipo": "sistema",
+                        "filhos": []
+                      },
+                      {
+                        "nome": "TTD",
+                        "tipo": "sistema",
+                        "filhos": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]
