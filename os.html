@@ -1,664 +1,516 @@
 <!DOCTYPE html>
+
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <title>Dashboard OSs</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+<meta charset="utf-8"/>
+<title>Dashboard OSs</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Roboto&amp;display=swap" rel="stylesheet"/>
+<style>
+/* ===== Base ===== */
+body { font-family: 'Roboto', sans-serif; background-color: #111; color: white; margin: 0; font-size: 11px; }
+.dashboard-wrapper { display: flex; min-height: 100vh; }
 
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #111;
-      color: white;
-      margin: 0;
-      font-size: 11px;
-    }
+/* ===== Sidebar ===== */
+.sidebar-hibrido { width: 250px; background-color: #1e1e1e; border-right: 1px solid #555; resize: horizontal; overflow: auto; min-width: 15px; max-width: 400px; position: relative; transition: width .3s ease; }
+.sidebar-hibrido.minimized { width: 0 !important; border-right: none; overflow: hidden; }
+.sidebar-hibrido.minimized .menu-content { display: none; }
+.sidebar-hibrido.minimized .toggle-btn { right: -25px; background-color: #1e1e1e; border: 1px solid #444; }
 
-    .dashboard-wrapper {
-      display: flex;
-      min-height: 100vh;
-    }
+/* ===== Menu ===== */
+.menu-content { padding: 10px; overflow-y: auto; height: 100vh; font-size: 11px; line-height: 1.4; scrollbar-width: thin; scrollbar-color: #888 #1e1e1e; }
+.menu-content::-webkit-scrollbar { width: 6px; }
+.menu-content::-webkit-scrollbar-thumb { background-color: #888; border-radius: 3px; }
+.menu-content::-webkit-scrollbar-track { background-color: #1e1e1e; }
+.menu-content a { color: rgb(226, 223, 223) !important; text-decoration: none; padding: 2px 4px; display: inline-block; }
+.menu-content a:hover { background-color: #2a2a2a; color: #ccc !important; }
+.menu-content a.selecionado { background-color: #0d6efd !important; color: rgb(226, 223, 223) !important; }
 
-    .sidebar-hibrido {
-      width: 250px;
-      background-color: #1e1e1e;
-      border-right: 1px solid #555;
-      resize: horizontal;
-      overflow: auto;
-      min-width: 150px;
-      max-width: 400px;
-      position: relative;
-    }
+/* ===== Logos ===== */
+.menu-logo { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; }
+.menu-logo img { max-width: 150px; max-height: 50px; }
+.minsait-logo { justify-content: flex-start; padding-left: 10px; align-items: center; }
+.celepar-logo { justify-content: center; align-items: center; }
 
-    .sidebar-hibrido.minimized {
-      width: 10px;
-    }
+/* ===== Conteúdo ===== */
+.content-wrapper { flex: 1; padding: 20px; }
 
-    .sidebar-hibrido .toggle-btn {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #1e1e1e;
-      border: 1px solid #444;
-      border-radius: 5px;
-      color: white;
-      padding: 2px 6px;
-      cursor: pointer;
-      z-index: 1050;
-    }
+/* ===== KPI Cards ===== */
+.kpi-card { background-color: #1e1e1e; padding: 8px 10px; border-radius: 10px; box-shadow: 2px 2px 10px #00000033; margin-bottom: 10px; height: 80px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer; transition: all .3s ease; }
+.kpi-card:hover { background-color: #292929; }
+.kpi-title { color: #aaa; font-size: 11px; text-align: center; }
+.kpi-value { margin: 0; color: rgb(228, 225, 225); font-size: 20px; font-weight: bold; text-align: center; }
+.kpi-filtro:hover { background-color: #333; }
 
-    .menu-content {
-      padding: 10px;
-      overflow-y: auto;
-      height: 100vh;
-      font-size: 11px;
-      line-height: 1.4;
-      scrollbar-width: thin;
-      scrollbar-color: #888 #1e1e1e;
-    }
+/* ===== Seções recolhíveis ===== */
+.collapsible-header { cursor: pointer; user-select: none; }
+.collapsed .collapsible-content { display: none; }
 
-    .menu-content::-webkit-scrollbar {
-      width: 6px;
-    }
+/* ===== Tabelas ===== */
+.table th, .table td { font-size: 12px; vertical-align: middle; }
+th.sortable { cursor: pointer; position: relative; }
+th.sortable.sorted-asc::after { content: '▲'; position: absolute; right: 8px; }
+th.sortable.sorted-desc::after { content: '▼'; position: absolute; right: 8px; }
+.table thead th { background-color: #222 !important; }
+.table-striped tbody tr:nth-of-type(odd) { background-color: #1a1a1a; }
+.table-striped tbody tr:nth-of-type(even) { background-color: #222; }
+.tr-verde { background-color: #b0f7d7 !important; color: black !important; }
 
-    .menu-content::-webkit-scrollbar-thumb {
-      background-color: #888;
-      border-radius: 3px;
-    }
+/* ===== Busca ===== */
+.search-bar { margin-top: 10px; position: relative; }
+.search-bar input[type="text"] { padding-right: 30px; }
+.clear-search { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); color: #aaa; cursor: pointer; font-size: 14px; }
 
-    .menu-content::-webkit-scrollbar-track {
-      background-color: #1e1e1e;
-    }
+/* ===== Popover de observação ===== */
+.obs-popover { position: relative; display: inline-block; }
+.obs-popover .obs-text { visibility: hidden; width: 200px; background-color: #333; color: #fff; text-align: left; border-radius: 6px; padding: 5px; position: absolute; z-index: 1; bottom: 125%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity .3s; }
+.obs-popover:hover .obs-text { visibility: visible; opacity: 1; }
 
-    .sidebar-hibrido.minimized .menu-content {
-      display: none;
-    }
+/* ===== Botões ===== */
+.btn-outline-light:hover { background-color: #ddd; color: black; }
 
-    .menu-logo {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 10px;
-    }
 
-    .menu-logo img {
-      max-width: 150px;
-      max-height: 50px;
-    }
+/* ===== Tema Claro ===== */
+body.light-mode {
+  background-color: #ebedf0;
+  color: #212529;
+}
+body.light-mode .sidebar-hibrido {
+  background-color: #fff;
+  border-right: 1px solid #ccc;
+}
+body.light-mode .kpi-card {
+  background-color: #fff;
+  color: #000;
+}
+body.light-mode .table-striped tbody tr:nth-of-type(odd) {
+  background-color: #f2f2f2;
+}
+body.light-mode .table-striped tbody tr:nth-of-type(even) {
+  background-color: #fff;
+}
 
-    .content-wrapper {
-      flex: 1;
-      padding: 20px;
-    }
+/* ===== Impressão ===== */
+/* ===== Impressão: Somente tabela ===== */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  table, table * {
+    visibility: visible;
+  }
+  table {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
 
-    .kpi-card {
-      background-color: #1e1e1e;
-      padding: 8px 10px;
-      border-radius: 10px;
-      box-shadow: 2px 2px 10px #00000033;
-      margin-bottom: 10px;
-      height: 80px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .kpi-card:hover {
-      background-color: #292929;
-    }
-
-    .kpi-title {
-      color: #aaa;
-      font-size: 11px;
-      text-align: center;
-    }
-
-    .kpi-value {
-      margin: 0;
-      color: white;
-      font-size: 20px;
-      font-weight: bold;
-      text-align: center;
-    }
-
-    .collapsible-header {
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .collapsible-content {
-      display: block;
-    }
-
-    .collapsed .collapsible-content {
-      display: none;
-    }
-
-    .table th, .table td {
-      font-size: 12px;
-      vertical-align: middle;
-    }
-
-    th.sortable {
-      cursor: pointer;
-      position: relative;
-    }
-
-    th.sortable.sorted-asc::after {
-      content: '▲';
-      position: absolute;
-      right: 8px;
-    }
-
-    th.sortable.sorted-desc::after {
-      content: '▼';
-      position: absolute;
-      right: 8px;
-    }
-
-    .search-bar {
-      margin-top: 10px;
-      position: relative;
-    }
-
-    .search-bar input[type="text"] {
-      padding-right: 30px;
-    }
-
-    .clear-search {
-      position: absolute;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #aaa;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .tr-verde {
-      background-color: #b0f7d7 !important;
-      color: black !important;
-    }
-
-    .menu-content a {
-      color: white !important;
-      text-decoration: none;
-      padding: 2px 4px;
-      display: inline-block;
-    }
-
-    .menu-content a:hover,
-    .menu-content a:focus {
-      background-color: #2a2a2a;
-      color: #ccc !important;
-      text-decoration: none;
-    }
-
-    .menu-content a.selecionado {
-      background-color: #0d6efd !important;
-      color: white !important;
-    }
-
-    .sistema-link {
-      color: white !important;
-      text-decoration: none;
-    }
-
-    .sistema-link:hover {
-      text-decoration: underline;
-      color: #ccc !important;
-    }
-
-    .sistema-link.selecionado {
-      background-color: #0d6efd;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    .table thead th {
-      background-color: #222 !important;
-    }
-
-    .btn-outline-light:hover {
-      background-color: #ddd;
-      color: black;
-    }
-
-    .kpi-filtro {
-      transition: background-color 0.3s;
-    }
-
-    .kpi-filtro:hover {
-      background-color: #333;
-    }
-
-    .table-striped tbody tr:nth-of-type(odd) {
-      background-color: #1a1a1a;
-    }
-
-    .table-striped tbody tr:nth-of-type(even) {
-      background-color: #222;
-    }
-
-    .sistema-link.selecionado {
-      background-color: #0d6efd;
-      padding: 2px 6px;
-      border-radius: 4px;
-    }
-
-    /* 3. Transição suave para sidebar */
-    .sidebar-hibrido {
-      transition: width 0.3s ease;
-    }
-
-    /* 5. Popover de OBS */
-    .obs-popover {
-      position: relative;
-      display: inline-block;
-    }
-
-    .obs-popover .obs-text {
-      visibility: hidden;
-      width: 200px;
-      background-color: #333;
-      color: #fff;
-      text-align: left;
-      border-radius: 6px;
-      padding: 5px;
-      position: absolute;
-      z-index: 1;
-      bottom: 125%;
-      left: 50%;
-      transform: translateX(-50%);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-
-    .obs-popover:hover .obs-text {
-      visibility: visible;
-      opacity: 1;
-    }
-
-    .menu-logo {
-      display: flex;
-      margin-bottom: 10px;
-    }
-
-    .minsait-logo {
-      justify-content: flex-start;   /* alinha à esquerda */
-      padding-left: 10px;            /* margem da esquerda */
-      align-items: center;           /* centraliza verticalmente */
-    }
-
-    .celepar-logo {
-      justify-content: center;       /* centraliza horizontalmente */
-      align-items: center;           /* centraliza verticalmente */
-    }
-  </style>
+/* ===== Ajustes de Cores no Modo Light ===== */
+body.light-mode {
+  background-color: #dcdcdd !important;
+  color: #000 !important;
+}
+body.light-mode h1, 
+body.light-mode h2, 
+body.light-mode h3, 
+body.light-mode h4, 
+body.light-mode h5, 
+body.light-mode h6, 
+body.light-mode p, 
+body.light-mode span, 
+body.light-mode div, 
+body.light-mode th, 
+body.light-mode td {
+  color: #000 !important;
+}
+body.light-mode .kpi-title,
+body.light-mode .kpi-value {
+  color: #000 !important;
+}
+body.light-mode .sistema-link {
+  color: #000 !important;
+}
+/* ===== Impressão: Somente tabela com título ===== */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .print-title, table, table * {
+    visibility: visible;
+  }
+  .print-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  table {
+    position: absolute;
+    left: 0;
+    top: 30px;
+    width: 100%;
+  }
+}
+</style>
 </head>
-<body>
-  <div class="dashboard-wrapper">
-    <div id="sidebar" class="sidebar-hibrido">
-      <div class="toggle-btn" onclick="toggleSidebar()"><i class="bi bi-chevron-left"></i></div>
-      <div class="menu-content">
-        <div class="menu-logo minsait-logo">
-          <img src="logo_empresa.png" alt="Logo Minsait" />
-        </div>
+<body><div class="print-title" style="display:none;">📊 Dashboard - Lista de OSs</div>
+<div class="dashboard-wrapper">
+<div class="sidebar-hibrido" id="sidebar">
+<div class="toggle-btn" onclick="toggleSidebar()"><i class="bi bi-chevron-left"></i></div>
+<div class="menu-content">
+<div class="menu-logo minsait-logo"><img alt="Logo Minsait" src="logo_empresa.png"/></div>
+<div class="menu-logo celepar-logo"><img alt="Logo CELEPAR" src="logo_empresa1.png"/></div>
+<div id="menu-tree"></div>
+</div>
+</div>
+<div class="content-wrapper">
+<div class="container-fluid">
 
-        <div class="menu-logo celepar-logo">
-          <img src="logo_empresa1.png" alt="Logo CELEPAR" />
-        </div>
-        <div id="menu-tree"></div>
-      </div>
-    </div>
+<h2 id="titulo_dashboard" class="mt-2">📊 Dashboard <span id="sistema-titulo"></span>
+<!-- Ícones de ações no canto direito -->
+<span style="float:right; display:flex; gap:8px;">
+<button class="btn btn-sm btn-outline-light" onclick="toggleTheme()" title="Alternar tema">
+<i class="bi bi-moon"></i>
+</button>
+<button class="btn btn-sm btn-outline-light" onclick="printDashboard()" title="Imprimir">
+<i class="bi bi-printer"></i>
+</button>
+</span>
+</h2>
+<div class="search-bar">
+<input class="form-control" id="search-input" oninput="aplicarFiltros()" placeholder="🔍 Buscar por palavra-chave..." type="text"/>
+<span class="clear-search" onclick="limparBusca()">×</span>
+</div>
+<div class="row my-3 g-2">
+<div class="col-md-2"><div class="kpi-card" onclick="filtroSistema(null)"><div class="kpi-title">🌐 Total de OS</div><div class="kpi-value" id="total-os">0</div></div></div>
+<div class="col-md-2"><div class="kpi-card"><div class="kpi-title">📦 PF Bruto</div><div class="kpi-value" id="pf-bruto">0</div></div></div>
+<div class="col-md-2"><div class="kpi-card"><div class="kpi-title">🧮 PF Liquido</div><div class="kpi-value" id="pf-liquido">0</div></div></div>
+</div>
+<div class="kpi-section collapsible">
+<h5 class="collapsible-header text-light">⚠️ Status</h5>
+<div class="collapsible-content">
+<div class="mb-2" id="status-botoes"></div>
+<div class="row my-2" id="status-kpis"></div>
+</div>
+</div>
+<div class="mt-4">
+<div class="d-flex justify-content-between align-items-center">
+<h4 id="tabela-titulo">📊 Sistema: <span style="color:#0d6efd; font-weight:bold">(todos)</span></h4>
+<div>
+<button class="btn btn-sm btn-outline-light" onclick="limparFiltros()">🧹 Limpar filtros</button>
+<button class="btn btn-sm btn-success" onclick="exportarCSV()">⬇️ Exportar CSV</button>
+</div>
+</div>
+<div class="table-responsive">
+<table class="table table-sm table-striped table-bordered mt-2">
+<thead class="table-dark">
+<tr>
+<th class="sortable" onclick="sortTable(0)">OS</th>
+<th class="sortable" onclick="sortTable(1)">Responsável</th>
+<th class="sortable" onclick="sortTable(2)">Serviço</th>
+<th class="sortable" onclick="sortTable(3)">% Fase</th>
+<th class="sortable" onclick="sortTable(4)">PF Bruto</th>
+<th class="sortable" onclick="sortTable(5)">PF Liquido</th>
+<th class="sortable" onclick="sortTable(6)">Status</th>
+<th class="sortable" onclick="sortTable(7)">DT Entrega Atual SGAT</th>
+<th>OBS</th>
+</tr>
+</thead>
+<tbody id="os-table-body"><tr><td colspan="9">🔄 Carregando dados...</td></tr></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+/* ===== Variáveis Globais ===== */
+let osData = [];
+let filtros = JSON.parse(localStorage.getItem('filtros')) || { sistema: null, busca: "", status: null };
 
-    <div class="content-wrapper">
-      <div class="container-fluid">
-        <h2 class="mt-2">📊 Dashboard <span id="sistema-titulo"></span></h2>
+/* ===== Carregamento de Dados ===== */
+async function carregarDados() {
+  try {
+    const [arvore, os] = await Promise.all([
+      fetch('dados/pessoas_sistemas.json').then(r => {
+        if (!r.ok) throw new Error('Erro ao carregar pessoas_sistemas.json');
+        return r.json();
+      }),
+      fetch('dados/os.json').then(r => {
+        if (!r.ok) throw new Error('Erro ao carregar os.json');
+        return r.json();
+      })
+    ]);
 
-        <div class="search-bar">
-          <input type="text" id="search-input" class="form-control" placeholder="🔍 Buscar por palavra-chave..." oninput="aplicarFiltros()">
-          <span class="clear-search" onclick="limparBusca()">×</span>
-        </div>
+    osData = os;
+    gerarArvore(arvore, document.getElementById('menu-tree'));
+    aplicarFiltros();
 
-        <div class="row my-3 g-2">
-          <div class="col-md-2"><div class="kpi-card" onclick="filtroSistema(null)"><div class="kpi-title">🌐 Total de OS</div><div class="kpi-value" id="total-os">0</div></div></div>
-          <div class="col-md-2"><div class="kpi-card"><div class="kpi-title">📦 PF Bruto</div><div class="kpi-value" id="pf-bruto">0</div></div></div>
-          <div class="col-md-2"><div class="kpi-card"><div class="kpi-title">🧮 PF Liquido</div><div class="kpi-value" id="pf-liquido">0</div></div></div>
-        </div>
+  } catch (err) {
+    console.error(err);
+    document.getElementById('os-table-body').innerHTML =
+      `<tr><td colspan="9" style="color:red;">❌ Falha ao carregar dados: ${err.message}</td></tr>`;
+  }
+}
 
-        <div class="kpi-section collapsible">
-          <h5 class="collapsible-header text-light">⚠️ Status</h5>
-          <div class="collapsible-content"><div class="row my-2" id="status-kpis"></div></div>
-        </div>
+/* ===== Geração de Menu/Árvore ===== */
+function gerarArvore(nos, container) {
+  nos.forEach(no => {
+    const wrapper = document.createElement("div");
+    wrapper.style.marginLeft = "5px";
 
-        <div class="mt-4">
-          <div class="d-flex justify-content-between align-items-center">
-            <h4 id="tabela-titulo">📊 Sistema: <span style="color:#0d6efd; font-weight:bold">(todos)</span></h4>
-            <div>
-              <button class="btn btn-sm btn-outline-light" onclick="limparFiltros()">🧹 Limpar filtros</button>
-              <button class="btn btn-sm btn-success" onclick="exportarCSV()">⬇️ Exportar CSV</button>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="table table-sm table-striped table-bordered mt-2">
-              <thead class="table-dark">
-                <tr>
-                  <th class="sortable" onclick="sortTable(0)">OS</th>
-                  <th class="sortable" onclick="sortTable(1)">Responsável</th>
-                  <th class="sortable" onclick="sortTable(2)">Serviço</th>
-                  <th class="sortable" onclick="sortTable(3)">% Fase</th>
-                  <th class="sortable" onclick="sortTable(4)">PF Bruto</th>
-                  <th class="sortable" onclick="sortTable(5)">PF Liquido</th>
-                  <th class="sortable" onclick="sortTable(6)">Status</th>
-                  <th class="sortable" onclick="sortTable(7)">DT Entrega Atual SGAT</th>
-                  <th>OBS</th>
-                </tr>
-              </thead>
-              <tbody id="os-table-body">
-                <tr><td colspan="9">🔄 Carregando dados...</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+    if (no.tipo === "pasta") {
+      if (no.nome && no.nome !== "nan") {
+        const details = document.createElement("details");
+        details.open = true;
 
-  <!-- JavaScript -->
-  <script>
-    let osData = [];
-    //let filtros = { sistema: null, busca: "" };
-    let filtros = JSON.parse(localStorage.getItem('filtros')) || { sistema: null, busca: "" };
+        const summary = document.createElement("summary");
+        summary.textContent = no.nome;
+        details.appendChild(summary);
 
-    async function carregarDados() {
-      const [arvore, os] = await Promise.all([
-        fetch('dados/pessoas_sistemas.json').then(r => r.json()),
-        fetch('dados/os.json').then(r => r.json())
-      ]);
-      osData = os;
-      gerarArvore(arvore, document.getElementById('menu-tree'));
-      aplicarFiltros();
-    }
-
-    function gerarArvore(nos, container) {
-      nos.forEach(no => {
-        const wrapper = document.createElement("div");
-        wrapper.style.marginLeft = "5px";
-
-        if (no.tipo === "pasta") {
-          if (no.nome && no.nome !== "nan") {
-            const details = document.createElement("details");
-            details.open = true;
-
-            const summary = document.createElement("summary");
-            summary.textContent = no.nome;
-
-            details.appendChild(summary);
-            gerarArvore(no.filhos || [], details); // chamada recursiva
-            wrapper.appendChild(details);
-          } else {
-            gerarArvore(no.filhos || [], wrapper); // pasta sem nome
-          }
-        } else if (no.tipo === "sistema") {
-          const qtdOS = osData.filter(os => (os.Sistema || "").trim() === no.nome.trim()).length;
-
-          const linhaSistema = document.createElement("div");
-          linhaSistema.classList.add("d-flex", "justify-content-between", "align-items-center", "mb-1");
-
-          const link = document.createElement("a");
-          link.href = "#";
-          link.textContent = `📊 ${no.nome}`;
-          link.onclick = () => filtroSistema(no.nome);
-          link.classList.add("sistema-link");
-
-          const spanQtd = document.createElement("span");
-          if (qtdOS === 0) {
-            spanQtd.style.color = "green";
-            spanQtd.textContent = `0`;
-          } else {
-            spanQtd.style.color = "purple";
-            spanQtd.textContent = `${qtdOS}`;
-          }
-
-          linhaSistema.appendChild(link);
-          linhaSistema.appendChild(spanQtd);
-          wrapper.appendChild(linhaSistema);
-        }
-
-        container.appendChild(wrapper);
-      });
-    }
-
-
-    function filtroSistema(nome) {
-      filtros.sistema = nome;
-      aplicarFiltros();
-    }
-
-    function aplicarFiltros1() {
-      const termo = document.getElementById('search-input').value.toLowerCase();
-      filtros.busca = termo;
-
-      let lista = [...osData];
-
-      if (filtros.sistema)
-        lista = lista.filter(o => o.Sistema === filtros.sistema);
-
-      if (filtros.busca)
-        lista = lista.filter(o => Object.values(o).some(val => (val || '').toString().toLowerCase().includes(filtros.busca)));
-
-      atualizarTabela(lista);
-      atualizarKPIs(lista);
-      atualizarKPIsStatus(lista);
-    }
-
-    function aplicarFiltros() {
-      const termo = document.getElementById('search-input').value.toLowerCase();
-      filtros.busca = termo;
-
-      localStorage.setItem('filtros', JSON.stringify(filtros));
-
-      let lista = [...osData];
-
-      if (filtros.sistema)
-        lista = lista.filter(o => o.Sistema === filtros.sistema);
-
-      if (filtros.busca)
-        lista = lista.filter(o => Object.values(o).some(val => (val || '').toString().toLowerCase().includes(filtros.busca)));
-
-      atualizarTabela(lista);
-      atualizarKPIs(lista);
-      atualizarKPIsStatus(lista);
-
-      document.querySelectorAll('.sistema-link').forEach(el => el.classList.remove('selecionado'));
-      if (filtros.sistema) {
-        document.querySelectorAll('.sistema-link').forEach(el => {
-          if (el.textContent.includes(filtros.sistema)) el.classList.add('selecionado');
-        });
+        gerarArvore(no.filhos || [], details);
+        wrapper.appendChild(details);
+      } else {
+        gerarArvore(no.filhos || [], wrapper);
       }
+
+    } else if (no.tipo === "sistema") {
+      const qtdOS = osData.filter(os =>
+        (os.Sistema || "").trim().toLowerCase() === (no.nome || "").trim().toLowerCase()
+      ).length;
+
+      const linhaSistema = document.createElement("div");
+      linhaSistema.classList.add("d-flex", "justify-content-between", "align-items-center", "mb-1");
+
+      const link = document.createElement("a");
+      link.href = "#";
+      link.textContent = `📊 ${no.nome}`;
+      link.onclick = () => filtroSistema(no.nome);
+      link.classList.add("sistema-link");
+
+      const spanQtd = document.createElement("span");
+      spanQtd.style.color = qtdOS === 0 ? "green" : "purple";
+      spanQtd.textContent = `${qtdOS}`;
+
+      linhaSistema.appendChild(link);
+      linhaSistema.appendChild(spanQtd);
+      wrapper.appendChild(linhaSistema);
     }
 
-    function atualizarTabela(lista) {
-      const tbody = document.getElementById('os-table-body');
-      tbody.innerHTML = '';
-      if (!lista.length) return tbody.innerHTML = '<tr><td colspan="9">Nenhum dado encontrado.</td></tr>';
-      
-      lista.forEach(os => {
-        const tr = document.createElement('tr');
-        const isConcluida = (os.Status || '').toLowerCase().includes('faturada');
-        //const classe = isConcluida ? 'tr-verde' : '';
-        const classe = '';
+    container.appendChild(wrapper);
+  });
+}
 
-        const obsHtml = os.OBS ? `
-          <div class="obs-popover">
-            ⚠️<div class="obs-text">${os.OBS}</div>
-          </div>` : '';
+/* ===== Filtros ===== */
+function filtroSistema(nome) {
+  filtros.sistema = nome;
+  filtros.status = null;
+  aplicarFiltros();
+}
 
-        tr.innerHTML = `
-          <td class="${classe}">${os.OS}</td>
-          <td class="${classe}">${os.Resp}</td>
-          <td class="${classe}">${os.Serviço}</td>
-          <td class="${classe}">${os['% Fases']}</td>
-          <td class="${classe}">${os['PF Bruto']}</td>
-          <td class="${classe}">${os['PF Liquido']}</td>
-          <td class="${classe}">${os.Status}</td>
-          <td class="${classe}">${formatarDataBrasileira(os['DT Entrega Atual SGAT'])}</td>
-          <td>${obsHtml}</td>
-        `;
-        tbody.appendChild(tr);
-      });
+function filtrarStatus(status) {
+  filtros.status = status;
+  aplicarFiltros();
+}
 
-      document.getElementById('sistema-titulo').innerHTML = filtros.sistema || '(todos)';
-      document.getElementById('tabela-titulo').innerHTML = `📊 Sistema: <span style="color:#0d6efd; font-weight:bold">${filtros.sistema || '(todos)'}</span>`;
-    }
+function limparFiltroStatus() {
+  filtros.status = null;
+  aplicarFiltros();
+}
 
-    function atualizarKPIs(lista) {
-      document.getElementById('total-os').innerText = lista.length;
-      document.getElementById('pf-bruto').innerText = somar(lista, 'PF Bruto');
-      document.getElementById('pf-liquido').innerText = somar(lista, 'PF Liquido');
-    }
+function aplicarFiltros() {
+  const termo = document.getElementById('search-input').value.toLowerCase();
+  filtros.busca = termo;
+  localStorage.setItem('filtros', JSON.stringify(filtros));
 
-    function atualizarKPIsStatus(lista) {
-      const container = document.getElementById('status-kpis');
-      container.innerHTML = '';
-      const statusMap = {};
+  let lista = [...osData];
 
-      lista.forEach(o => {
-        const status = o.Status || '(vazio)';
-        statusMap[status] = (statusMap[status] || 0) + 1;
-      });
+  if (filtros.sistema) {
+    lista = lista.filter(o => (o.Sistema || "").trim().toLowerCase() === filtros.sistema.trim().toLowerCase());
+  }
+  if (filtros.status) {
+    lista = lista.filter(o => (o.Status || "").trim().toLowerCase() === filtros.status.trim().toLowerCase());
+  }
+  if (filtros.busca) {
+    lista = lista.filter(o =>
+      Object.values(o).some(val => (val || '').toString().toLowerCase().includes(filtros.busca))
+    );
+  }
 
-      Object.entries(statusMap).forEach(([status, count]) => {
-        const div = document.createElement('div');
-        div.className = 'col-md-2';
-        div.innerHTML = `<div class="kpi-card kpi-filtro" onclick="filtrarStatus('${status}')"><div class="kpi-title">${status}</div><div class="kpi-value">${count}</div></div>`;
-        container.appendChild(div);
-      });
-    }
+  atualizarTabela(lista);
+  atualizarKPIs(lista);
+  atualizarKPIsStatus(lista);
 
-    function filtrarStatus(status) {
-      const lista = osData.filter(o => o.Status === status);
-      atualizarTabela(lista);
-    }
-
-    function somar1(lista, campo) {
-      return lista.reduce((acc, o) => acc + Number(o[campo] || 0), 0).toLocaleString('pt-BR');
-    }
-
-    function somar(lista, campo) {
-      return lista.reduce((acc, o) => {
-        let raw = (o[campo] || '').toString().trim();
-
-        // Tenta converter para número
-        const num = parseFloat(raw);
-
-        // Só soma se for um número válido
-        return acc + (isNaN(num) ? 0 : num);
-      }, 0).toLocaleString('pt-BR');
-    }
-
-    function limparFiltros() {
-      filtros = { sistema: null, busca: "" };
-      document.getElementById('search-input').value = "";
-      aplicarFiltros();
-    }
-
-    function limparBusca() {
-      document.getElementById("search-input").value = "";
-      filtros.busca = "";
-      aplicarFiltros();
-    }
-
-    let currentSortColumn = null;
-    let currentSortOrder = 'asc';
-
-    function sortTable(colIndex) {
-      const table = document.querySelector('table');
-      const tbody = table.querySelector('tbody');
-      const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => row.children.length > 1);
-
-      const getCellValue = (row, index) => row.children[index].innerText.trim();
-      const isNumeric = val => !isNaN(parseFloat(val.replace(',', '.')));
-
-      rows.sort((a, b) => {
-        let valA = getCellValue(a, colIndex);
-        let valB = getCellValue(b, colIndex);
-        if (isNumeric(valA) && isNumeric(valB)) {
-          valA = parseFloat(valA.replace(',', '.'));
-          valB = parseFloat(valB.replace(',', '.'));
-        }
-        return (valA > valB ? 1 : valA < valB ? -1 : 0) * (currentSortOrder === 'asc' ? 1 : -1);
-      });
-
-      table.querySelectorAll('th').forEach(th => th.classList.remove('sorted-asc', 'sorted-desc'));
-      const header = table.querySelectorAll('th')[colIndex];
-      header.classList.add(currentSortOrder === 'asc' ? 'sorted-asc' : 'sorted-desc');
-
-      tbody.innerHTML = '';
-      rows.forEach(row => tbody.appendChild(row));
-
-      currentSortOrder = currentSortColumn === colIndex && currentSortOrder === 'asc' ? 'desc' : 'asc';
-      currentSortColumn = colIndex;
-    }
-
-    function toggleSidebar1() {
-      const sidebar = document.getElementById("sidebar");
-      const icon = sidebar.querySelector(".toggle-btn i");
-      sidebar.classList.toggle("minimized");
-      icon.classList.toggle("bi-chevron-left");
-      icon.classList.toggle("bi-chevron-right");
-    }
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById("sidebar");
-      const icon = sidebar.querySelector(".toggle-btn i");
-      sidebar.classList.toggle("minimized");
-      icon.classList.toggle("bi-chevron-left");
-      icon.classList.toggle("bi-chevron-right");
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const header = document.querySelector(".collapsible-header");
-      const section = document.querySelector(".kpi-section");
-      header.addEventListener("click", () => {
-        section.classList.toggle("collapsed");
-      });
+  document.querySelectorAll('.sistema-link').forEach(el => el.classList.remove('selecionado'));
+  if (filtros.sistema) {
+    document.querySelectorAll('.sistema-link').forEach(el => {
+      if (el.textContent.replace('📊 ', '').trim().toLowerCase() === filtros.sistema.trim().toLowerCase()) {
+        el.classList.add('selecionado');
+      }
     });
+  }
+}
 
-    function formatarDataBrasileira(dataStr) {
-      const partes = dataStr.split('/');
-      if (partes.length === 3) return dataStr;
-      const d = new Date(dataStr);
-      return isNaN(d) ? dataStr : d.toLocaleDateString('pt-BR');
+/* ===== Atualização de Tabela e KPIs ===== */
+function atualizarTabela(lista) {
+  const tbody = document.getElementById('os-table-body');
+  tbody.innerHTML = '';
+
+  if (!lista.length) {
+    tbody.innerHTML = '<tr><td colspan="9">Nenhum dado encontrado.</td></tr>';
+    return;
+  }
+
+  lista.forEach(os => {
+    const tr = document.createElement('tr');
+
+    if ((os.Status || '').toLowerCase().includes('faturada')) {
+      tr.classList.add('tr-verde');
     }
 
-    function exportarCSV() {
-      const linhas = [['OS', 'Responsável', 'Serviço', '% Fase', 'PF Bruto', 'PF Liquido', 'Status', 'DT Entrega Atual SGAT', 'OBS']];
-      document.querySelectorAll('#os-table-body tr').forEach(row => {
-        const cols = Array.from(row.querySelectorAll('td')).map(td => td.innerText);
-        if (cols.length === 9) linhas.push(cols);
-      });
-      const csv = linhas.map(l => l.map(v => `"${v}"`).join(',')).join('\\n');
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'os_export.csv';
-      a.click();
-    }
+    const obsHtml = os.OBS ? `<div class="obs-popover">⚠️<div class="obs-text">${os.OBS}</div></div>` : '';
 
-    //document.addEventListener("DOMContentLoaded", carregarDados);
+    tr.innerHTML =
+      `<td>${os.OS}</td>
+       <td>${os.Resp}</td>
+       <td>${os.Serviço}</td>
+       <td>${os['% Fases']}</td>
+       <td>${os['PF Bruto']}</td>
+       <td>${os['PF Liquido']}</td>
+       <td>${os.Status}</td>
+       <td>${formatarDataBrasileira(os['DT Entrega Atual SGAT'])}</td>
+       <td>${obsHtml}</td>`;
 
-    document.addEventListener("DOMContentLoaded", () => {
-      carregarDados();
-      document.getElementById("search-input").value = filtros.busca || "";
-    });
-  </script>
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('sistema-titulo').innerHTML = filtros.sistema || '(todos)';
+  document.getElementById('tabela-titulo').innerHTML =
+    `📊 Sistema: <span style="color:#0d6efd; font-weight:bold">${filtros.sistema || '(todos)'}</span>`;
+}
+
+function atualizarKPIs(lista) {
+  document.getElementById('total-os').innerText = lista.length;
+  document.getElementById('pf-bruto').innerText = somar(lista, 'PF Bruto');
+  document.getElementById('pf-liquido').innerText = somar(lista, 'PF Liquido');
+}
+
+function somar(lista, campo) {
+  return lista.reduce((acc, o) => {
+    let raw = (o[campo] || '').toString().trim();
+    const num = parseFloat(raw);
+    return acc + (isNaN(num) ? 0 : num);
+  }, 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function atualizarKPIsStatus(lista) {
+  const container = document.getElementById('status-kpis');
+  const botoesContainer = document.getElementById('status-botoes');
+  container.innerHTML = '';
+  botoesContainer.innerHTML = '';
+
+  if (filtros.status) {
+    const btnVoltar = document.createElement('button');
+    btnVoltar.className = 'btn btn-sm btn-warning';
+    btnVoltar.innerHTML = '⬅️ Voltar (remover filtro de status)';
+    btnVoltar.onclick = limparFiltroStatus;
+    botoesContainer.appendChild(btnVoltar);
+  }
+
+  const statusMap = {};
+  lista.forEach(o => {
+    const status = o.Status || '(vazio)';
+    statusMap[status] = (statusMap[status] || 0) + 1;
+  });
+
+  Object.entries(statusMap).forEach(([status, count]) => {
+    const div = document.createElement('div');
+    div.className = 'col-md-2';
+    div.innerHTML =
+      `<div class="kpi-card kpi-filtro" onclick="filtrarStatus('${status}')">
+         <div class="kpi-title">${status}</div>
+         <div class="kpi-value">${count}</div>
+       </div>`;
+    container.appendChild(div);
+  });
+}
+
+/* ===== Ações de Limpeza ===== */
+function limparFiltros() {
+  filtros = { sistema: null, busca: "", status: null };
+  document.getElementById('search-input').value = "";
+  aplicarFiltros();
+}
+
+function limparBusca() {
+  document.getElementById("search-input").value = "";
+  filtros.busca = "";
+  aplicarFiltros();
+}
+
+/* ===== Utilidades ===== */
+function formatarDataBrasileira(dataStr) {
+  if (!dataStr) return '';
+  const partes = dataStr.split('/');
+  if (partes.length === 3) return dataStr;
+  const d = new Date(dataStr);
+  return isNaN(d) ? dataStr : d.toLocaleDateString('pt-BR');
+}
+
+function exportarCSV() {
+  const linhas = [['OS', 'Responsável', 'Serviço', '% Fase', 'PF Bruto', 'PF Liquido', 'Status', 'DT Entrega Atual SGAT', 'OBS']];
+
+  document.querySelectorAll('#os-table-body tr').forEach(row => {
+    const cols = Array.from(row.querySelectorAll('td')).map(td => `"${td.innerText.replace(/"/g, '""')}"`);
+    if (cols.length === 9) linhas.push(cols);
+  });
+
+  const csv = linhas.map(l => l.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'os_export.csv';
+  a.click();
+}
+
+/* ===== Sidebar ===== */
+function toggleSidebar() {
+  const sidebar = document.getElementById("sidebar");
+  const icon = sidebar.querySelector(".toggle-btn i");
+  sidebar.classList.toggle("minimized");
+  icon.classList.toggle("bi-chevron-left");
+  icon.classList.toggle("bi-chevron-right");
+}
+
+/* ===== Inicialização ===== */
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("search-input").value = filtros.busca || "";
+  const header = document.querySelector(".collapsible-header");
+  const section = document.querySelector(".kpi-section");
+  header.addEventListener("click", () => {
+    section.classList.toggle("collapsed");
+  });
+  carregarDados();
+});
+
+
+/* ===== Alternar Tema ===== */
+function toggleTheme() {
+  document.body.classList.toggle("light-mode");
+}
+
+/* ===== Imprimir Dashboard ===== */
+function printDashboard() {
+  window.print();
+}
+</script>
 </body>
 </html>
