@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marcelo Guimarães Bastos - Currículo</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            /* Modo normal (claro) com estética data/analytics */
+            --primary-color: #0f172a;   /* azul petróleo, títulos */
+            --secondary-color: #2563eb; /* azul data viz */
+            --accent-color: #7c3aed;    /* roxo analytics */
+            --light-bg: #e5e7eb;
+            --dark-text: #0f172a;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --text-color: #0f172a;
+            --border-color: #d1d5db;
+            --grid-color: rgba(148, 163, 184, 0.18);
+        }
+        
+        /* Dark Mode = tema neon/LLM (modo normal) */
+        body.dark-mode {
+            --primary-color: #020617;
+            --secondary-color: #22d3ee; /* ciano neon */
+            --accent-color: #a855f7;    /* roxo LLM */
+            --light-bg: #020617;
+            --dark-text: #e5e7eb;
+            --bg-color: #020617;
+            --card-bg: #050816;
+            --text-color: #e5e7eb;
+            --border-color: #111827;
+            --grid-color: rgba(56, 189, 248, 0.28);
+        }
+
+        /* Modo Terminal: variação com cara de console para todo o template */
+        body.dark-mode.terminal-mode {
+            --primary-color: #052e16;   /* verde profundo */
+            --secondary-color: #22c55e; /* verde neon */
+            --accent-color: #a3e635;    /* verde-limão */
+            --light-bg: #020617;
+            --dark-text: #bbf7d0;
+            --bg-color: #020617;
+            --card-bg: #020617;
+            --text-color: #bbf7d0;
+            --border-color: rgba(34, 197, 94, 0.7);
+            --grid-color: rgba(22, 163, 74, 0.4);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            scroll-behavior: smooth;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark-mode {
+            background-color: #020617;
+            background-image:
+                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.25), transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(34, 197, 94, 0.25), transparent 55%),
+                linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(15, 23, 42, 1)),
+                linear-gradient(transparent 0, transparent calc(100% - 1px), var(--grid-color) calc(100% - 1px)),
+                linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), var(--grid-color) calc(100% - 1px));
+            background-size: auto, auto, auto, 80px 80px, 80px 80px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Header Hero - modo normal */
+        .hero-header {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 80px 0;
+            margin-bottom: 0;
+        }
+
+        /* Header com efeito matrix/neon apenas no dark mode */
+        body.dark-mode .hero-header {
+            background-image:
+                radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.45), transparent 60%),
+                radial-gradient(circle at 90% 100%, rgba(34, 197, 94, 0.35), transparent 55%),
+                linear-gradient(135deg, #020617 0%, #020617 15%, #111827 55%, #020617 100%),
+                linear-gradient(transparent 0, transparent calc(100% - 1px), rgba(148, 163, 184, 0.18) 100%),
+                linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), rgba(148, 163, 184, 0.18) 100%);
+            background-size: auto, auto, auto, 70px 70px, 70px 70px;
+            background-position: center, center, center, 0 0, 0 0;
+            color: var(--text-color);
+        }
+
+        body.dark-mode .hero-header::before,
+        body.dark-mode .hero-header::after {
+            content: '';
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.45), transparent 60%);
+            filter: blur(6px);
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        body.dark-mode .hero-header::before {
+            top: -80px;
+            left: -60px;
+        }
+        
+        body.dark-mode .hero-header::after {
+            bottom: -100px;
+            right: -40px;
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.45), transparent 60%);
+        }
+        
+        .hero-header h1 {
+            font-weight: 700;
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .hero-header h1 {
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            background: linear-gradient(120deg, #e5e7eb, #a5f3fc, #bbf7d0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(15, 23, 42, 0.9);
+        }
+
+        /* Ajustes específicos no header para o modo terminal */
+        body.dark-mode.terminal-mode .hero-header {
+            background-image:
+                repeating-linear-gradient(
+                    to bottom,
+                    #020617 0,
+                    #020617 2px,
+                    #02130a 2px,
+                    #02130a 4px
+                );
+            background-size: auto;
+            color: var(--text-color);
+        }
+
+        body.dark-mode.terminal-mode .hero-header::before,
+        body.dark-mode.terminal-mode .hero-header::after {
+            display: none;
+        }
+
+        body.dark-mode.terminal-mode .hero-header h1 {
+            background: none;
+            -webkit-background-clip: initial;
+            background-clip: initial;
+            color: #bbf7d0;
+            text-shadow: 0 0 12px rgba(34, 197, 94, 0.9);
+            letter-spacing: 0.12em;
+        }
+        
+        .hero-header .lead {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+        
+        .contact-info {
+            margin-top: 30px;
+        }
+        
+        .contact-info a {
+            color: var(--text-color);
+            text-decoration: none;
+            margin-right: 20px;
+            transition: opacity 0.3s, text-shadow 0.3s, color 0.3s;
+            font-size: 0.95rem;
+        }
+        
+        .contact-info a:hover {
+            opacity: 1;
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px rgba(34, 211, 238, 0.7);
+        }
+
+        /* Terminal effect - modo console criativo */
+        .terminal-card {
+            position: relative;
+            margin-top: 40px;
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
+            background:
+                radial-gradient(circle at top left, rgba(34, 211, 238, 0.18), transparent 65%),
+                radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.24), transparent 60%),
+                linear-gradient(135deg, #020617 0%, #020617 35%, #020617 100%);
+            border-radius: 16px;
+            border: 1px solid rgba(148, 163, 184, 0.65);
+            box-shadow:
+                0 22px 60px rgba(15, 23, 42, 0.98),
+                0 0 22px rgba(34, 211, 238, 0.35);
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .terminal-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(15, 23, 42, 0.88), rgba(15, 23, 42, 0.92)),
+                repeating-linear-gradient(
+                    to bottom,
+                    rgba(148, 163, 184, 0.18) 0,
+                    rgba(148, 163, 184, 0.18) 1px,
+                    transparent 1px,
+                    transparent 3px
+                );
+            mix-blend-mode: soft-light;
+            opacity: 0.25;
+            pointer-events: none;
+        }
+
+        .terminal-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            border: 1px solid rgba(34, 211, 238, 0.55);
+            box-shadow: 0 0 28px rgba(34, 211, 238, 0.4);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+
+        .terminal-card:hover::after {
+            opacity: 1;
+            border-color: rgba(34, 211, 238, 0.85);
+            box-shadow:
+                0 0 32px rgba(34, 211, 238, 0.75),
+                0 0 46px rgba(168, 85, 247, 0.55);
+        }
+
+        .terminal-header {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: linear-gradient(90deg, #020617, #020617 40%, #0b1120 100%);
+            border-bottom: 1px solid rgba(31, 41, 55, 0.95);
+            z-index: 1;
+        }
+
+        .terminal-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+        }
+
+        .terminal-dot.dot-red { background-color: #ef4444; }
+        .terminal-dot.dot-yellow { background-color: #f59e0b; }
+        .terminal-dot.dot-green { background-color: #22c55e; }
+
+        .terminal-title {
+            margin-left: auto;
+            font-size: 0.72rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            opacity: 0.9;
+        }
+
+        .terminal-body {
+            position: relative;
+            padding: 12px 16px 16px;
+            font-size: 0.86rem;
+            color: #e5e7eb;
+            background:
+                radial-gradient(circle at top left, rgba(34, 211, 238, 0.18), transparent 65%),
+                radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.16), transparent 70%);
+            z-index: 1;
+        }
+
+        .terminal-line + .terminal-line {
+            margin-top: 5px;
+        }
+
+        .terminal-prompt {
+            color: #22d3ee;
+        }
+
+        .terminal-path {
+            color: #a5f3fc;
+        }
+
+        .terminal-comment {
+            color: #9ca3af;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 1.05em;
+            margin-left: 3px;
+            background-color: #22d3ee;
+            vertical-align: -0.15em;
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.85);
+            animation: blink-terminal 0.9s steps(1, start) infinite;
+        }
+
+        @keyframes blink-terminal {
+            50% { opacity: 0; }
+        }
+        
+        /* Navigation */
+        .nav-pills .nav-link {
+            color: var(--text-color);
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+            background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.25), transparent 55%);
+            transition: all 0.25s ease;
+        }
+        
+        .nav-pills .nav-link.active {
+            background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+            color: #020617;
+            border-color: transparent;
+            box-shadow: 0 0 18px rgba(34, 211, 238, 0.7);
+        }
+        
+        .nav-pills .nav-link:hover {
+            background-color: rgba(15, 23, 42, 0.9);
+            transform: translateY(-1px);
+        }
+        
+        .navbar {
+            background-color: rgba(2, 6, 23, 0.92) !important;
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        body.dark-mode .navbar {
+            background-color: rgba(0, 0, 0, 0.92) !important;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        /* Sections - modo normal */
+        section {
+            padding: 60px 0;
+            transition: background-color 0.3s;
+            background-color: var(--bg-color);
+        }
+        
+        section:nth-of-type(even) {
+            background-color: var(--light-bg);
+        }
+
+        /* Sections - tema matrix/neon (dark mode) */
+        body.dark-mode section {
+            position: relative;
+            background-color: rgba(15, 23, 42, 0.96);
+            box-shadow: 0 1px 0 rgba(148, 163, 184, 0.06) inset;
+        }
+        
+        body.dark-mode section:nth-of-type(even) {
+            background-color: rgba(15, 23, 42, 0.98);
+        }
+        
+        .section-title {
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 40px;
+            position: relative;
+            padding-bottom: 15px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 120px;
+            height: 3px;
+            background: var(--secondary-color);
+        }
+        
+        /* Cards - modo normal */
+        .custom-card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            height: 100%;
+            background-color: var(--card-bg);
+        }
+
+        /* Garante texto legível em cards em qualquer modo */
+        .custom-card,
+        .custom-card .card-body,
+        .custom-card .card-text,
+        .custom-card .card-title,
+        .custom-card .list-unstyled li {
+            color: var(--text-color);
+        }
+        
+        /* Cards no tema matrix/neon (modo normal) */
+        body.dark-mode .custom-card {
+            border-radius: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.35);
+            box-shadow:
+                0 18px 45px rgba(15, 23, 42, 0.9),
+                0 0 0 1px rgba(15, 23, 42, 0.9);
+            background: radial-gradient(circle at top left, rgba(148, 163, 184, 0.18), transparent 60%),
+                        radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.18), transparent 65%),
+                        linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 1));
+        }
+        
+        body.dark-mode .card-title {
+            color: var(--text-color);
+        }
+        
+        body.dark-mode .card-text,
+        body.dark-mode .card-body {
+            color: var(--text-color);
+        }
+
+        /* Cartões no modo terminal: visual mais minimalista, linha de comando */
+        body.dark-mode.terminal-mode .custom-card {
+            background: #020617;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            box-shadow: none;
+        }
+
+        body.dark-mode.terminal-mode .custom-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(34, 197, 94, 0.8);
+            box-shadow: 0 0 18px rgba(34, 197, 94, 0.45);
+        }
+
+        body.dark-mode.terminal-mode .card-title {
+            color: var(--text-color);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+        
+        body.dark-mode .text-muted {
+            color: #b0b0b0 !important;
+        }
+        
+        body.dark-mode .text-primary {
+            color: var(--secondary-color) !important;
+        }
+        
+        body.dark-mode .text-success {
+            color: #5cb85c !important;
+        }
+        
+        body.dark-mode .text-warning {
+            color: #f0ad4e !important;
+        }
+        
+        body.dark-mode .text-danger {
+            color: #d9534f !important;
+        }
+        
+        body.dark-mode .lead {
+            color: var(--text-color);
+        }
+        
+        body.dark-mode h1, 
+        body.dark-mode h2, 
+        body.dark-mode h3, 
+        body.dark-mode h4, 
+        body.dark-mode h5, 
+        body.dark-mode h6 {
+            color: var(--text-color);
+        }
+        
+        .custom-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        body.dark-mode .custom-card:hover {
+            transform: translateY(-6px) scale(1.01);
+            border-color: rgba(56, 189, 248, 0.9);
+            box-shadow:
+                0 25px 60px rgba(15, 23, 42, 1),
+                0 0 25px rgba(34, 211, 238, 0.45);
+        }
+        
+        /* Badges */
+        .skill-badge {
+            background-color: var(--secondary-color);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin: 5px;
+            display: inline-block;
+            font-size: 0.9rem;
+        }
+
+        body.dark-mode .skill-badge {
+            background: radial-gradient(circle at top left, rgba(34, 211, 238, 0.9), rgba(59, 130, 246, 0.9));
+            color: #020617;
+            border: 1px solid rgba(15, 23, 42, 0.8);
+            box-shadow: 0 0 10px rgba(34, 211, 238, 0.55);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        body.dark-mode.terminal-mode .skill-badge {
+            background: transparent;
+            color: var(--text-color);
+            border-color: rgba(34, 197, 94, 0.8);
+            box-shadow: none;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+        
+        .level-badge {
+            font-size: 0.8rem;
+            padding: 5px 12px;
+        }
+        
+        /* Timeline */
+        .timeline-item {
+            border-left: 2px solid rgba(34, 211, 238, 0.8);
+            padding-left: 25px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            width: 14px;
+            height: 14px;
+            background: radial-gradient(circle, var(--secondary-color) 0%, var(--accent-color) 55%, transparent 65%);
+            border-radius: 999px;
+            position: absolute;
+            left: -10px;
+            top: 0;
+            box-shadow:
+                0 0 0 4px rgba(15, 23, 42, 1),
+                0 0 14px rgba(34, 211, 238, 0.9);
+        }
+        
+        .timeline-date {
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .timeline-company {
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+        
+        body.dark-mode .timeline-company {
+            color: var(--text-color);
+        }
+
+        body.dark-mode.terminal-mode .timeline-item {
+            border-left-color: rgba(34, 197, 94, 0.85);
+        }
+
+        body.dark-mode.terminal-mode .timeline-item::before {
+            background: radial-gradient(circle, #22c55e 0%, #a3e635 60%, transparent 70%);
+            box-shadow:
+                0 0 0 3px rgba(15, 23, 42, 1),
+                0 0 14px rgba(34, 197, 94, 0.9);
+        }
+        
+        /* Table */
+        .table-hover tbody tr:hover {
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 30px 0;
+        }
+        
+        /* Scroll to top button */
+        #scrollTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--secondary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+        }
+        
+        #scrollTop:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        /* (Dark mode é padrão; toggle removido) */
+        
+        /* Print Button */
+        #printBtn {
+            position: fixed;
+            bottom: 150px;
+            right: 30px;
+            background: var(--secondary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        #printBtn:hover {
+            background: var(--primary-color);
+            transform: translateY(-5px);
+        }
+        
+        body.dark-mode .table {
+            color: var(--text-color);
+            background-color: transparent;
+        }
+        
+        body.dark-mode .table thead.table-dark th {
+            background-color: #020617;
+            border-color: var(--border-color);
+        }
+
+        body.dark-mode .table tbody tr,
+        body.dark-mode .table tbody tr > * {
+            background-color: rgba(15, 23, 42, 0.98);
+            border-color: var(--border-color);
+        }
+
+        body.dark-mode .table tbody tr:nth-child(even),
+        body.dark-mode .table tbody tr:nth-child(even) > * {
+            background-color: rgba(15, 23, 42, 0.92);
+        }
+
+        /* Garante texto claro na coluna "Conhecimento" da tabela */
+        body.dark-mode .table tbody tr td:nth-child(2) {
+            color: var(--text-color);
+        }
+
+        /* Wrapper da tabela de Conhecimentos por Nível */
+        body.dark-mode .table-responsive {
+            background-color: var(--card-bg) !important;
+            border-radius: 18px;
+            padding: 8px 8px 10px;
+            box-shadow:
+                0 18px 45px rgba(15, 23, 42, 0.9),
+                0 0 0 1px rgba(15, 23, 42, 0.9);
+        }
+        
+        body.dark-mode .accordion-button {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        
+        body.dark-mode .accordion-button:not(.collapsed) {
+            background-color: var(--light-bg);
+            color: var(--text-color);
+        }
+        
+        body.dark-mode .accordion-body {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+        }
+        
+        body.dark-mode .alert-info {
+            background-color: var(--card-bg);
+            border-color: var(--secondary-color);
+            color: var(--text-color);
+        }
+        
+        body.dark-mode .list-unstyled li,
+        body.dark-mode ul li {
+            color: var(--text-color);
+        }
+        
+        body.dark-mode .timeline-role,
+        body.dark-mode .timeline-item p,
+        body.dark-mode .timeline-item ul li {
+            color: var(--text-color);
+        }
+        
+        /* Print Styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            section {
+                page-break-inside: avoid;
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-header h1 {
+                font-size: 2rem;
+            }
+            
+            .contact-info a {
+                display: block;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body class="dark-mode terminal-mode">
+
+    <!-- Hero Header -->
+    <header class="hero-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h1><i class="bi bi-person-circle"></i> Marcelo Guimarães Bastos</h1>
+                    <p class="lead">Analista de BI | Data Analytics & Business Intelligence</p>
+                    <p><i class="bi bi-geo-alt-fill"></i> Goiânia, GO</p>
+                    
+                    <div class="contact-info">
+                        <a href="mailto:marcelogbastos@gmail.com"><i class="bi bi-envelope-fill"></i> Email</a>
+                        <a href="https://www.linkedin.com/in/marcelo-bastos-71481668" target="_blank"><i class="bi bi-linkedin"></i> LinkedIn</a>
+                        <a href="https://twitter.com/marcelogbastos" target="_blank"><i class="bi bi-twitter"></i> Twitter</a>
+                        <a href="https://www.facebook.com/marcelogbastos" target="_blank"><i class="bi bi-facebook"></i> Facebook</a>
+                        <a href="https://github.com/marcelogbasto" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+                    </div>
+
+                    <div class="terminal-card d-none d-md-block text-start">
+                        <div class="terminal-header">
+                            <span class="terminal-dot dot-red"></span>
+                            <span class="terminal-dot dot-yellow"></span>
+                            <span class="terminal-dot dot-green"></span>
+                            <span class="terminal-title">marcelo@ai-lab: ~/profile.llm</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-line"><span class="terminal-prompt">marcelo@ai-lab</span>:<span class="terminal-path">~</span>$ whoami</div>
+                            <div class="terminal-line terminal-comment">Data & BI · Engenharia de Dados · IA Generativa / LLMs</div>
+                            <div class="terminal-line"><span class="terminal-prompt">marcelo@ai-lab</span>:<span class="terminal-path">~/genai</span>$ python llm_pipeline.py --tasks "dashboards, modelos preditivos, RAG"<span class="terminal-cursor"></span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm no-print">
+        <div class="container">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link" href="#resumo">Resumo</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#competencias">Competências</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#experiencia">Experiência</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#formacao">Formação</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#cursos">Cursos</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Resumo Profissional -->
+    <section id="resumo">
+        <div class="container">
+            <h2 class="section-title">Resumo Profissional</h2>
+            <div class="row">
+                <div class="col-lg-8">
+                    <p class="lead">Desenvolvimento de solução em business intelligence, modelagem multidimensional e ETL, com levantamento de requisitos de dados e definição de indicadores e KPIs. Atuação em Big Data, Data Science e Analytics.</p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-briefcase-fill text-primary"></i> Perfil</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>Experiência:</strong> 25+ anos</li>
+                                <li><strong>Empresa atual:</strong> Indra Brasil</li>
+                                <li><strong>Tempo na empresa:</strong> <span id="companyTime">Calculando...</span></li>
+                                <li><strong>Disponibilidade:</strong> Projetos internacionais</li>
+                                <li><strong>Especialização:</strong> Data Analytics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competências Técnicas -->
+    <section id="competencias">
+        <div class="container">
+            <h2 class="section-title">Competências Técnicas</h2>
+            
+            <div class="row g-4">
+                <!-- Linguagens e Plataformas -->
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-code-slash text-primary"></i> Linguagens e Plataformas</h5>
+                            <div class="mt-3">
+                                <span class="skill-badge">R</span>
+                                <span class="skill-badge">Python</span>
+                                <span class="skill-badge">Spark</span>
+                                <span class="skill-badge">Hadoop</span>
+                                <span class="skill-badge">OutSystems</span>
+                                <span class="skill-badge">Visual Basic</span>
+                                <span class="skill-badge">PHP</span>
+                                <span class="skill-badge">JavaScript</span>
+                                <span class="skill-badge">HTML</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Banco de Dados -->
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-database-fill text-success"></i> Banco de Dados</h5>
+                            <div class="mt-3">
+                                <span class="skill-badge bg-success">MongoDB</span>
+                                <span class="skill-badge bg-success">PostgreSQL</span>
+                                <span class="skill-badge bg-success">SQL Server</span>
+                                <span class="skill-badge bg-success">Oracle</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BI e Analytics -->
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-graph-up text-warning"></i> BI e Analytics</h5>
+                            <div class="mt-3">
+                                <span class="skill-badge bg-warning text-dark">SSAS</span>
+                                <span class="skill-badge bg-warning text-dark">SSRS</span>
+                                <span class="skill-badge bg-warning text-dark">Tableau</span>
+                                <span class="skill-badge bg-warning text-dark">Pentaho</span>
+                                <span class="skill-badge bg-warning text-dark">Power BI</span>
+                                <span class="skill-badge bg-warning text-dark">Qlik Sense</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Orquestração e Integração -->
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-shuffle text-danger"></i> Orquestração e Integração</h5>
+                            <div class="mt-3">
+                                <span class="skill-badge bg-danger">Airflow</span>
+                                <span class="skill-badge bg-danger">WSO2</span>
+                                <span class="skill-badge bg-danger">Databricks</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conhecimentos por Nível -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h4 class="mb-4"><i class="bi bi-bar-chart-fill"></i> Conhecimentos por Nível</h4>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Tipo</th>
+                                    <th>Conhecimento</th>
+                                    <th>Nível</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="badge bg-info">Tecnológico</span></td>
+                                    <td>ETL</td>
+                                    <td><span class="badge bg-success level-badge">Especialista > 4 anos</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-info">Tecnológico</span></td>
+                                    <td>Power BI</td>
+                                    <td><span class="badge bg-success level-badge">Especialista > 4 anos</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-info">Tecnológico</span></td>
+                                    <td>Databricks</td>
+                                    <td><span class="badge bg-warning level-badge">Básico < 1 ano</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-info">Tecnológico</span></td>
+                                    <td>Python</td>
+                                    <td><span class="badge bg-success level-badge">Especialista > 4 anos</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary">Funcional</span></td>
+                                    <td>Dashboard / BI</td>
+                                    <td><span class="badge bg-success level-badge">Especialista > 4 anos</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge bg-primary">Funcional</span></td>
+                                    <td>Data Scientists & Algorithms</td>
+                                    <td><span class="badge bg-secondary level-badge">Médio < 3 anos</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experiência Profissional -->
+    <section id="experiencia">
+        <div class="container">
+            <h2 class="section-title">Experiência Profissional</h2>
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <!-- Experiência 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">Jul/2023 - Presente</div>
+                        <div class="timeline-company">INDRA BRASIL SOLUÇÕES E SERVIÇOS TECNOLÓGICOS LTDA</div>
+                        <div class="timeline-role"><strong>Analista de BI SR</strong></div>
+                        <ul class="mt-2">
+                            <li>Desenvolvimento de dashboards</li>
+                            <li>Conhecimentos tecnológicos: ETL</li>
+                            <li>Conhecimentos automação: Python</li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Experiência 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">Mai/2022 - Jul/2023</div>
+                        <div class="timeline-company">G4F SOLUÇÕES CORPORATIVAS LTDA</div>
+                        <div class="timeline-role"><strong>Analista de BI Senior</strong></div>
+                    </div>
+                    
+                    <!-- Experiência 3 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">Mai/2021 - Mai/2022</div>
+                        <div class="timeline-company">PROGNUS SOLUÇÕES LIVRES EM TECNOLOGIA DA INFORMAÇÃO LTDA</div>
+                        <div class="timeline-role"><strong>Desenvolvedor SR</strong></div>
+                    </div>
+                    
+                    <!-- Experiência 4 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">Mar/2020 - Mai/2021</div>
+                        <div class="timeline-company">HOMINUS GESTÃO E TECNOLOGIA LTDA</div>
+                        <div class="timeline-role"><strong>Analista Tecnologia Informação Nível III</strong></div>
+                    </div>
+                    
+                    <!-- Experiência 5 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">Abr/2020 - Mai/2021</div>
+                        <div class="timeline-company">TECNISYS INFORMÁTICA E ASSESSORIA EMPRESARIAL LTDA</div>
+                        <div class="timeline-role"><strong>Especialista</strong></div>
+                    </div>
+                    
+                    <!-- Experiência 6 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">2011 - 2020</div>
+                        <div class="timeline-company">GT1 Gestão e Tecnologia (Lotação Ipasgo)</div>
+                        <div class="timeline-role"><strong>Analista de Sistemas III</strong></div>
+                    </div>
+                    
+                    <!-- Experiência 7 -->
+                    <div class="timeline-item">
+                        <div class="timeline-date">2009 - 2011</div>
+                        <div class="timeline-company">EVOLUTI (Lotação IPASGO)</div>
+                        <div class="timeline-role"><strong>Analista de Sistemas II</strong></div>
+                        <p class="text-muted">Unidade Gestão em Desenvolvimento de Software</p>
+                    </div>
+                    
+                    <!-- Experiências anteriores resumidas -->
+                    <div class="card custom-card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Experiências Anteriores</h5>
+                            <ul class="list-unstyled">
+                                <li><strong>2007-2008:</strong> Desenvolvimento de Sistemas para WEB - Quize</li>
+                                <li><strong>2006-2007:</strong> SENAI - Instrutor de Linguagem de Programação</li>
+                                <li><strong>2005-2007:</strong> UNIMIX</li>
+                                <li><strong>2004-2005:</strong> QUANTIC</li>
+                                <li><strong>2004:</strong> Organização das Voluntárias de Goiás (OVG)</li>
+                                <li><strong>2001:</strong> CEASA/GO (Estágio)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formação Acadêmica -->
+    <section id="formacao">
+        <div class="container">
+            <h2 class="section-title">Formação Acadêmica</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card custom-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-mortarboard-fill text-primary" style="font-size: 3rem;"></i>
+                            <h5 class="card-title mt-3">Especialização</h5>
+                            <p class="card-text">
+                                <strong>Internet, Objetos e Sistemas Distribuídos</strong><br>
+                                CEFET/RJ<br>
+                                <span class="text-muted">Conclusão: Dez/2002</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card custom-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-book-fill text-success" style="font-size: 3rem;"></i>
+                            <h5 class="card-title mt-3">Tecnólogo</h5>
+                            <p class="card-text">
+                                <strong>Processamento de Dados</strong><br>
+                                Instituto Unificado de Ensino Superior Objetivo<br>
+                                <span class="text-muted">Conclusão: 2002</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="card custom-card">
+                        <div class="card-body text-center">
+                            <i class="bi bi-gear-fill text-warning" style="font-size: 3rem;"></i>
+                            <h5 class="card-title mt-3">Técnico</h5>
+                            <p class="card-text">
+                                <strong>Mecatrônica</strong><br>
+                                SENAI Ítalo Bologna<br>
+                                <span class="text-muted">Jan/2004 - Dez/2004</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Certificações -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h4 class="mb-4"><i class="bi bi-award-fill"></i> Certificações</h4>
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2 text-center">
+                                    <i class="bi bi-patch-check-fill text-primary" style="font-size: 3rem;"></i>
+                                </div>
+                                <div class="col-md-10">
+                                    <h5>Microsoft Certified Professional</h5>
+                                    <p><strong>20463C: Implementing a Data Warehouse with Microsoft SQL Server</strong></p>
+                                    <p class="text-muted">Data: 17/04/2015</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cursos e Capacitação -->
+    <section id="cursos">
+        <div class="container">
+            <h2 class="section-title">Cursos e Capacitação</h2>
+            
+            <!-- Formação Complementar -->
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="mb-4"><i class="bi bi-journals"></i> Formação Complementar (Principais)</h4>
+                </div>
+            </div>
+            
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <span class="badge bg-primary">2026</span>
+                            <h6 class="mt-2">Databricks Certified Data Analyst Associate Exam Preparation</h6>
+                            <small class="text-muted">6 horas</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <span class="badge bg-primary">2026</span>
+                            <h6 class="mt-2">Engenharia de Dados com Databricks, Spark e PySpark</h6>
+                            <small class="text-muted">5 horas</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <span class="badge bg-info">2020</span>
+                            <h6 class="mt-2">Formação Engenheiro de Dados: Domine Big Data!</h6>
+                            <small class="text-muted">20 horas</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <span class="badge bg-success">2019</span>
+                            <h6 class="mt-2">Visualização de Dados e Design de Dashboards</h6>
+                            <small class="text-muted">44 horas | Data Science Academy</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <span class="badge bg-success">2018</span>
+                            <h6 class="mt-2">Data Science de A à Z</h6>
+                            <small class="text-muted">29 horas</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card custom-card">
+                        <div class="card-body">
+                            <span class="badge bg-warning text-dark">2016</span>
+                            <h6 class="mt-2">Big Data Analytics com R e Microsoft Azure Machine Learning</h6>
+                            <small class="text-muted">72 horas | Data Science Academy</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cursos Selecionados -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h4 class="mb-4"><i class="bi bi-bookmark-check"></i> Cursos Selecionados por Ano</h4>
+                </div>
+            </div>
+            
+            <div class="accordion" id="cursosAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#cursos2026">
+                            <strong>2026</strong> - Databricks, Growth Mindset
+                        </button>
+                    </h2>
+                    <div id="cursos2026" class="accordion-collapse collapse show" data-bs-parent="#cursosAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Databricks Certified Data Analyst Associate Exam Preparation | UDEMY</li>
+                                <li>Engenharia de Dados com Databricks, Spark e PySpark | UDEMY</li>
+                                <li>Growth Mindset The Key to Confidence, Impact & Fulfillment | NASBA</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cursos2022">
+                            <strong>2022</strong> - Apache Airflow, WSO2
+                        </button>
+                    </h2>
+                    <div id="cursos2022" class="accordion-collapse collapse" data-bs-parent="#cursosAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Apache Airflow na Prática: Do ZERO ao DEPLOY, com Python! | Udemy</li>
+                                <li>Apache Airflow: Complete Hands-On Beginner to Advanced Class | Udemy</li>
+                                <li>WSO2 - Administração Avançada (Infraestrutura e Desenvolvimento) | Tecnisys</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cursos2021">
+                            <strong>2021</strong> - WSO2, Power BI, Data Science
+                        </button>
+                    </h2>
+                    <div id="cursos2021" class="accordion-collapse collapse" data-bs-parent="#cursosAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>WSO2 - Identity Server (40h) | Tecnisys</li>
+                                <li>WSO2 - API Manager (40h) | Tecnisys</li>
+                                <li>Empreendedorismo em Data Science, IA e Blockchain | Data Science Academy</li>
+                                <li>Governança de Dados | Data Science Academy</li>
+                                <li>E-Gov Analytics | Data Science Academy</li>
+                                <li>Microsoft Power BI Para Data Science, Versão 2.0 | Data Science Academy</li>
+                                <li>Visualização de Dados e Design de Dashboards | Data Science Academy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cursos2020">
+                            <strong>2020</strong> - NoSQL, MongoDB, Big Data
+                        </button>
+                    </h2>
+                    <div id="cursos2020" class="accordion-collapse collapse" data-bs-parent="#cursosAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>O Curso Completo de NoSQL e MongoDB para DEVs SQL! | Udemy</li>
+                                <li>Formação Engenheiro de Dados: Domine Big Data! | Udemy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cursos2019">
+                            <strong>2019</strong> - Formação Cientista de Dados, Machine Learning
+                        </button>
+                    </h2>
+                    <div id="cursos2019" class="accordion-collapse collapse" data-bs-parent="#cursosAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Introdução à Ciência de Dados 2.0 | Data Science Academy</li>
+                                <li>Formação de Cientista de Dados | Data Science Academy</li>
+                                <li>Engenharia de Dados com Hadoop e Spark | Data Science Academy</li>
+                                <li>Machine Learning | Data Science Academy</li>
+                                <li>Big Data Real-Time Analytics com Python e Spark | Data Science Academy</li>
+                                <li>Microsoft Power BI para Data Science | Data Science Academy</li>
+                                <li>Big Data Fundamentos 2.0 | Data Science Academy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cursos2018">
+                            <strong>2018</strong> - Data Science
+                        </button>
+                    </h2>
+                    <div id="cursos2018" class="accordion-collapse collapse" data-bs-parent="#cursosAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Introdução a Data Science | Data Science Academy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cursos2015">
+                            <strong>2015</strong> - Microsoft Certification
+                        </button>
+                    </h2>
+                    <div id="cursos2015" class="accordion-collapse collapse" data-bs-parent="#cursosAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Exam 463: Implementing a Data Warehouse with Microsoft SQL Server 2012/2014 | Microsoft Certified Professional</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#cursos2012">
+                            <strong>2012 e anteriores</strong> - BI, Oracle, Desenvolvimento
+                        </button>
+                    </h2>
+                    <div id="cursos2012" class="accordion-collapse collapse" data-bs-parent="#cursosAccordion">
+                        <div class="accordion-body">
+                            <ul>
+                                <li>Desenvolvimento Ágil de Aplicações de BI com Pentaho Agile BI (8 horas) | Open Consulting</li>
+                                <li>Adobe AIR 2.0 (8 horas) | RIACycle</li>
+                                <li>Imersão Adobe Flex (16 horas)</li>
+                                <li>Encontro Qualidade de Software e Tecnologia Aberta (8 horas) | SEFAZ</li>
+                                <li>Técnicas de Reuniões Objetivas e Eficientes (15 horas) | SEBRAE</li>
+                                <li>Seminário EMPRETEC | SEBRAE</li>
+                                <li>Banco de Dados Oracle 10g - Fundamentos de SQL I e II | UNIMIX</li>
+                                <li>Banco de Dados Oracle 10g - SQL Tunning Workshop | UNIMIX</li>
+                                <li>Cursos SEBRAE (Análise e Planejamento Financeiro, D'Olho na Qualidade, Como Vender mais e melhor)</li>
+                                <li>I Mini Maratona SEBRAE 2006 (4 horas) | Como abrir seu pequeno negócio | Saber empreender</li>
+                                <li>PL/SQL Oracle (40 horas) | Sistemas Abertos</li>
+                                <li>Dreamweaver (20 horas) | Sistemas Abertos</li>
+                                <li>PHP (40 horas) | Sistemas Abertos</li>
+                                <li>Administração de Redes Linux (40 horas) | Sistemas Abertos</li>
+                                <li>Linux (40 horas) | Sistemas Abertos</li>
+                                <li>Perl (20 horas) | Sistemas Abertos</li>
+                                <li>Java com Banco de Dados (20 horas) | Sistemas Abertos</li>
+                                <li>Java Fundamentos (20 horas) | Sistemas Abertos</li>
+                                <li>Instalação e Configuração de Rede Local (23 horas) | Micro Solução</li>
+                                <li>Desenvolvimento da Qualidade Pessoal (8 horas) | IEL - Instituto Euvaldo Lodi</li>
+                                <li>Linguagem de Programação Delphi (120 horas) | SENAC - Sistema Federação do Comércio</li>
+                                <li>Curso Lógica de Programação (90 horas) | SENAC - Sistema Federação do Comércio</li>
+                                <li>Curso de Ilustração em Computador (60 horas) - Corel Draw | SENAC - Sistema Federação do Comércio</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Resumo de Treinamentos Corporativos -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <h4 class="mb-4"><i class="bi bi-building"></i> Treinamentos Corporativos (Indra/Minsait)</h4>
+                    <div class="alert alert-info">
+                        <strong><i class="bi bi-info-circle"></i> Resumo:</strong> 
+                        Participação em mais de 80 treinamentos e palestras corporativas entre 2023-2026, incluindo:
+                        <ul class="mt-2 mb-0">
+                            <li>Segurança da Informação e Compliance</li>
+                            <li>Diversidade, Equidade e Inclusão</li>
+                            <li>Saúde e Bem-estar</li>
+                            <li>Gestão de Conhecimento e Qualidade</li>
+                            <li>Formação técnica em DENODO (9h)</li>
+                            <li>IA e Machine Learning (24h total)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2026 Marcelo Guimarães Bastos. Todos os direitos reservados.</p>
+            <p class="mb-0"><small>Última atualização: Fevereiro de 2026</small></p>
+        </div>
+    </footer>
+
+    <!-- Print Button -->
+    <button id="printBtn" class="no-print" onclick="window.print()">
+        <i class="bi bi-printer" style="font-size: 1.5rem;"></i>
+    </button>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTop" class="no-print">
+        <i class="bi bi-arrow-up" style="font-size: 1.5rem;"></i>
+    </button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom Scripts -->
+    <script>
+        // Calculate company time dynamically
+        function calculateCompanyTime() {
+            const startDate = new Date('2023-07-17');
+            const today = new Date();
+            
+            let years = today.getFullYear() - startDate.getFullYear();
+            let months = today.getMonth() - startDate.getMonth();
+            
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            
+            let timeText = '';
+            if (years > 0) {
+                timeText += years + (years === 1 ? ' ano' : ' anos');
+            }
+            if (months > 0) {
+                if (timeText) timeText += ' e ';
+                timeText += months + (months === 1 ? ' mês' : ' meses');
+            }
+            if (!timeText) {
+                timeText = 'Menos de 1 mês';
+            }
+            
+            document.getElementById('companyTime').textContent = timeText;
+        }
+        
+        // Calculate on page load
+        calculateCompanyTime();
+        
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Scroll to top button
+        const scrollTopBtn = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollTopBtn.style.display = 'flex';
+            } else {
+                scrollTopBtn.style.display = 'none';
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Active navigation
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
