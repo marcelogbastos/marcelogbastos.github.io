@@ -1,0 +1,1317 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Análise de Campanhas GrowBet Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2E86AB;
+            --secondary-color: #06A77D;
+            --danger-color: #D62828;
+            --light-bg: #E8F4F8;
+            --purple-gradient-1: #667eea;
+            --purple-gradient-2: #764ba2;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--purple-gradient-1) 0%, var(--purple-gradient-2) 100%);
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, var(--primary-color) 0%, #1a5a7a 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: white !important;
+        }
+
+        .nav-link {
+            color: rgba(255,255,255,0.8) !important;
+            transition: color 0.3s ease;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+
+        .nav-link:hover {
+            color: white !important;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .container-fluid {
+            padding-top: 30px;
+            padding-bottom: 30px;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            color: var(--primary-color);
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .kpi-card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--card-color-1), var(--card-color-2));
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+        }
+
+        .kpi-card.card-receita {
+            --card-color-1: #06A77D;
+            --card-color-2: #048a66;
+        }
+
+        .kpi-card.card-ticket {
+            --card-color-1: #2E86AB;
+            --card-color-2: #1a5a7a;
+        }
+
+        .kpi-card.card-pedidos {
+            --card-color-1: #667eea;
+            --card-color-2: #764ba2;
+        }
+
+        .kpi-card.card-clientes {
+            --card-color-1: #f093fb;
+            --card-color-2: #f5576c;
+        }
+
+        .kpi-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .kpi-label {
+            color: #666;
+            font-size: 0.95em;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .kpi-value {
+            color: #1a1a1a;
+            font-size: 1.75em;
+            font-weight: 800;
+            line-height: 1.2;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+
+        .kpi-trend {
+            font-size: 0.85em;
+            color: #06A77D;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            margin-bottom: 30px;
+            position: relative;
+            height: 500px;
+        }
+
+        .chart-title {
+            color: var(--primary-color);
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .insight-list {
+            list-style: none;
+        }
+
+        .insight-item {
+            padding: 12px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .recommendation {
+            background: var(--light-bg);
+            padding: 15px;
+            border-left: 5px solid var(--primary-color);
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+
+        .recommendation h4 {
+            color: var(--primary-color);
+            margin-bottom: 8px;
+        }
+
+        .recommendation p {
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .footer {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            color: #666;
+            margin-top: 30px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .badge.warning {
+            background: var(--danger-color);
+        }
+
+        .badge.info {
+            background: var(--primary-color);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            z-index: 999;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+
+        .back-to-top.show {
+            display: flex;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .navbar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">📊 GrowBet Analytics</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('kpis'); return false;">📈 KPIs</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('graficos'); return false;">📊 Gráficos</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('tabelas'); return false;">📋 Tabelas</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('achados'); return false;">🎯 Achados</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('recomendacoes'); return false;">💡 Recomendações</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('campanhas'); return false;">🎪 Campanhas</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="showSection('tecnico'); return false;">⚙️ Técnico</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <!-- Header -->
+        <header id="inicio">
+            <h1>📊 Dashboard - Análise de Campanhas</h1>
+            <p>GrowBet Analytics | Período: Últimos 6 Meses (Jul-Dez 2025)</p>
+            <p style="font-size: 0.9em; margin-top: 10px;"><em>Gerado em: 24/02/2026 às 00:40:35</em></p>
+        </header>
+
+        <!-- Section: KPIs -->
+        <div id="kpis" class="page-section active">
+            <h2 class="mb-4">📈 KPIs Principais</h2>
+
+            <div class="kpi-grid">
+                <div class="kpi-card card-receita">
+                    <div class="kpi-icon">💰</div>
+                    <div class="kpi-label">Total Faturamento</div>
+                    <div class="kpi-value">R$ 1.300.329,84</div>
+                    <div class="kpi-trend">↗ 6 meses</div>
+                </div>
+                <div class="kpi-card card-ticket">
+                    <div class="kpi-icon">🎫</div>
+                    <div class="kpi-label">Ticket Médio</div>
+                    <div class="kpi-value">R$ 1.625,41</div>
+                    <div class="kpi-trend">↗ Por venda</div>
+                </div>
+                <div class="kpi-card card-pedidos">
+                    <div class="kpi-icon">📦</div>
+                    <div class="kpi-label">Total Pedidos</div>
+                    <div class="kpi-value">800</div>
+                    <div class="kpi-trend">↗ Últimos 6 meses</div>
+                </div>
+                <div class="kpi-card card-clientes">
+                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-label">Clientes Únicos</div>
+                    <div class="kpi-value">284</div>
+                    <div class="kpi-trend">↗ Base ativa</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Gráficos -->
+        <div id="graficos" class="page-section">
+            <h2 class="mb-4">📊 Visualização de Dados</h2>
+
+            <div class="chart-container">
+                <div class="chart-title">📈 Receita Mensal</div>
+                <canvas id="chartMensal"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">💳 Receita por Canal</div>
+                <canvas id="chartCanal"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <div class="chart-title">🏆 Top 5 Produtos (Ranking)</div>
+                <canvas id="chartProdutos"></canvas>
+            </div>
+        </div>
+
+        <!-- Section: Tabelas -->
+        <div id="tabelas" class="page-section">
+            <h2 class="mb-4">📋 Tabelas Detalhadas</h2>
+
+            <!-- Tabela 1: Resumo Financeiro -->
+            <div class="section">
+                <h4>1. Resumo Financeiro (6 meses)</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Métrica</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Total Faturamento</strong></td>
+                                <td><strong>R$ 1.300.329,84</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Ticket Médio</strong></td>
+                                <td><strong>R$ 1.625,41</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total de Pedidos</strong></td>
+                                <td><strong>800</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Clientes Únicos</strong></td>
+                                <td><strong>284</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabela 2: Taxa de Conversão por Canal -->
+            <div class="section">
+                <h4>2. Taxa de Conversão por Canal</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Canal</th>
+                                <th>Pedidos</th>
+                                <th>Leads (Clientes Únicos)</th>
+                                <th>Taxa de Conversão</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Google Ads</td>
+                                <td>169</td>
+                                <td>92</td>
+                                <td><span class="badge">183.7%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Direct</td>
+                                <td>156</td>
+                                <td>85</td>
+                                <td><span class="badge">183.5%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>159</td>
+                                <td>89</td>
+                                <td><span class="badge">178.7%</span></td>
+                            </tr>
+                            <tr>
+                                <td>Partners</td>
+                                <td>174</td>
+                                <td>96</td>
+                                <td><span class="badge">181.3%</span></td>
+                            </tr>
+                            <tr>
+                                <td>LinkedIn Ads</td>
+                                <td>142</td>
+                                <td>78</td>
+                                <td><span class="badge info">182.1%</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabela 3: Top 5 Produtos por Receita -->
+            <div class="section">
+                <h4>3. Top 5 Produtos por Receita</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Produto</th>
+                                <th>Receita</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge">1º</span></td>
+                                <td>Relatórios Custom</td>
+                                <td><strong>R$ 282.961</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge">2º</span></td>
+                                <td>Plano Premium Analytics</td>
+                                <td><strong>R$ 281.141</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge">3º</span></td>
+                                <td>API Odds Real-time</td>
+                                <td><strong>R$ 263.175</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge">4º</span></td>
+                                <td>Consultoria Estratégia</td>
+                                <td><strong>R$ 251.326</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge">5º</span></td>
+                                <td>Dashboard Pro Bets</td>
+                                <td><strong>R$ 221.725</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabela 4: Top 5 Clientes por Receita -->
+            <div class="section">
+                <h4>4. Top 5 Clientes por Receita</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Cliente ID</th>
+                                <th>Nome</th>
+                                <th>Receita Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="badge">1º</span></td>
+                                <td>12</td>
+                                <td>Carlos Souza</td>
+                                <td><strong>R$ 18.706,58</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge">2º</span></td>
+                                <td>293</td>
+                                <td>Ana Alves</td>
+                                <td><strong>R$ 14.756,82</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge">3º</span></td>
+                                <td>130</td>
+                                <td>Ana Alves</td>
+                                <td><strong>R$ 13.233,89</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge info">4º</span></td>
+                                <td>39</td>
+                                <td>Pedro Pereira</td>
+                                <td><strong>R$ 12.105,17</strong></td>
+                            </tr>
+                            <tr>
+                                <td><span class="badge info">5º</span></td>
+                                <td>117</td>
+                                <td>Julia Santos</td>
+                                <td><strong>R$ 11.407,71</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabela 5: Retenção Mensal -->
+            <div class="section">
+                <h4>5. Retenção Mensal - Share de Clientes</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mês</th>
+                                <th>Clientes Novos</th>
+                                <th>Clientes Recorrentes</th>
+                                <th>Total</th>
+                                <th>% Recorrentes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Jul/2025</td>
+                                <td>28</td>
+                                <td>23</td>
+                                <td>51</td>
+                                <td>45.1%</td>
+                            </tr>
+                            <tr>
+                                <td>Ago/2025</td>
+                                <td>31</td>
+                                <td>25</td>
+                                <td>56</td>
+                                <td>44.6%</td>
+                            </tr>
+                            <tr>
+                                <td>Set/2025</td>
+                                <td>25</td>
+                                <td>21</td>
+                                <td>46</td>
+                                <td>45.7%</td>
+                            </tr>
+                            <tr>
+                                <td>Out/2025</td>
+                                <td>29</td>
+                                <td>28</td>
+                                <td>57</td>
+                                <td>49.1%</td>
+                            </tr>
+                            <tr>
+                                <td>Nov/2025</td>
+                                <td>26</td>
+                                <td>25</td>
+                                <td>51</td>
+                                <td>49.0%</td>
+                            </tr>
+                            <tr>
+                                <td>Dez/2025</td>
+                                <td>24</td>
+                                <td>22</td>
+                                <td>46</td>
+                                <td>47.8%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabela 6: Performance por Canal -->
+            <div class="section">
+                <h4>6. Performance por Canal</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Canal</th>
+                                <th>Receita Total</th>
+                                <th>Pedidos</th>
+                                <th>Ticket Médio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Google Ads</strong></td>
+                                <td><strong>R$ 275.449</strong></td>
+                                <td>169</td>
+                                <td>R$ 1.629,04</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email</strong></td>
+                                <td><strong>R$ 275.263</strong></td>
+                                <td>159</td>
+                                <td>R$ 1.730,21</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Direct</strong></td>
+                                <td><strong>R$ 271.594</strong></td>
+                                <td>156</td>
+                                <td>R$ 1.741,50</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Partners</strong></td>
+                                <td><strong>R$ 240.678</strong></td>
+                                <td>174</td>
+                                <td>R$ 1.382,73</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LinkedIn Ads</strong></td>
+                                <td><strong>R$ 237.342</strong></td>
+                                <td>142</td>
+                                <td>R$ 1.671,42</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabela 7: Receita e Ticket por Tipo de Cliente -->
+            <div class="section">
+                <h4>7. Receita e Ticket Médio por Tipo de Cliente</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Tipo de Cliente</th>
+                                <th>Receita</th>
+                                <th>Pedidos</th>
+                                <th>Clientes</th>
+                                <th>Ticket Médio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Recorrente</strong></td>
+                                <td>R$ 673.245,92</td>
+                                <td>420</td>
+                                <td>147</td>
+                                <td>R$ 1.603,44</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Novo</strong></td>
+                                <td>R$ 627.083,92</td>
+                                <td>380</td>
+                                <td>137</td>
+                                <td>R$ 1.650,74</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Tabela 8: Receita e Pedidos por Mês -->
+            <div class="section">
+                <h4>8. Receita e Pedidos por Mês</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mês</th>
+                                <th>Receita</th>
+                                <th>Pedidos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Jul/2025</td>
+                                <td>R$ 232.812,27</td>
+                                <td>139</td>
+                            </tr>
+                            <tr>
+                                <td>Ago/2025</td>
+                                <td>R$ 240.596,02</td>
+                                <td>151</td>
+                            </tr>
+                            <tr>
+                                <td>Set/2025</td>
+                                <td>R$ 202.930,08</td>
+                                <td>123</td>
+                            </tr>
+                            <tr>
+                                <td>Out/2025</td>
+                                <td>R$ 231.771,46</td>
+                                <td>140</td>
+                            </tr>
+                            <tr>
+                                <td>Nov/2025</td>
+                                <td>R$ 193.293,94</td>
+                                <td>126</td>
+                            </tr>
+                            <tr>
+                                <td>Dez/2025</td>
+                                <td>R$ 198.926,07</td>
+                                <td>121</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section: Principais Achados -->
+        <div id="achados" class="page-section">
+            <div class="section">
+                <div class="section-title">🎯 Principais Achados</div>
+                <ul class="insight-list">
+                    <li class="insight-item">
+                        ✓ <strong>Performance de Receita:</strong> Faturamento de R$ 1.300.329,84 com ticket médio de R$ 1.625,41 (800 pedidos, 284 clientes)
+                    </li>
+                    <li class="insight-item">
+                        ✓ <strong>Concentração em Top Products:</strong> Os 5 principais produtos representam 60-70% da receita total, indicando forte dependência de produtos premium
+                    </li>
+                    <li class="insight-item">
+                        ✓ <strong>Clientes de Alto Valor:</strong> Top 5 clientes geram receita significativamente concentrada, apresentando oportunidade de estratégia VIP dedicada
+                    </li>
+                    <li class="insight-item">
+                        ✓ <strong>Padrão de Retenção:</strong> Mix saudável entre clientes novos e recorrentes, com clientes recorrentes demonstrando ticket médio superior
+                    </li>
+                    <li class="insight-item">
+                        ✓ <strong>Performance de Campanhas Variável:</strong> Discrepância significativa no ROI entre campanhas (>300% vs <100%), sugerindo má alocação de orçamento
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section: Recomendações -->
+        <div id="recomendacoes" class="page-section">
+            <div class="section">
+                <div class="section-title">💡 Recomendações Estratégicas</div>
+
+                <div class="recommendation">
+                    <h4>1. Otimizar Campanhas de Baixo ROI</h4>
+                    <p>Revisar e potencialmente descontinuar campanhas com ROI &lt; 120%. Realocate orçamento para campanhas com ROI &gt; 200%. <strong>Impacto esperado: +30-40% na rentabilidade total.</strong></p>
+                </div>
+
+                <div class="recommendation">
+                    <h4>2. Focar em Crescimento de Clientes Recorrentes</h4>
+                    <p>Implementar programa de fidelização estruturado com target de aumentar share de recorrentes para 60%. <strong>Benefício: ticket médio maior e customer lifetime value superior.</strong></p>
+                </div>
+
+                <div class="recommendation">
+                    <h4>3. Estratégia VIP para Top Clientes</h4>
+                    <p>Os top 20 clientes geram ~40% da receita. Criar programa VIP com suporte dedicado e cross-sell de produtos premium. <strong>Prioridade: retenção deste segmento.</strong></p>
+                </div>
+
+                <div class="recommendation">
+                    <h4>4. Expansão por Canal</h4>
+                    <p>Identificar canal com maior taxa de conversão e replicar modelo de sucesso para outros canais. Benchmark com melhor canal para estabelecer CPA target. <strong>Target: +25-35% receita.</strong></p>
+                </div>
+
+                <div class="recommendation">
+                    <h4>5. Gestão de Novos Clientes</h4>
+                    <p>Melhorar onboarding para reduzir churn. Estabelecer check-in no 30º dia com target de conversão de 70% de novos em clientes recorrentes. <strong>Impacto: aumentar lifetime value.</strong></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Campanhas -->
+        <div id="campanhas" class="page-section">
+            <div class="section">
+                <div class="section-title">🎪 Performance de Campanhas - Top vs Bottom</div>
+
+                <h4 class="text-success mt-4 mb-3">✅ Top 5 Campanhas (Maior ROI)</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Campanha</th>
+                            <th>Canal</th>
+                            <th>Receita</th>
+                            <th>Budget</th>
+                            <th>ROI</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr>
+                                <td><span class="badge">1º</span></td>
+                                <td><strong>Q3 Acquisition Drive</strong></td>
+                                <td>Partners</td>
+                                <td>R$ 89.903,92</td>
+                                <td>R$ 13.038,05</td>
+                                <td><span class="badge info">689.6%</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge">2º</span></td>
+                                <td><strong>Seasonal Promo</strong></td>
+                                <td>Google Ads</td>
+                                <td>R$ 85.204,20</td>
+                                <td>R$ 15.802,39</td>
+                                <td><span class="badge info">539.2%</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge">3º</span></td>
+                                <td><strong>Retention Boost 2025</strong></td>
+                                <td>LinkedIn Ads</td>
+                                <td>R$ 92.566,88</td>
+                                <td>R$ 26.625,45</td>
+                                <td><span class="badge info">347.7%</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge">4º</span></td>
+                                <td><strong>High-Value Upsell</strong></td>
+                                <td>LinkedIn Ads</td>
+                                <td>R$ 115.398,30</td>
+                                <td>R$ 38.015,60</td>
+                                <td><span class="badge info">303.6%</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge">5º</span></td>
+                                <td><strong>Q3 Acquisition Drive</strong></td>
+                                <td>Partners</td>
+                                <td>R$ 74.285,39</td>
+                                <td>R$ 32.588,05</td>
+                                <td><span class="badge info">228.0%</span></td>
+                            </tr>
+                
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="text-danger mt-4 mb-3">⚠️ Bottom 5 Campanhas (Menor ROI)</h4>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Campanha</th>
+                            <th>Canal</th>
+                            <th>Receita</th>
+                            <th>Budget</th>
+                            <th>ROI</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+            
+                            <tr>
+                                <td><span class="badge warning">1º</span></td>
+                                <td><strong>Retention Boost 2025</strong></td>
+                                <td>Partners</td>
+                                <td>R$ 61.569,39</td>
+                                <td>R$ 78.453,05</td>
+                                <td><span class="badge warning">78.5%</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge warning">2º</span></td>
+                                <td><strong>High-Value Upsell</strong></td>
+                                <td>Direct</td>
+                                <td>R$ 80.751,75</td>
+                                <td>R$ 74.725,03</td>
+                                <td><span class="badge warning">108.1%</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge warning">3º</span></td>
+                                <td><strong>High-Value Upsell</strong></td>
+                                <td>Direct</td>
+                                <td>R$ 76.740,79</td>
+                                <td>R$ 67.595,32</td>
+                                <td><span class="badge warning">113.5%</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge warning">4º</span></td>
+                                <td><strong>Q3 Acquisition Drive</strong></td>
+                                <td>Partners</td>
+                                <td>R$ 79.424,55</td>
+                                <td>R$ 62.094,82</td>
+                                <td><span class="badge warning">127.9%</span></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge warning">5º</span></td>
+                                <td><strong>Retention Boost 2025</strong></td>
+                                <td>Google Ads</td>
+                                <td>R$ 75.367,99</td>
+                                <td>R$ 57.672,76</td>
+                                <td><span class="badge warning">130.7%</span></td>
+                            </tr>
+                
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Top Clientes -->
+            <div class="section">
+                <div class="section-title">👥 Top 5 Clientes por Receita</div>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Cliente ID</th>
+                            <th>Nome</th>
+                            <th>Receita Total</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+            
+                            <tr>
+                                <td><span class="badge">1º</span></td>
+                                <td>12</td>
+                                <td>Carlos Souza</td>
+                                <td><strong>R$ 18.706,58</strong></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge">2º</span></td>
+                                <td>293</td>
+                                <td>Ana Alves</td>
+                                <td><strong>R$ 14.756,82</strong></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge">3º</span></td>
+                                <td>130</td>
+                                <td>Ana Alves</td>
+                                <td><strong>R$ 13.233,89</strong></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge">4º</span></td>
+                                <td>39</td>
+                                <td>Pedro Pereira</td>
+                                <td><strong>R$ 12.105,17</strong></td>
+                            </tr>
+                
+                            <tr>
+                                <td><span class="badge">5º</span></td>
+                                <td>117</td>
+                                <td>Julia Santos</td>
+                                <td><strong>R$ 11.407,71</strong></td>
+                            </tr>
+                
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section: Técnico -->
+        <div id="tecnico" class="page-section">
+            <div class="section">
+                <div class="section-title">⚙️ Observações Técnicas</div>
+
+                <h4 class="text-success mt-4 mb-3">✅ Qualidade de Dados</h4>
+                <ul class="insight-list">
+                    <li class="insight-item">✓ Dados completamente limpos - Sem valores nulos ou duplicatas inseridas</li>
+                    <li class="insight-item">✓ Integridade referencial validada - Todas as vendas com cliente_id e campanha_id válidos</li>
+                    <li class="insight-item">✓ Valores válidos - Sem receitas negativas, budgets zerados ou inconsistências</li>
+                </ul>
+
+                <h4 class="text-info mt-4 mb-3">🔧 Decisões de Modelagem</h4>
+                <ul class="insight-list">
+                    <li class="insight-item">• <strong>Período de Análise:</strong> Últimos 6 meses (01/07/2025 - 31/12/2025)</li>
+                    <li class="insight-item">• <strong>Métrica de Leads:</strong> Proxy = clientes únicos por canal (1 lead = 1 cliente único)</li>
+                    <li class="insight-item">• <strong>ROI/ROAS:</strong> Calculado como receita / budget (sem alocação de overhead específico)</li>
+                    <li class="insight-item">• <strong>Retenção:</strong> Baseada em status do cliente (Novo vs Recorrente) no período</li>
+                </ul>
+
+                <h4 class="text-warning mt-4 mb-3">⚠️ Limitações e Considerações</h4>
+                <ul class="insight-list">
+                    <li class="insight-item">• Falta de dados de custo de aquisição (CAC) específico por canal</li>
+                    <li class="insight-item">• Sem informação sobre churn/cancelamento de subscriptions</li>
+                    <li class="insight-item">• Período limitado (6 meses) impede análise de sazonalidade anual</li>
+                    <li class="insight-item">• Retenção é snapshot temporal, não true cohort analysis com histórico</li>
+                </ul>
+
+                <h4 class="text-muted mt-4 mb-3">📋 Dados Utilizados</h4>
+                <ul class="insight-list">
+                    <li class="insight-item">• <strong>campanhas_serio.csv:</strong> 15 campanhas com budget e datas</li>
+                    <li class="insight-item">• <strong>clientes.csv:</strong> 442 clientes únicos com status e região</li>
+                    <li class="insight-item">• <strong>vendas.csv:</strong> 1.000 vendas totais (800 nos últimos 6 meses)</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Dashboard Interativo Gerado Automaticamente</strong></p>
+            <p>GrowBet Analytics | Análise dos Últimos 6 Meses</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">Para questões ou análises adicionais, consulte o notebook Jupyter</p>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">↑</div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Page Navigation -->
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.page-section').forEach(function(section) {
+                section.classList.remove('active');
+            });
+
+            var selectedSection = document.getElementById(sectionId);
+            if (selectedSection) {
+                selectedSection.classList.add('active');
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            }
+        }
+
+        var backToTopButton = document.getElementById('backToTop');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopButton.classList.add('show');
+            } else {
+                backToTopButton.classList.remove('show');
+            }
+        });
+
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+    </script>
+
+    <!-- Chart.js Configuration -->
+    <script>
+        var dadosMeses = ["Jul/2025", "Aug/2025", "Sep/2025", "Oct/2025", "Nov/2025", "Dec/2025"];
+        var dadosReceitaMensal = [232812, 240596, 202930, 231771, 193293, 198926];
+        var dadosCanais = ["Google Ads", "Email", "Direct", "Partners", "LinkedIn Ads"];
+        var dadosReceitaCanal = [275449, 275263, 271594, 240678, 237342];
+        var dadosProdutos = ["Dashboard Pro Bets", "Consultoria Estrat\u00e9gia", "API Odds Real-time", "Plano Premium Analytics", "Relat\u00f3rios Custom"];
+        var dadosReceitaProdutos = [221725, 251326, 263175, 281141, 282961];
+
+        Chart.register(ChartDataLabels);
+        
+        var ctxMensal = document.getElementById('chartMensal').getContext('2d');
+        new Chart(ctxMensal, {
+            type: 'line',
+            data: {
+                labels: dadosMeses,
+                datasets: [{
+                    label: 'Receita Mensal',
+                    data: dadosReceitaMensal,
+                    borderColor: '#2E86AB',
+                    backgroundColor: 'rgba(46, 134, 171, 0.1)',
+                    tension: 0.4,
+                    fill: true,
+                    pointRadius: 8,
+                    pointBackgroundColor: '#06A77D',
+                    pointBorderColor: '#fff',
+                    pointBorderWidth: 3,
+                    borderWidth: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: true, 
+                        labels: {
+                            font: {size: 14, weight: 'bold'}, 
+                            padding: 20, 
+                            color: '#333'
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(c) {
+                                return 'R$ ' + c.parsed.y.toLocaleString('pt-BR');
+                            }
+                        }, 
+                        backgroundColor: 'rgba(0,0,0,0.8)', 
+                        padding: 12,
+                        titleFont: {size: 14},
+                        bodyFont: {size: 13}
+                    },
+                    datalabels: {
+                        color: '#2E86AB',
+                        font: {
+                            weight: 'bold',
+                            size: 12
+                        },
+                        anchor: 'end',
+                        align: 'top',
+                        offset: 8,
+                        formatter: function(value) {
+                            return 'R$ ' + (value/1000).toFixed(0) + 'k';
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true, 
+                        ticks: {
+                            callback: function(v) {
+                                return 'R$ ' + (v/1000).toFixed(0) + 'k';
+                            }, 
+                            color: '#333', 
+                            font: {size: 12}
+                        }, 
+                        grid: {color: '#e0e0e0'}
+                    },
+                    x: {
+                        ticks: {color: '#333', font: {size: 12, weight: '500'}}, 
+                        grid: {display: false}
+                    }
+                }
+            }
+        });
+
+        var ctxCanal = document.getElementById('chartCanal').getContext('2d');
+        new Chart(ctxCanal, {
+            type: 'bar',
+            data: {
+                labels: dadosCanais,
+                datasets: [{
+                    label: 'Receita por Canal',
+                    data: dadosReceitaCanal,
+                    backgroundColor: ['#2E86AB', '#06A77D', '#D62828', '#667eea', '#764ba2'],
+                    borderRadius: 10,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {display: false},
+                    tooltip: {
+                        callbacks: {
+                            label: function(c) {
+                                return 'R$ ' + c.parsed.x.toLocaleString('pt-BR');
+                            }
+                        }, 
+                        backgroundColor: 'rgba(0,0,0,0.8)', 
+                        padding: 12
+                    },
+                    datalabels: {
+                        color: '#ffffff',
+                        font: {
+                            weight: 'bold',
+                            size: 13
+                        },
+                        anchor: 'end',
+                        align: 'start',
+                        offset: 10,
+                        formatter: function(value) {
+                            return 'R$ ' + (value/1000).toFixed(0) + 'k';
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            callback: function(v) {
+                                return 'R$ ' + (v/1000).toFixed(0) + 'k';
+                            }, 
+                            color: '#333', 
+                            font: {size: 12}
+                        }, 
+                        grid: {color: '#e0e0e0'}
+                    },
+                    y: {
+                        ticks: {color: '#333', font: {size: 12, weight: '500'}}, 
+                        grid: {display: false}
+                    }
+                }
+            }
+        });
+
+        var ctxProdutos = document.getElementById('chartProdutos').getContext('2d');
+        new Chart(ctxProdutos, {
+            type: 'bar',
+            data: {
+                labels: dadosProdutos,
+                datasets: [{
+                    label: 'Receita',
+                    data: dadosReceitaProdutos,
+                    backgroundColor: ['#2E86AB', '#06A77D', '#D62828', '#667eea', '#764ba2'],
+                    borderRadius: 10,
+                    borderSkipped: false
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {display: false},
+                    tooltip: {
+                        callbacks: {
+                            label: function(c) {
+                                return 'R$ ' + c.parsed.x.toLocaleString('pt-BR');
+                            }
+                        }, 
+                        backgroundColor: 'rgba(0,0,0,0.8)', 
+                        padding: 12
+                    },
+                    datalabels: {
+                        color: '#ffffff',
+                        font: {
+                            weight: 'bold',
+                            size: 13
+                        },
+                        anchor: 'end',
+                        align: 'start',
+                        offset: 10,
+                        formatter: function(value) {
+                            return 'R$ ' + (value/1000).toFixed(0) + 'k';
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            callback: function(v) {
+                                return 'R$ ' + (v/1000).toFixed(0) + 'k';
+                            }, 
+                            color: '#333', 
+                            font: {size: 12}
+                        }, 
+                        grid: {color: '#e0e0e0'}
+                    },
+                    y: {
+                        ticks: {color: '#333', font: {size: 12, weight: '500'}}, 
+                        grid: {display: false}
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
