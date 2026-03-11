@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade de Aulas – It's Fit Academia</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bs-body-bg: #0b0d12;
+            --bs-body-color: #e2e4ed;
+            --surface: #13161f;
+            --surface2: #1a1e2a;
+            --border-col: #1e2333;
+
+            --c-pilates: #7c6af5;
+            --c-abs: #475569;
+            --c-bike: #0284c7;
+            --c-cross: #059669;
+            --c-gap: #d97706;
+            --c-along: #10b981;
+            --c-fitdance: #db2777;
+            --c-ritmos: #ea580c;
+            --c-muay: #dc2626;
+            --c-kick: #9333ea;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bs-body-bg);
+            color: var(--bs-body-color);
+            min-height: 100vh;
+        }
+
+        /* ── HEADER ─────────────────────────────── */
+        .page-header {
+            background: linear-gradient(135deg, #0d0f17 0%, #131828 100%);
+            border-bottom: 1px solid var(--border-col);
+            padding: 36px 0 28px;
+        }
+
+        .brand-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #7c6af520, #0ea5e920);
+            border: 1px solid #7c6af550;
+            color: #a99af9;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 4px 16px;
+            border-radius: 999px;
+            margin-bottom: 14px;
+        }
+
+        .page-title {
+            font-size: clamp(24px, 5vw, 42px);
+            font-weight: 900;
+            letter-spacing: -1px;
+            line-height: 1.05;
+            background: linear-gradient(120deg, #fff 20%, #a99af9 55%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+        }
+
+        .page-sub {
+            color: #5a6380;
+            font-size: 13px;
+        }
+
+        /* ── STAT CARDS ──────────────────────────── */
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border-col);
+            border-radius: 14px;
+            padding: 14px 22px;
+            text-align: center;
+            min-width: 90px;
+        }
+
+        .stat-num {
+            font-size: 28px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #a99af9, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .stat-lbl {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: #5a6380;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+        }
+
+        /* ── FILTROS ─────────────────────────────── */
+        .filter-section {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border-col);
+            padding: 14px 0;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(12px);
+        }
+
+        .filter-label {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #5a6380;
+            white-space: nowrap;
+        }
+
+        /* Botões categoria */
+        .btn-cat {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 5px 13px;
+            border-radius: 999px;
+            font-size: 11.5px;
+            font-weight: 600;
+            border: 2px solid #2a2f45;
+            cursor: pointer;
+            transition: all .15s;
+            color: #8892b0;
+            background: #1a1e2c;
+            user-select: none;
+        }
+
+        .btn-cat .cat-icon {
+            font-size: 13px;
+            line-height: 1;
+            flex-shrink: 0;
+            transition: transform .2s;
+        }
+
+        .btn-cat:hover .cat-icon,
+        .btn-cat.active .cat-icon {
+            transform: scale(1.2);
+        }
+
+        .btn-cat.active,
+        .btn-cat:hover {
+            border-color: var(--accent-color);
+            background: color-mix(in srgb, var(--accent-color) 18%, transparent);
+            color: var(--accent-color);
+        }
+
+        /* Botões turno */
+        .btn-turno {
+            padding: 5px 14px;
+            font-size: 11px;
+            font-weight: 600;
+            border-radius: 999px;
+            border: 2px solid #2a2f45;
+            cursor: pointer;
+            transition: all .15s;
+            background: #1a1e2c;
+            color: #8892b0;
+        }
+
+        .btn-turno.active,
+        .btn-turno:hover {
+            background: #7c6af520;
+            border-color: #7c6af5;
+            color: #a99af9;
+        }
+
+        /* ── TABELA ──────────────────────────────── */
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        .sched-table {
+            min-width: 720px;
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 5px;
+        }
+
+        .sched-table thead th {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #5a6380;
+            padding: 8px 8px 12px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-col);
+            background: transparent;
+        }
+
+        .sched-table thead th:first-child {
+            text-align: left;
+            padding-left: 6px;
+            width: 82px;
+        }
+
+        /* Separador turno */
+        .turno-row td {
+            padding: 20px 0 4px;
+            border: none !important;
+            background: transparent !important;
+        }
+
+        .turno-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #5a6380;
+            padding: 3px 14px 3px 6px;
+            border-radius: 999px;
+            border: 1px solid var(--border-col);
+            background: var(--surface);
+        }
+
+        /* Linha dados */
+        .data-row.hidden {
+            display: none !important;
+        }
+
+        .data-row td {
+            background: var(--surface);
+            padding: 4px 5px;
+            vertical-align: middle;
+        }
+
+        .data-row td:first-child {
+            border-radius: 10px 0 0 10px;
+            padding-left: 10px;
+        }
+
+        .data-row td:last-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        .data-row:hover td {
+            background: #1a1e2c;
+        }
+
+        .hora-main {
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .hora-fim {
+            font-size: 10px;
+            font-weight: 400;
+            color: #5a6380;
+            margin-top: 1px;
+        }
+
+        /* ── CHIPS ───────────────────────────────── */
+        .chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            padding: 8px 5px;
+            border-radius: 10px;
+            min-height: 66px;
+            width: 100%;
+            font-size: 10.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .3px;
+            color: #fff;
+            position: relative;
+            overflow: visible !important;
+            cursor: default;
+            user-select: none;
+            transition: transform .13s, box-shadow .13s;
+        }
+
+        .chip::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(150deg, rgba(255, 255, 255, .15) 0%, transparent 50%);
+            pointer-events: none;
+            border-radius: inherit;
+        }
+
+        .chip:hover {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, .55);
+            z-index: 4;
+        }
+
+        /* Ícone dentro do chip */
+        .chip-icon {
+            font-size: 20px;
+            line-height: normal;
+            /* Evita que o topo do emoji seja cortado */
+            margin-bottom: 2px;
+            padding-top: 2px;
+            /* Dá espaço extra pra cima */
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, .4));
+            transition: transform .2s;
+        }
+
+        .chip:hover .chip-icon {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .chip-name {
+            line-height: 1.1;
+            font-size: 10.5px;
+        }
+
+        .chip-sub {
+            font-size: 8px;
+            font-weight: 500;
+            opacity: .72;
+            text-transform: none;
+        }
+
+        .chip.dark-text {
+            color: #111;
+        }
+
+        .chip.dark-text .chip-sub {
+            opacity: .6;
+        }
+
+        .chip.dark-text .chip-icon {
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .2));
+        }
+
+        /* Destaque de filtro */
+        .chip.hl {
+            outline: 2px solid rgba(255, 255, 255, .55);
+            outline-offset: 1px;
+        }
+
+        /* Cores */
+        .cp {
+            background: var(--c-pilates);
+        }
+
+        .ca {
+            background: var(--c-abs);
+        }
+
+        .cb {
+            background: var(--c-bike);
+        }
+
+        .cc {
+            background: var(--c-cross);
+        }
+
+        .cg {
+            background: var(--c-gap);
+        }
+
+        .cl {
+            background: var(--c-along);
+        }
+
+        .cd {
+            background: var(--c-fitdance);
+        }
+
+        .cr {
+            background: var(--c-ritmos);
+        }
+
+        .cm {
+            background: var(--c-muay);
+        }
+
+        .ck {
+            background: var(--c-kick);
+        }
+
+        /* Vazio */
+        .empty-cell {
+            min-height: 66px;
+            border-radius: 10px;
+            background: #ffffff04;
+            border: 1px dashed #ffffff0d;
+            width: 100%;
+        }
+
+        /* ── LEGENDA ─────────────────────────────── */
+        .leg-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border-col);
+            border-radius: 10px;
+            padding: 7px 13px;
+            font-size: 12px;
+            font-weight: 500;
+            transition: transform .12s, box-shadow .12s;
+        }
+
+        .leg-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .4);
+        }
+
+        .leg-icon {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .leg-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        /* ── FOOTER ──────────────────────────────── */
+        .page-footer {
+            background: var(--surface);
+            border-top: 1px solid var(--border-col);
+            color: #5a6380;
+            font-size: 12px;
+        }
+
+        /* ── SCROLLBAR ───────────────────────────── */
+        ::-webkit-scrollbar {
+            height: 5px;
+            width: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bs-body-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2a2f45;
+            border-radius: 4px;
+        }
+
+        /* ── BADGE CONTADOR ──────────────────────── */
+        #count-badge {
+            font-size: 11px;
+            background: #7c6af530;
+            color: #a99af9;
+            border: 1px solid #7c6af550;
+            border-radius: 999px;
+            padding: 3px 12px;
+        }
+
+        @media print {
+            .filter-section {
+                display: none;
+            }
+
+            .chip {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ══ HEADER ═══════════════════════════════════ -->
+    <div class="page-header">
+        <div class="container-xl">
+            <div class="d-flex flex-wrap align-items-start justify-content-between gap-4">
+                <div>
+                    <div class="brand-pill">
+                        <i class="bi bi-lightning-fill"></i>
+                        It's Fit Academia &nbsp;·&nbsp; @JardimAmérica
+                    </div>
+                    <h1 class="page-title">Grade de Aulas<br>Semanal</h1>
+                    <p class="page-sub">
+                        <i class="bi bi-arrow-repeat me-1"></i>
+                        Segunda a Sexta · Recorrência semanal · 3 turnos diários
+                    </p>
+                </div>
+                <div class="d-flex gap-2 flex-wrap align-items-start">
+                    <div class="stat-card">
+                        <div class="stat-num">10</div>
+                        <div class="stat-lbl">Categorias</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">26</div>
+                        <div class="stat-lbl">Blocos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">3</div>
+                        <div class="stat-lbl">Turnos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">5</div>
+                        <div class="stat-lbl">Dias</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ FILTROS (sticky) ══════════════════════════ -->
+    <div class="filter-section">
+        <div class="container-xl">
+
+            <!-- Por Categoria -->
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                <span class="filter-label"><i class="bi bi-funnel-fill me-1"></i>Categoria</span>
+
+                <button class="btn-cat active" data-cat="all" style="--accent-color:#a99af9">
+                    <i class="cat-icon bi bi-grid-3x3-gap-fill"></i> Todas
+                </button>
+                <button class="btn-cat" data-cat="pilates" style="--accent-color:var(--c-pilates)">
+                    <span class="cat-icon">🧘</span> Pilates
+                </button>
+                <button class="btn-cat" data-cat="abs" style="--accent-color:var(--c-abs)">
+                    <span class="cat-icon">💪</span> ABS
+                </button>
+                <button class="btn-cat" data-cat="bike" style="--accent-color:var(--c-bike)">
+                    <span class="cat-icon">🚴</span> It's Bike
+                </button>
+                <button class="btn-cat" data-cat="cross" style="--accent-color:var(--c-cross)">
+                    <span class="cat-icon">🏋️</span> It's Cross
+                </button>
+                <button class="btn-cat" data-cat="gap" style="--accent-color:var(--c-gap)">
+                    <span class="cat-icon">🔥</span> G.A.P
+                </button>
+                <button class="btn-cat" data-cat="along" style="--accent-color:var(--c-along)">
+                    <span class="cat-icon">🤸</span> Alongamento
+                </button>
+                <button class="btn-cat" data-cat="fitdance" style="--accent-color:var(--c-fitdance)">
+                    <span class="cat-icon">💃</span> Fit Dance
+                </button>
+                <button class="btn-cat" data-cat="ritmos" style="--accent-color:var(--c-ritmos)">
+                    <span class="cat-icon">🎵</span> Ritmos
+                </button>
+                <button class="btn-cat" data-cat="muay" style="--accent-color:var(--c-muay)">
+                    <span class="cat-icon">🥊</span> Muay Thai
+                </button>
+                <button class="btn-cat" data-cat="kick" style="--accent-color:var(--c-kick)">
+                    <span class="cat-icon">🥋</span> Kick Boxing
+                </button>
+            </div>
+
+            <!-- Por Turno + Contador -->
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <span class="filter-label"><i class="bi bi-clock me-1"></i>Turno</span>
+                <button class="btn-turno active" data-turno="all"><i class="bi bi-collection me-1"></i>Todos</button>
+                <button class="btn-turno" data-turno="manha1">☀️ Manhã T1</button>
+                <button class="btn-turno" data-turno="manha2">🌤️ Manhã T2</button>
+                <button class="btn-turno" data-turno="tarde">🌇 Tarde</button>
+                <button class="btn-turno" data-turno="noite">🌙 Noite</button>
+                <span id="count-badge" class="ms-2">
+                    <i class="bi bi-table me-1"></i><span id="count-num">15</span> linhas visíveis
+                </span>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ══ GRADE PRINCIPAL ═══════════════════════════ -->
+    <div class="container-xl pt-1 pb-4">
+        <div class="table-wrap">
+            <table class="sched-table">
+                <thead>
+                    <tr>
+                        <th><i class="bi bi-clock-history me-1"></i>Horário</th>
+                        <th>Segunda</th>
+                        <th>Terça</th>
+                        <th>Quarta</th>
+                        <th>Quinta</th>
+                        <th>Sexta</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <!-- ─────── MANHÃ T1 ─────── -->
+                    <tr class="turno-row" data-turno="manha1">
+                        <td colspan="6"><span class="turno-badge"><i class="bi bi-sunrise-fill text-warning"></i>☀️
+                                Manhã – Turno 1 &nbsp;(06:00 – 08:45)</span></td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="manha1" data-cats="pilates along">
+                        <td>
+                            <div class="hora-main">06:00</div>
+                            <div class="hora-fim">06:30</div>
+                        </td>
+                        <td>
+                            <div class="chip cp" data-cat="pilates"><span class="chip-icon">🧘</span><span
+                                    class="chip-name">Pilates</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cl dark-text" data-cat="along"><span class="chip-icon">🤸</span><span
+                                    class="chip-name">Alongamento</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cp" data-cat="pilates"><span class="chip-icon">🧘</span><span
+                                    class="chip-name">Pilates</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cl dark-text" data-cat="along"><span class="chip-icon">🤸</span><span
+                                    class="chip-name">Alongamento</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cp" data-cat="pilates"><span class="chip-icon">🧘</span><span
+                                    class="chip-name">Pilates</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="manha1" data-cats="abs gap">
+                        <td>
+                            <div class="hora-main">06:30</div>
+                            <div class="hora-fim">07:00</div>
+                        </td>
+                        <td>
+                            <div class="chip ca" data-cat="abs"><span class="chip-icon">💪</span><span
+                                    class="chip-name">ABS</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cg dark-text" data-cat="gap"><span class="chip-icon">🔥</span><span
+                                    class="chip-name">G.A.P</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip ca" data-cat="abs"><span class="chip-icon">💪</span><span
+                                    class="chip-name">ABS</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cg dark-text" data-cat="gap"><span class="chip-icon">🔥</span><span
+                                    class="chip-name">G.A.P</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip ca" data-cat="abs"><span class="chip-icon">💪</span><span
+                                    class="chip-name">ABS</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="manha1" data-cats="bike fitdance">
+                        <td>
+                            <div class="hora-main">07:00</div>
+                            <div class="hora-fim">07:45</div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cd" data-cat="fitdance"><span class="chip-icon">💃</span><span
+                                    class="chip-name">Fit Dance</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cd" data-cat="fitdance"><span class="chip-icon">💃</span><span
+                                    class="chip-name">Fit Dance</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="manha1" data-cats="cross">
+                        <td>
+                            <div class="hora-main" style="opacity:.3">07:00</div>
+                            <div class="hora-fim" style="opacity:.3">07:45</div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="manha1" data-cats="bike">
+                        <td>
+                            <div class="hora-main">08:00</div>
+                            <div class="hora-fim">08:45</div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                    </tr>
+
+                    <!-- ─────── MANHÃ T2 ─────── -->
+                    <tr class="turno-row" data-turno="manha2">
+                        <td colspan="6"><span class="turno-badge"><i class="bi bi-cloud-sun-fill"
+                                    style="color:#fbbf24"></i>🌤️ Manhã – Turno 2 &nbsp;(09:40 – 11:00)</span></td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="manha2" data-cats="pilates along">
+                        <td>
+                            <div class="hora-main">09:40</div>
+                            <div class="hora-fim">10:20</div>
+                        </td>
+                        <td>
+                            <div class="chip cp" data-cat="pilates"><span class="chip-icon">🧘</span><span
+                                    class="chip-name">Pilates</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cl dark-text" data-cat="along"><span class="chip-icon">🤸</span><span
+                                    class="chip-name">Alongamento</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cp" data-cat="pilates"><span class="chip-icon">🧘</span><span
+                                    class="chip-name">Pilates</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cl dark-text" data-cat="along"><span class="chip-icon">🤸</span><span
+                                    class="chip-name">Alongamento</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cp" data-cat="pilates"><span class="chip-icon">🧘</span><span
+                                    class="chip-name">Pilates</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="manha2" data-cats="abs gap">
+                        <td>
+                            <div class="hora-main">10:20</div>
+                            <div class="hora-fim">11:00</div>
+                        </td>
+                        <td>
+                            <div class="chip ca" data-cat="abs"><span class="chip-icon">💪</span><span
+                                    class="chip-name">ABS</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cg dark-text" data-cat="gap"><span class="chip-icon">🔥</span><span
+                                    class="chip-name">G.A.P</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip ca" data-cat="abs"><span class="chip-icon">💪</span><span
+                                    class="chip-name">ABS</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cg dark-text" data-cat="gap"><span class="chip-icon">🔥</span><span
+                                    class="chip-name">G.A.P</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip ca" data-cat="abs"><span class="chip-icon">💪</span><span
+                                    class="chip-name">ABS</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                    </tr>
+
+                    <!-- ─────── TARDE ─────── -->
+                    <tr class="turno-row" data-turno="tarde">
+                        <td colspan="6"><span class="turno-badge"><i class="bi bi-sunset-fill"
+                                    style="color:#fb923c"></i>🌇 Tarde &nbsp;(16:00 – 17:45)</span></td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="tarde" data-cats="pilates along">
+                        <td>
+                            <div class="hora-main">16:00</div>
+                            <div class="hora-fim">16:30</div>
+                        </td>
+                        <td>
+                            <div class="chip cp" data-cat="pilates"><span class="chip-icon">🧘</span><span
+                                    class="chip-name">Pilates</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cl dark-text" data-cat="along"><span class="chip-icon">🤸</span><span
+                                    class="chip-name">Alongamento</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cp" data-cat="pilates"><span class="chip-icon">🧘</span><span
+                                    class="chip-name">Pilates</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cl dark-text" data-cat="along"><span class="chip-icon">🤸</span><span
+                                    class="chip-name">Alongamento</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cp" data-cat="pilates"><span class="chip-icon">🧘</span><span
+                                    class="chip-name">Pilates</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="tarde" data-cats="abs gap">
+                        <td>
+                            <div class="hora-main">16:30</div>
+                            <div class="hora-fim">17:00</div>
+                        </td>
+                        <td>
+                            <div class="chip ca" data-cat="abs"><span class="chip-icon">💪</span><span
+                                    class="chip-name">ABS</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cg dark-text" data-cat="gap"><span class="chip-icon">🔥</span><span
+                                    class="chip-name">G.A.P</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip ca" data-cat="abs"><span class="chip-icon">💪</span><span
+                                    class="chip-name">ABS</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cg dark-text" data-cat="gap"><span class="chip-icon">🔥</span><span
+                                    class="chip-name">G.A.P</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip ca" data-cat="abs"><span class="chip-icon">💪</span><span
+                                    class="chip-name">ABS</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="tarde" data-cats="cross">
+                        <td>
+                            <div class="hora-main">17:00</div>
+                            <div class="hora-fim">17:45</div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                    </tr>
+
+                    <!-- ─────── NOITE ─────── -->
+                    <tr class="turno-row" data-turno="noite">
+                        <td colspan="6"><span class="turno-badge"><i class="bi bi-moon-stars-fill"
+                                    style="color:#818cf8"></i>🌙 Noite &nbsp;(19:00 – 21:15)</span></td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="noite" data-cats="ritmos fitdance">
+                        <td>
+                            <div class="hora-main">19:00</div>
+                            <div class="hora-fim">19:45</div>
+                        </td>
+                        <td>
+                            <div class="chip cr" data-cat="ritmos"><span class="chip-icon">🎵</span><span
+                                    class="chip-name">Ritmos</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cd" data-cat="fitdance"><span class="chip-icon">💃</span><span
+                                    class="chip-name">Fit Dance</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cr" data-cat="ritmos"><span class="chip-icon">🎵</span><span
+                                    class="chip-name">Ritmos</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cd" data-cat="fitdance"><span class="chip-icon">💃</span><span
+                                    class="chip-name">Fit Dance</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cr" data-cat="ritmos"><span class="chip-icon">🎵</span><span
+                                    class="chip-name">Ritmos</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="noite" data-cats="bike">
+                        <td>
+                            <div class="hora-main" style="opacity:.3">19:00</div>
+                            <div class="hora-fim" style="opacity:.3">19:45</div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="noite" data-cats="cross bike">
+                        <td>
+                            <div class="hora-main">19:30</div>
+                            <div class="hora-fim">20:15</div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="noite" data-cats="cross">
+                        <td>
+                            <div class="hora-main" style="opacity:.3">19:30</div>
+                            <div class="hora-fim" style="opacity:.3">20:15</div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="noite" data-cats="bike">
+                        <td>
+                            <div class="hora-main">20:00</div>
+                            <div class="hora-fim">20:45</div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                        <td>
+                            <div class="chip cb" data-cat="bike"><span class="chip-icon">🚴</span><span
+                                    class="chip-name">It's Bike</span><span class="chip-sub">Spinning</span></div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                        <td>
+                            <div class="empty-cell"></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="noite" data-cats="cross">
+                        <td>
+                            <div class="hora-main">20:15</div>
+                            <div class="hora-fim">21:00</div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cc" data-cat="cross"><span class="chip-icon">🏋️</span><span
+                                    class="chip-name">It's Cross</span><span class="chip-sub">Funcional</span></div>
+                        </td>
+                    </tr>
+
+                    <tr class="data-row" data-turno="noite" data-cats="muay kick">
+                        <td>
+                            <div class="hora-main">20:15</div>
+                            <div class="hora-fim">21:15</div>
+                        </td>
+                        <td>
+                            <div class="chip cm" data-cat="muay"><span class="chip-icon">🥊</span><span
+                                    class="chip-name">Muay Thai</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip ck" data-cat="kick"><span class="chip-icon">🥋</span><span
+                                    class="chip-name">Kick Boxing</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cm" data-cat="muay"><span class="chip-icon">🥊</span><span
+                                    class="chip-name">Muay Thai</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip ck" data-cat="kick"><span class="chip-icon">🥋</span><span
+                                    class="chip-name">Kick Boxing</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                        <td>
+                            <div class="chip cm" data-cat="muay"><span class="chip-icon">🥊</span><span
+                                    class="chip-name">Muay Thai</span><span class="chip-sub">Coletivas</span></div>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ── LEGENDA ─────────────────────────────────── -->
+        <div class="mt-4 pt-3 border-top" style="border-color:var(--border-col)!important">
+            <p class="filter-label mb-2"><i class="bi bi-palette me-1"></i>Legenda de Atividades</p>
+            <div class="d-flex flex-wrap gap-2">
+                <div class="leg-item"><span class="leg-icon">🧘</span><span class="leg-dot"
+                        style="background:var(--c-pilates)"></span>Pilates</div>
+                <div class="leg-item"><span class="leg-icon">💪</span><span class="leg-dot"
+                        style="background:var(--c-abs)"></span>ABS</div>
+                <div class="leg-item"><span class="leg-icon">🚴</span><span class="leg-dot"
+                        style="background:var(--c-bike)"></span>It's Bike (Spinning)</div>
+                <div class="leg-item"><span class="leg-icon">🏋️</span><span class="leg-dot"
+                        style="background:var(--c-cross)"></span>It's Cross (Funcional)</div>
+                <div class="leg-item"><span class="leg-icon">🔥</span><span class="leg-dot"
+                        style="background:var(--c-gap)"></span>G.A.P</div>
+                <div class="leg-item"><span class="leg-icon">🤸</span><span class="leg-dot"
+                        style="background:var(--c-along)"></span>Alongamento</div>
+                <div class="leg-item"><span class="leg-icon">💃</span><span class="leg-dot"
+                        style="background:var(--c-fitdance)"></span>Fit Dance</div>
+                <div class="leg-item"><span class="leg-icon">🎵</span><span class="leg-dot"
+                        style="background:var(--c-ritmos)"></span>Ritmos</div>
+                <div class="leg-item"><span class="leg-icon">🥊</span><span class="leg-dot"
+                        style="background:var(--c-muay)"></span>Muay Thai</div>
+                <div class="leg-item"><span class="leg-icon">🥋</span><span class="leg-dot"
+                        style="background:var(--c-kick)"></span>Kick Boxing</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ══ FOOTER ════════════════════════════════════ -->
+    <footer class="page-footer py-3 mt-2">
+        <div class="container-xl d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <span>
+                <strong class="text-light">It's Fit Academia</strong>
+                · @JardimAmérica · Gerado em 10/03/2026
+            </span>
+            <span>
+                Google Calendar:
+                <code
+                    style="background:#1e2333;padding:2px 8px;border-radius:5px;color:#a99af9;font-size:11px">academia_its_fit.ics</code>
+            </span>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const dataRows = document.querySelectorAll('tr.data-row');
+        const turnoRows = document.querySelectorAll('tr.turno-row');
+        const catBtns = document.querySelectorAll('.btn-cat');
+        const turnoBtns = document.querySelectorAll('.btn-turno');
+        const countNum = document.getElementById('count-num');
+
+        let activeCat = 'all';
+        let activeTurno = 'all';
+
+        function applyFilters() {
+            let visible = 0;
+
+            dataRows.forEach(row => {
+                const rowTurno = row.dataset.turno;
+                const rowCats = (row.dataset.cats || '').split(' ');
+                const turnoOk = activeTurno === 'all' || rowTurno === activeTurno;
+                const catOk = activeCat === 'all' || rowCats.includes(activeCat);
+
+                if (turnoOk && catOk) {
+                    row.classList.remove('hidden');
+                    visible++;
+                    row.querySelectorAll('.chip').forEach(chip => {
+                        chip.classList.toggle('hl', activeCat !== 'all' && chip.dataset.cat === activeCat);
+                    });
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+
+            // Mostra/oculta separadores de turno
+            turnoRows.forEach(tr => {
+                const t = tr.dataset.turno;
+                const inTurno = activeTurno === 'all' || activeTurno === t;
+                const hasRows = inTurno && [...dataRows].some(r =>
+                    r.dataset.turno === t && !r.classList.contains('hidden')
+                );
+                tr.style.display = hasRows ? '' : 'none';
+            });
+
+            countNum.textContent = visible;
+        }
+
+        catBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                catBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCat = btn.dataset.cat;
+                applyFilters();
+            });
+        });
+
+        turnoBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                turnoBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeTurno = btn.dataset.turno;
+                applyFilters();
+            });
+        });
+
+        applyFilters();
+    </script>
+</body>
+
+</html>
