@@ -100,6 +100,7 @@
     display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;
   }
   .contact-item:last-child{border-bottom:none;}
+  .phone-item{display:none;}
   .contact-icon{width:30px;height:30px;border-radius:8px;background:rgba(34,211,238,.12);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
   .contact-txt{color:#e2e8f0;word-break:break-word;}
   .contact-txt small{display:block;color:var(--muted2);font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px;}
@@ -119,9 +120,9 @@
   .about-text{flex:1 1 420px;min-width:300px;color:#cbd5e1;font-size:15.5px;}
   .about-text p{margin-bottom:16px;}
   .about-text b{color:var(--white);}
-  .focus-card{flex:0 0 300px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;}
-  .focus-card h3{font-size:14px;color:var(--cyan);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;}
-  .focus-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;color:#e2e8f0;}
+  .focus-card{flex:0 0 300px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;text-align:left;}
+  .focus-card h3{font-size:14px;color:var(--cyan);text-transform:uppercase;letter-spacing:.06em;margin-bottom:14px;text-align:left;}
+  .focus-item{display:block;text-align:left;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;color:#e2e8f0;}
   .focus-item:last-child{border-bottom:none;}
 
   /* ---------- SKILLS ---------- */
@@ -196,6 +197,7 @@
   .course-line b{color:#e2e8f0;}
   .courses-cols{columns:2;column-gap:40px;}
   .courses-note{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;font-size:13.8px;color:#cbd5e1;}
+  .courses-print-summary{display:none;}
   .courses-note b{color:var(--cyan);}
 
   /* ---------- RECOMMENDATION ---------- */
@@ -255,12 +257,6 @@
     .contact-txt,.contact-txt a{color:#000 !important;}
     .contact-txt small{color:#000 !important;}
 
-    .stats-bar{background:#fff !important;border-top:1px solid #000;border-bottom:1px solid #000;margin-bottom:12px !important;}
-    .stats-grid{padding:8px 0 !important;}
-    .stat{border-right:1px solid #999 !important;}
-    .stat-num{font-size:18px !important;color:#000 !important;-webkit-text-fill-color:#000 !important;background:none !important;}
-    .stat-label{font-size:9px !important;color:#000 !important;}
-
     h2.section-title{font-size:15px !important;font-weight:800;margin-bottom:10px !important;color:#000 !important;border-bottom:2px solid #000;padding-bottom:5px;}
     .eyebrow{display:none !important;}
 
@@ -272,7 +268,6 @@
     .focus-card h3{color:#000 !important;margin-bottom:6px !important;}
     .focus-item{color:#000 !important;border-bottom:none !important;padding:3px 0 !important;display:inline-block;margin-right:16px;}
 
-    .skills-grid{display:block !important;column-count:2;column-gap:24px;}
     .skill{break-inside:avoid;margin-bottom:9px !important;}
     .skill-head{color:#000 !important;font-size:10.4px !important;margin-bottom:3px !important;}
     .skill-track{border:1px solid #000 !important;background:#fff !important;height:5px !important;}
@@ -293,18 +288,10 @@
     .exp-org span{color:#000 !important;}
     .exp-loc{font-size:9.8px !important;color:#000 !important;margin-bottom:5px !important;}
     .exp-desc{font-size:10.6px !important;color:#000 !important;margin-bottom:6px !important;}
-    .prior-exp{border:1px solid #000 !important;background:#fff !important;padding:10px 12px !important;margin-top:12px !important;}
-    .prior-exp h4{color:#000 !important;}
-    .prior-row{color:#000 !important;border-bottom:1px solid #ccc !important;font-size:10.4px !important;padding:5px 0 !important;}
-    .prior-row b{color:#000 !important;}
-
     .project-card{border:1px solid #000 !important;background:#fff !important;padding:14px !important;border-radius:4px !important;break-inside:avoid;}
     .project-title{color:#000 !important;font-size:14.5px !important;}
     .project-sub{color:#000 !important;font-size:10.6px !important;}
     .status-chip{background:#fff !important;border:1px solid #000 !important;color:#000 !important;}
-    .pstat{border:1px solid #000 !important;background:#fff !important;}
-    .pstat-num{color:#000 !important;}
-    .pstat-label{color:#000 !important;}
     .project-desc{color:#000 !important;font-size:10.6px !important;}
 
     .edu-grid{display:block !important;column-count:2;column-gap:16px;}
@@ -335,6 +322,43 @@
     .footer-links{margin-bottom:5px !important;}
     .footer-links a,.btn,.btn-primary,.btn-ghost{background:#fff !important;border:1px solid #000 !important;color:#000 !important;font-size:10.5px !important;padding:6px 12px !important;}
     .footer-bottom{color:#000 !important;font-size:9.5px !important;}
+
+    /* ================= PRINT v2: formal, condensed 2-3 page resume ================= */
+    .badge-row{display:none !important;}
+    .contact-item.phone-item{display:flex !important;}
+    .btn.phone-item{display:inline-flex !important;}
+
+    .about-text p:nth-of-type(n+2){display:none !important;}
+    .focus-card{display:none !important;}
+
+    .tag-row{display:block !important;line-height:1.7 !important;}
+    .tag{
+      display:inline !important;background:none !important;border:none !important;
+      padding:0 !important;margin:0 !important;color:#000 !important;font-weight:400 !important;
+      font-size:10px !important;border-radius:0 !important;
+    }
+    .tag::after{content:", ";}
+    .tag:last-child::after{content:"";}
+
+    .exp-item:nth-child(n+4){display:none !important;}
+    .timeline{padding-left:0 !important;}
+    .timeline::before{display:none !important;}
+    .exp-dot{display:none !important;}
+    .exp-card{border:none !important;border-bottom:1px solid #000 !important;border-radius:0 !important;padding:4px 0 8px 0 !important;}
+    .exp-item{padding-bottom:4px !important;}
+
+    .status-chip{display:none !important;}
+    .project-card{border:none !important;border-bottom:1px solid #000 !important;border-radius:0 !important;padding:6px 0 8px 0 !important;}
+
+    .edu-card{border:none !important;border-bottom:1px solid #ccc !important;border-radius:0 !important;padding:4px 0 6px 0 !important;}
+    .cert-item{padding:3px 0 !important;}
+
+    .courses-cols{display:none !important;}
+    .courses-note{display:none !important;}
+    .courses-print-summary{display:block !important;color:#000 !important;font-size:10.5px !important;border:1px solid #000 !important;padding:8px 10px !important;margin-top:8px !important;}
+
+    section{margin:0 0 8px 0 !important;}
+    h2.section-title{margin-bottom:6px !important;font-size:13px !important;padding-bottom:3px !important;}
   }
 </style>
 </head>
@@ -349,17 +373,17 @@
       <div class="hero-left">
         <h1>Marcelo <span>Bastos</span></h1>
         <div class="role-line"><b>Data Engineer</b> &nbsp;·&nbsp; Analista de BI Sênior &nbsp;·&nbsp; Data Analytics</div>
-        <p class="hero-desc">Mais de <b class="hl-text">10 anos</b> transformando dados brutos em decisões estratégicas — dos pipelines de engenharia de dados aos dashboards executivos. Especialista em ETL/ELT, Data Warehouse, Big Data e automação de processos, com atuação forte em Administração Pública e Saúde.</p>
+        <p class="hero-desc">Mais de <b class="hl-text">10 anos</b> transformando dados brutos em decisões estratégicas — dos pipelines de engenharia de dados aos dashboards executivos. Especialista em ETL/ELT, Data Warehouse, Big Data e automação de processos.</p>
         <div class="badge-row">
           <span class="badge">🎯 Data Engineer</span>
           <span class="badge">📊 Business Intelligence</span>
           <span class="badge">⚙️ ETL / Data Pipeline</span>
-          <span class="badge">🏛️ Adm. Pública &amp; Saúde</span>
+          <span class="badge">⚙️ Automação de Processos</span>
           <span class="badge">🗄️ Data Warehouse</span>
         </div>
         <div class="cta-row">
           <a class="btn btn-primary" href="mailto:marcelogbastos@gmail.com">✉️ Enviar e-mail</a>
-          <a class="btn btn-ghost" href="https://wa.me/5562991582614" target="_blank">💬 WhatsApp</a>
+          <a class="btn btn-ghost phone-item" href="https://wa.me/5562991582614" target="_blank">💬 WhatsApp</a>
           <a class="btn btn-ghost" href="https://www.linkedin.com/in/marcelo-bastos-71481668/" target="_blank">🔗 LinkedIn</a>
         </div>
       </div>
@@ -370,15 +394,15 @@
             <div class="contact-icon">📍</div>
             <div class="contact-txt"><small>Localização</small>Goiânia, GO · Brasil</div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item phone-item">
             <div class="contact-icon">✉️</div>
             <div class="contact-txt"><small>E-mail</small><a href="mailto:marcelogbastos@gmail.com">marcelogbastos@gmail.com</a></div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item phone-item">
             <div class="contact-icon">📱</div>
             <div class="contact-txt"><small>Telefone / WhatsApp</small><a href="https://wa.me/5562991582614" target="_blank">(62) 99158-2614</a></div>
           </div>
-          <div class="contact-item">
+          <div class="contact-item phone-item">
             <div class="contact-icon">🔗</div>
             <div class="contact-txt"><small>LinkedIn</small><a href="https://www.linkedin.com/in/marcelo-bastos-71481668/" target="_blank">/in/marcelo-bastos-71481668</a></div>
           </div>
@@ -392,18 +416,6 @@
   </div>
 </header>
 
-<!-- ================= STATS ================= -->
-<div class="stats-bar">
-  <div class="wrap">
-    <div class="stats-grid">
-      <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Anos em Dados, BI &amp; Data Engineering</div></div>
-      <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Anos de Trajetória em TI</div></div>
-      <div class="stat"><div class="stat-num">20+</div><div class="stat-label">Certificações &amp; Cursos Especializados</div></div>
-      <div class="stat"><div class="stat-num">80+</div><div class="stat-label">Treinamentos Corporativos (2023–2026)</div></div>
-    </div>
-  </div>
-</div>
-
 <!-- ================= SOBRE ================= -->
 <section id="sobre">
   <div class="wrap">
@@ -411,16 +423,17 @@
     <h2 class="section-title">Quem é Marcelo</h2>
     <div class="about-grid">
       <div class="about-text">
-        <p>Profissional com mais de <b>10 anos de experiência em Data Analytics, Business Intelligence e Engenharia de Dados</b>, e mais de 20 anos de trajetória em TI. Atuação recente na área de <b>Administração Pública e Saúde na Minsait (Indra Company)</b>, contribuindo para a implementação de soluções estratégicas baseadas em dados em larga escala.</p>
-        <p>Expertise consolidada em <b>ETL/ELT, Data Warehouse, modelagem multidimensional, Big Data (Spark, Hadoop, Databricks)</b> e ferramentas de BI (Power BI, Tableau, Pentaho, SSAS/SSRS). Em expansão ativa para <b>Engenharia de Dados</b>, com formação recente em Databricks, Spark, PySpark e Apache Airflow.</p>
+        <p>Profissional com mais de <b>10 anos de experiência em Data Analytics, Business Intelligence e Engenharia de Dados</b>, e mais de 20 anos de trajetória em TI. Atuação recente na <b>Minsait (Indra Company)</b>, atendendo Setores Internos e Administração Pública de empresas terceirizadas, com destaque para o <b>Projeto Transformação PR</b> — arquitetura e implementação de plataforma web corporativa (Azure, Power BI, automação e governança de dados) que substituiu mais de 500 planilhas Excel/VBA.</p>
+        <p>Expertise consolidada em <b>ETL/ELT, Data Warehouse, modelagem multidimensional, Big Data (Spark, Hadoop, Databricks)</b> e ferramentas de BI (Power BI, Tableau, Qlik Sense, Pentaho, SSAS/SSRS). Em expansão ativa para <b>Engenharia de Dados</b>, com formação recente em Databricks, Spark, PySpark, Apache Airflow, dbt e mensageria (Apache Kafka, MQTT).</p>
         <p>Motivado pela colaboração em equipe e pela entrega de resultados que impulsionam eficiência, governança de dados e inovação. Busca sempre agregar valor às decisões organizacionais e otimizar processos ponta a ponta — da ingestão dos dados à visualização final.</p>
       </div>
       <div class="focus-card">
         <h3>Foco Profissional</h3>
         <div class="focus-item">🎯 Vagas de <b>Data Engineer</b> / Engenheiro de Dados</div>
         <div class="focus-item">📊 Analista de BI Sênior / Data Analytics</div>
-        <div class="focus-item">🏛️ Administração Pública &amp; Saúde</div>
-        <div class="focus-item">🏢 Setor Privado &amp; Projetos Internacionais</div>
+        <div class="focus-item">⚙️ Automação de Processos</div>
+        <div class="focus-item">🔒 Governança de Dados e Compliance</div>
+        <div class="focus-item">🏢 Setor Público e Privado</div>
         <div class="focus-item">🌐 Híbrido · Remoto</div>
       </div>
     </div>
@@ -432,23 +445,6 @@
   <div class="wrap">
     <div class="eyebrow">Competências</div>
     <h2 class="section-title">Stack Técnico &amp; Habilidades</h2>
-    <div class="skills-grid">
-      <div>
-        <div class="skill"><div class="skill-head"><span>Engenharia de Dados / ETL</span><span>95%</span></div><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
-        <div class="skill"><div class="skill-head"><span>Business Intelligence</span><span>95%</span></div><div class="skill-track"><div class="skill-fill" style="width:95%"></div></div></div>
-        <div class="skill"><div class="skill-head"><span>Análise de Dados / SQL</span><span>92%</span></div><div class="skill-track"><div class="skill-fill" style="width:92%"></div></div></div>
-        <div class="skill"><div class="skill-head"><span>Data Warehouse / Modelagem Dimensional</span><span>90%</span></div><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div></div>
-        <div class="skill"><div class="skill-head"><span>PostgreSQL / SQL Server</span><span>90%</span></div><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div></div>
-      </div>
-      <div>
-        <div class="skill"><div class="skill-head"><span>Python (Pandas, PySpark, FastAPI)</span><span>88%</span></div><div class="skill-track"><div class="skill-fill" style="width:88%"></div></div></div>
-        <div class="skill"><div class="skill-head"><span>Tableau / Power BI / Pentaho</span><span>85%</span></div><div class="skill-track"><div class="skill-fill" style="width:85%"></div></div></div>
-        <div class="skill"><div class="skill-head"><span>Big Data (Spark, Hadoop, Databricks)</span><span>82%</span></div><div class="skill-track"><div class="skill-fill" style="width:82%"></div></div></div>
-        <div class="skill"><div class="skill-head"><span>Azure Machine Learning</span><span>75%</span></div><div class="skill-track"><div class="skill-fill" style="width:75%"></div></div></div>
-        <div class="skill"><div class="skill-head"><span>Resolução de Problemas</span><span>98%</span></div><div class="skill-track"><div class="skill-fill" style="width:98%"></div></div></div>
-      </div>
-    </div>
-
     <div class="tech-grid">
       <div>
         <div class="tech-cat">
@@ -457,20 +453,23 @@
             <span class="tag">ETL / ELT</span><span class="tag">Data Pipeline</span><span class="tag">Data Warehouse</span>
             <span class="tag">Apache Airflow</span><span class="tag">Databricks</span><span class="tag">Apache Spark</span>
             <span class="tag">Hadoop</span><span class="tag">Parquet</span><span class="tag">PyArrow</span><span class="tag">WSO2</span>
+            <span class="tag">Apache Kafka</span><span class="tag">MQTT</span><span class="tag">dbt</span>
+            <span class="tag">Playwright</span><span class="tag">RPA / Web Scraping</span><span class="tag">PDF Parsing</span>
+            <span class="tag">Integração de APIs</span><span class="tag">REST API</span><span class="tag">JSON</span><span class="tag">Automação de Processos</span>
           </div>
         </div>
         <div class="tech-cat">
           <h4>Linguagens &amp; Frameworks</h4>
           <div class="tag-row">
             <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">R</span><span class="tag">Pandas</span>
-            <span class="tag">FastAPI</span><span class="tag">JavaScript</span><span class="tag">PHP</span><span class="tag">Visual Basic</span>
+            <span class="tag">FastAPI</span><span class="tag">JavaScript</span><span class="tag">TypeScript</span><span class="tag">Node.js</span><span class="tag">PHP</span><span class="tag">Visual Basic</span><span class="tag">MNE</span>
           </div>
         </div>
         <div class="tech-cat">
           <h4>Bancos de Dados</h4>
           <div class="tag-row">
             <span class="tag">PostgreSQL</span><span class="tag">SQL Server</span><span class="tag">Oracle</span>
-            <span class="tag">MongoDB</span><span class="tag">Administração de BD</span>
+            <span class="tag">MongoDB</span><span class="tag">Administração de BD</span><span class="tag">SQL Database Modeler</span><span class="tag">DbSchema</span>
           </div>
         </div>
       </div>
@@ -485,14 +484,14 @@
         <div class="tech-cat">
           <h4>Cloud &amp; Plataformas</h4>
           <div class="tag-row">
-            <span class="tag">Azure Machine Learning</span><span class="tag">OutSystems</span><span class="tag">Chart.js</span><span class="tag">Tailwind CSS</span>
+            <span class="tag">Azure Machine Learning</span><span class="tag">OutSystems</span><span class="tag">Chart.js</span><span class="tag">Tailwind CSS</span><span class="tag">Miro</span>
           </div>
         </div>
         <div class="tech-cat">
           <h4>Soft Skills &amp; Domínios</h4>
           <div class="tag-row">
             <span class="tag">Resolução de Problemas</span><span class="tag">Trabalho em Equipe</span><span class="tag">Comunicação</span>
-            <span class="tag">Autodidatismo</span><span class="tag">Adm. Pública</span><span class="tag">Saúde</span><span class="tag">Setor Privado</span>
+            <span class="tag">Autodidatismo</span><span class="tag">Testes Unitários</span><span class="tag">Adm. Pública</span><span class="tag">Saúde</span><span class="tag">Setor Privado</span>
           </div>
         </div>
       </div>
@@ -514,7 +513,12 @@
           <div class="exp-role">Especialista em Dados / Analista de BI Sênior</div>
           <div class="exp-org">Minsait (Indra Company)</div>
           <div class="exp-loc">📍 Goiânia, GO · 🌐 Remoto</div>
-          <div class="exp-desc">Implementação de soluções estratégicas baseadas em dados para os setores de Administração Pública e Saúde. Desenvolvimento de dashboards, análise de Big Data e geração de insights para apoio à tomada de decisão em larga escala. Automação de processos com Python. Participação em mais de 80 treinamentos corporativos (2023–2026), incluindo Segurança da Informação e Compliance, Diversidade e Inclusão, Gestão de Conhecimento e Qualidade, formação técnica em DENODO (9h) e IA/Machine Learning (24h).</div>
+          <div class="exp-desc">Implementação de soluções estratégicas baseadas em dados para Setores Internos, Administração Pública de empresas terceirizadas. Desenvolvimento de dashboards, análise de Big Data e geração de insights para apoio à tomada de decisão em larga escala. Automação de processos com Python. Participação em mais de 80 treinamentos corporativos (2023–2026), incluindo Segurança da Informação e Compliance, Diversidade e Inclusão e Gestão de Conhecimento e Qualidade.
+          <ul>
+            <li>Migração de dashboard do Power BI para Qlik Sense.</li>
+            <li>Projeto Transformação PR: arquitetura e implementação de solução corporativa para modernização de processos, substituindo 500+ planilhas Excel (com VBA) por plataforma web integrada, com Azure, Power BI, automação, governança de dados e IA.</li>
+          </ul>
+          </div>
           <div class="tag-row"><span class="tag">Big Data</span><span class="tag">BI</span><span class="tag">Data Analytics</span><span class="tag">Setor Público</span><span class="tag">Saúde</span><span class="tag">ETL</span><span class="tag">Python</span></div>
         </div>
       </div>
@@ -578,20 +582,11 @@
       </div>
     </div>
 
-    <div class="prior-exp">
-      <h4>Experiências Anteriores</h4>
-      <div class="prior-row"><b>2007 – 2008</b> Desenvolvimento de Sistemas para Web — Quize</div>
-      <div class="prior-row"><b>2006 – 2007</b> Instrutor de Linguagem de Programação — SENAI</div>
-      <div class="prior-row"><b>2005 – 2007</b> Unimix</div>
-      <div class="prior-row"><b>2004 – 2005</b> Quantic</div>
-      <div class="prior-row"><b>2004</b> Organização das Voluntárias de Goiás (OVG)</div>
-      <div class="prior-row"><b>2001</b> CEASA/GO (Estágio)</div>
-    </div>
   </div>
 </section>
 
 <!-- ================= PROJETO ================= -->
-<section id="projeto" style="background:var(--navy2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
+<section id="projeto" class="no-print" style="background:var(--navy2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);">
   <div class="wrap">
     <div class="eyebrow">Projetos Pessoais</div>
     <h2 class="section-title">Projetos em Destaque</h2>
@@ -602,12 +597,6 @@
           <div class="project-sub">Automação Playwright + TypeScript · Portal Equatorial Energia Goiás</div>
         </div>
         <div class="status-chip">🔄 Em Uso Contínuo</div>
-      </div>
-      <div class="project-stats">
-        <div class="pstat"><div class="pstat-num">7</div><div class="pstat-label">CSVs Estruturados Gerados</div></div>
-        <div class="pstat"><div class="pstat-num">4</div><div class="pstat-label">Dashboards HTML</div></div>
-        <div class="pstat"><div class="pstat-num">17</div><div class="pstat-label">Suítes de Testes Unitários</div></div>
-        <div class="pstat"><div class="pstat-num">2</div><div class="pstat-label">APIs/Fontes Externas Integradas</div></div>
       </div>
       <div class="project-desc">Automação de RPA (Playwright + TypeScript, com stealth anti-bloqueio) que faz login no portal da Equatorial Energia Goiás e, para todas as Unidades Consumidoras vinculadas ao CPF, emite a 2ª via de faturas e exporta CSVs completos de consumo, faturas, pagamentos e composição de faturamento. Extrai dados estruturados diretamente dos PDFs das faturas (leituras, tributos, itens, créditos de geração solar via SCEE) com parsing próprio, e cruza essas informações com a geração real medida no inversor solar (GoodWe/SEMS) e com histórico climático (API Open-Meteo), consolidando tudo em 4 dashboards HTML interativos — incluindo uma auditoria de saldo de créditos SCEE. Arquitetura orientada a tarefas via CLI, navegação resiliente a instabilidades do portal, logging estruturado por execução e cobertura ampla de testes unitários (node:test).</div>
       <div class="tag-row"><span class="tag">TypeScript</span><span class="tag">Playwright</span><span class="tag">RPA / Web Scraping</span><span class="tag">PDF Parsing</span><span class="tag">ETL</span><span class="tag">CSV</span><span class="tag">Node.js</span><span class="tag">Integração de APIs</span><span class="tag">Testes Unitários</span><span class="tag">Dashboards HTML</span><span class="tag">Automação de Processos</span></div>
@@ -620,12 +609,6 @@
           <div class="project-sub">Pipeline ETL Full-Stack · CPAP + Smartband Analytics</div>
         </div>
         <div class="status-chip">✅ Projeto Concluído</div>
-      </div>
-      <div class="project-stats">
-        <div class="pstat"><div class="pstat-num">6</div><div class="pstat-label">Endpoints REST</div></div>
-        <div class="pstat"><div class="pstat-num">3</div><div class="pstat-label">Fontes de Dados</div></div>
-        <div class="pstat"><div class="pstat-num">EDF</div><div class="pstat-label">Formato CPAP</div></div>
-        <div class="pstat"><div class="pstat-num">100%</div><div class="pstat-label">Local / Privado</div></div>
       </div>
       <div class="project-desc">Solução full-stack pessoal que unifica dados clínicos de CPAP ResMed (arquivos EDF proprietários) com dados de wearable (Xiaomi Mi Band), eliminando silos de dados. Pipeline ETL completo com ingestão, processamento incremental em Parquet e dashboard SPA com análise correlacionada entre terapia e qualidade do sono — demonstrando capacidade ponta a ponta de engenharia de dados, da ingestão à visualização.</div>
       <div class="tag-row"><span class="tag">Python</span><span class="tag">FastAPI</span><span class="tag">Pandas</span><span class="tag">Parquet</span><span class="tag">PyArrow</span><span class="tag">Chart.js</span><span class="tag">Tailwind CSS</span><span class="tag">ETL</span><span class="tag">REST API</span><span class="tag">MNE</span></div>
@@ -770,49 +753,13 @@
         <div class="course-line">Java com Banco de Dados (20h) · Sistemas Abertos</div>
         <div class="course-line">Java Fundamentos (20h) · Sistemas Abertos</div>
         <div class="course-line">Instalação e Configuração de Rede Local (23h) · Micro Solução</div>
-        <div class="course-line">Desenvolvimento da Qualidade Pessoal (8h) · IEL — Instituto Euvaldo Lodi</div>
-        <div class="course-line">Linguagem de Programação Delphi (120h) · SENAC</div>
-        <div class="course-line">Lógica de Programação (90h) · SENAC</div>
-        <div class="course-line">Ilustração em Computador — Corel Draw (60h) · SENAC</div>
       </div>
     </div>
 
-    <div class="courses-note"><b>Treinamentos Corporativos (Indra/Minsait):</b> participação em mais de 80 treinamentos e palestras corporativas entre 2023–2026, incluindo Segurança da Informação e Compliance, Diversidade Equidade e Inclusão, Saúde e Bem-estar, Gestão de Conhecimento e Qualidade, formação técnica em DENODO (9h) e IA e Machine Learning (24h no total).</div>
+    <div class="courses-note"><b>Treinamentos Corporativos (Indra/Minsait):</b> participação em mais de 80 treinamentos e palestras corporativas entre 2023–2026, incluindo Segurança da Informação e Compliance, Diversidade Equidade e Inclusão, Saúde e Bem-estar e Gestão de Conhecimento e Qualidade.</div>
+    <div class="courses-print-summary">Mais de 20 cursos e certificações complementares em Data Analytics, Big Data, Engenharia de Dados, BI e Governança de Dados (Data Science Academy, Udemy, Tecnisys), com destaque para Databricks, Apache Airflow, Power BI e Machine Learning. Participação em mais de 80 treinamentos corporativos na Indra/Minsait (2023–2026). Histórico completo disponível no LinkedIn.</div>
   </div>
 </section>
-
-<!-- ================= RECOMENDAÇÃO ================= -->
-<section id="recomendacao" class="no-print">
-  <div class="wrap">
-    <div class="eyebrow">Recomendação</div>
-    <h2 class="section-title">O que dizem sobre Marcelo</h2>
-    <div class="quote-card">
-      <div class="quote-mark">"</div>
-      <div class="quote-text">Profissional sério, bastante estudioso, sempre antenado em novas possibilidades de melhoria dos processos de trabalho. Marcelo é uma pessoa de fácil convivência, daqueles que estão dispostos a encontrar a solução e fazer parte dela. Recomendo o Marcelo.</div>
-      <div class="quote-author">
-        <div class="quote-avatar">RD</div>
-        <div>
-          <div class="quote-name"><a href="https://www.linkedin.com/in/rogeriodimagalhaes/" target="_blank" style="color:inherit;text-decoration:none;">Rogério Di Magalhães</a></div>
-          <div class="quote-role">Entusiasta da Tecnologia como meio de acelerar resultados · 3DB.CLOUD</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FOOTER ================= -->
-<footer>
-  <div class="wrap">
-    <h3>Vamos conversar?</h3>
-    <p>Estou disponível para novas oportunidades em Engenharia de Dados, BI e Automação.</p>
-    <div class="footer-links">
-      <a class="btn btn-primary" href="mailto:marcelogbastos@gmail.com">✉️ marcelogbastos@gmail.com</a>
-      <a class="btn btn-ghost" href="https://wa.me/5562991582614" target="_blank">💬 (62) 99158-2614</a>
-      <a class="btn btn-ghost" href="https://www.linkedin.com/in/marcelo-bastos-71481668/" target="_blank">🔗 LinkedIn</a>
-    </div>
-    <div class="footer-bottom">Marcelo Bastos · Goiânia, GO · Data Engineer &amp; Data Analytics · 2026</div>
-  </div>
-</footer>
 
 </body>
 </html>
