@@ -217,7 +217,7 @@
 
   /* ---- Evolução tab layout ---- */
   .evo-layout { display: grid; grid-template-columns: 280px 1fr; gap: 18px; align-items: start; }
-  @media (max-width: 780px) { .evo-layout { grid-template-columns: 1fr; } }
+  @media (max-width: 780px) { .evo-layout { grid-template-columns: 1fr; } .side-scroll { max-height: 48vh; } }
 
   .search-box {
     width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border);
@@ -280,6 +280,59 @@
 
   .footnote { color: var(--text-muted); font-size: 11.5px; margin-top: 26px; line-height: 1.6; }
   input[type="text"]::placeholder { color: var(--text-muted); }
+
+  /* ---- tables: allow horizontal scroll instead of breaking layout on narrow screens ---- */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; }
+  .table-scroll table { border-radius: 10px; }
+
+  /* ==================== MOBILE ==================== */
+  @media (max-width: 640px) {
+    .wrap { padding: 0 14px; }
+
+    header.top { padding: 14px 0 10px; gap: 10px; }
+    header.top h1 { font-size: 17px; }
+    header.top .meta { font-size: 12px; }
+    .header-actions { width: 100%; }
+    .theme-btn, .icon-btn { flex: 1; text-align: center; padding: 8px 10px; }
+
+    nav.tabs {
+      flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none; margin: 0 -14px 18px; padding: 0 14px 1px;
+    }
+    nav.tabs::-webkit-scrollbar { display: none; }
+    nav.tabs button { flex: none; padding: 10px 12px; font-size: 13px; }
+
+    .kpi-row { gap: 8px; margin-bottom: 18px; }
+    .kpi { flex: 1 1 calc(50% - 8px); min-width: 0; padding: 9px 12px; }
+    .kpi .v { font-size: 17px; }
+
+    .stat-grid, .cardio-kpi-grid { gap: 8px; }
+    .stat-card { padding: 10px 12px; }
+
+    .cardio-settings { gap: 12px 16px; }
+    .field-group { flex: 1 1 140px; }
+    .field-group input { width: 100%; }
+
+    .chart-card { padding: 12px; }
+    .chart-head h3 { font-size: 14.5px; }
+    .legend-row { gap: 8px 12px; font-size: 11px; }
+
+    .side-scroll { max-height: 42vh; }
+
+    table { font-size: 12px; }
+    thead th, tbody td { padding: 7px 8px; white-space: nowrap; }
+
+    .snap-controls { gap: 8px; }
+    h2.section-title { margin: 22px 0 8px; }
+
+    .modal-card { padding: 16px; max-width: 100%; }
+    .qr-box svg { width: 170px; height: 170px; }
+  }
+
+  @media (max-width: 400px) {
+    header.top { flex-direction: column; align-items: stretch; }
+    .kpi { flex: 1 1 100%; }
+  }
 </style>
 </head>
 <body>
@@ -312,10 +365,12 @@
     <div class="stat-grid" id="statGrid"></div>
     <h2 class="section-title">Piores indicadores</h2>
     <div class="sub" style="font-size:12px;color:var(--text-secondary);margin:-6px 0 10px;">Último resultado de cada exame (a data pode variar por exame), ordenado do mais grave para o menos grave</div>
+    <div class="table-scroll">
     <table id="worstIndicatorsTable">
       <thead><tr><th>Exame</th><th>Data do exame</th><th class="num">Resultado</th><th>Referência</th><th>Desvio</th><th>Status</th></tr></thead>
       <tbody></tbody>
     </table>
+    </div>
   </section>
 
   <!-- CONTROLE CARDIOVASCULAR -->
@@ -342,10 +397,12 @@
         <div class="tooltip" id="cardioTooltip"></div>
       </div>
     </div>
-    <table id="cardioTable" style="margin-top:14px;">
+    <div class="table-scroll" style="margin-top:14px;">
+    <table id="cardioTable">
       <thead><tr><th>Data</th><th class="num">Total</th><th class="num">LDL</th><th class="num">HDL</th><th class="num">Não-HDL</th><th class="num">Triglicerídeos</th></tr></thead>
       <tbody></tbody>
     </table>
+    </div>
   </section>
 
   <!-- EVOLUÇÃO -->
@@ -368,10 +425,12 @@
             <div class="tooltip" id="tooltip"></div>
           </div>
         </div>
-        <table id="pointsTable" style="margin-top:14px;">
+        <div class="table-scroll" style="margin-top:14px;">
+        <table id="pointsTable">
           <thead><tr><th>Data</th><th class="num">Resultado</th><th>Referência</th><th>Status</th></tr></thead>
           <tbody></tbody>
         </table>
+        </div>
       </div>
     </div>
   </section>
@@ -393,10 +452,12 @@
       <input class="search-box" style="margin:0; max-width:280px;" type="text" id="altSearch" placeholder="Filtrar por nome do exame…">
       <span class="muted" id="altCount"></span>
     </div>
+    <div class="table-scroll">
     <table id="altTable">
       <thead><tr><th>Data</th><th>Exame</th><th class="num">Resultado</th><th>Referência</th><th>Status</th></tr></thead>
       <tbody></tbody>
     </table>
+    </div>
   </section>
 
   <div class="footnote">
@@ -3229,10 +3290,16 @@ var qrcode = function() {
       dot.setAttribute('cx', px); dot.setAttribute('cy', py); dot.setAttribute('r', 5);
       dot.setAttribute('fill', statusColor(p.flag));
       dot.style.cursor = 'pointer';
-      dot.addEventListener('mouseenter', (ev) => showTip(ev, p, s));
-      dot.addEventListener('mousemove', (ev) => showTip(ev, p, s));
-      dot.addEventListener('mouseleave', hideTip);
       svg.appendChild(dot);
+      const hit = document.createElementNS(svgns, 'circle');
+      hit.setAttribute('cx', px); hit.setAttribute('cy', py); hit.setAttribute('r', 14);
+      hit.setAttribute('fill', 'transparent');
+      hit.style.cursor = 'pointer';
+      hit.addEventListener('pointerenter', (ev) => showTip(ev, p, s));
+      hit.addEventListener('pointermove', (ev) => showTip(ev, p, s));
+      hit.addEventListener('pointerleave', hideTip);
+      hit.addEventListener('pointerdown', (ev) => { ev.preventDefault(); showTip(ev, p, s); });
+      svg.appendChild(hit);
     });
 
     chartWrap.insertBefore(svg, tooltip);
@@ -3246,6 +3313,9 @@ var qrcode = function() {
     tooltip.innerHTML = `<b>${fmtDate(p.date)}</b><br>${p.value_text || fmtNum(p.value)}${p.ref_text ? '<br>Ref: ' + p.ref_text : ''}<br>${flagLabel(p.flag)}`;
   }
   function hideTip() { tooltip.style.opacity = '0'; }
+  document.addEventListener('pointerdown', (ev) => {
+    if (!ev.target.closest('#chartWrap svg circle')) hideTip();
+  });
 
   window.addEventListener('resize', () => {
     if (currentKey) {
@@ -3295,8 +3365,10 @@ var qrcode = function() {
       h.className = 'section-title';
       h.textContent = sec.charAt(0) + sec.slice(1).toLowerCase();
       container.appendChild(h);
+      const tableScroll = document.createElement('div');
+      tableScroll.className = 'table-scroll';
+      tableScroll.style.marginBottom = '4px';
       const table = document.createElement('table');
-      table.style.marginBottom = '4px';
       const rows = rowsBySection.get(sec).sort((a,b) => a.s.name.localeCompare(b.s.name));
       table.innerHTML = `
         <thead><tr><th>Exame</th><th class="num">Resultado</th><th>Referência</th><th>Status</th><th>Anterior</th></tr></thead>
@@ -3310,7 +3382,8 @@ var qrcode = function() {
               <td class="muted">${prevVal ? fmtNum(prevVal.value) + ' (' + fmtDate(prevVal.date) + ')' : '—'}</td>
             </tr>`).join('')}
         </tbody>`;
-      container.appendChild(table);
+      tableScroll.appendChild(table);
+      container.appendChild(tableScroll);
       const spacer = document.createElement('div');
       spacer.style.height = '18px';
       container.appendChild(spacer);
@@ -3630,10 +3703,16 @@ var qrcode = function() {
         dot.setAttribute('cx', px); dot.setAttribute('cy', py); dot.setAttribute('r', 4);
         dot.setAttribute('fill', color);
         dot.style.cursor = 'pointer';
-        dot.addEventListener('mouseenter', ev => showCardioTip(ev, p, sd.def));
-        dot.addEventListener('mousemove', ev => showCardioTip(ev, p, sd.def));
-        dot.addEventListener('mouseleave', () => { cardioTooltip.style.opacity = '0'; });
         svg.appendChild(dot);
+        const hit = document.createElementNS(svgns, 'circle');
+        hit.setAttribute('cx', px); hit.setAttribute('cy', py); hit.setAttribute('r', 14);
+        hit.setAttribute('fill', 'transparent');
+        hit.style.cursor = 'pointer';
+        hit.addEventListener('pointerenter', ev => showCardioTip(ev, p, sd.def));
+        hit.addEventListener('pointermove', ev => showCardioTip(ev, p, sd.def));
+        hit.addEventListener('pointerleave', () => { cardioTooltip.style.opacity = '0'; });
+        hit.addEventListener('pointerdown', ev => { ev.preventDefault(); showCardioTip(ev, p, sd.def); });
+        svg.appendChild(hit);
       });
     });
 
@@ -3646,6 +3725,10 @@ var qrcode = function() {
     cardioTooltip.style.opacity = '1';
     cardioTooltip.innerHTML = `<b>${def.label || def.name}</b><br>${fmtDate(p.date)}: ${fmtNum(p.value)} mg/dL`;
   }
+  document.addEventListener('pointerdown', (ev) => {
+    if (!ev.target.closest('#cardioChartWrap svg circle')) cardioTooltip.style.opacity = '0';
+  });
+
   window.addEventListener('resize', () => {
     if (document.getElementById('panel-cardio').classList.contains('active')) renderCardioChart();
   });
