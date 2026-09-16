@@ -164,11 +164,14 @@
     appearance: none; border: none; background: none; color: var(--text-secondary);
     font: inherit; font-size: 13.5px; font-weight: 600; padding: 10px 14px; cursor: pointer;
     border-bottom: 2px solid transparent; margin-bottom: -1px;
+    display: flex; align-items: center; gap: 7px;
   }
   nav.tabs button:hover { color: var(--text-primary); }
   nav.tabs button[aria-selected="true"] {
     color: var(--series-1); border-bottom-color: var(--series-1);
   }
+  .tab-icon { font-size: 15px; line-height: 1; }
+  .tab-label-short { display: none; }
 
   .panel { display: none; }
   .panel.active { display: block; }
@@ -295,12 +298,27 @@
     .header-actions { width: 100%; }
     .theme-btn, .icon-btn { flex: 1; text-align: center; padding: 8px 10px; }
 
+    /* tabs become a fixed bottom app-bar: icon on top, short label below */
+    body { padding-bottom: 78px; }
+    .panel.active { padding-top: 6px; }
     nav.tabs {
-      flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
-      scrollbar-width: none; margin: 0 -14px 18px; padding: 0 14px 1px;
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+      border-bottom: none; border-top: 1px solid var(--border);
+      background: var(--surface-1); box-shadow: 0 -2px 14px rgba(0,0,0,0.12);
+      margin: 0; gap: 0; justify-content: space-around;
+      padding: 4px 2px calc(4px + env(safe-area-inset-bottom));
     }
-    nav.tabs::-webkit-scrollbar { display: none; }
-    nav.tabs button { flex: none; padding: 10px 12px; font-size: 13px; }
+    nav.tabs button {
+      flex: 1 1 0; min-width: 0; flex-direction: column; gap: 2px;
+      padding: 6px 2px; font-size: 10px; font-weight: 600;
+      border-bottom: none; margin-bottom: 0; border-radius: 10px;
+    }
+    nav.tabs button[aria-selected="true"] { background: var(--chip-bg); }
+    .tab-icon { font-size: 18px; }
+    .tab-label { display: none; }
+    .tab-label-short {
+      display: block; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
 
     .kpi-row { gap: 8px; margin-bottom: 18px; }
     .kpi { flex: 1 1 calc(50% - 8px); min-width: 0; padding: 9px 12px; }
@@ -350,11 +368,31 @@
   </header>
 
   <nav class="tabs" id="tabs">
-    <button data-tab="resumo" aria-selected="true">Resumo</button>
-    <button data-tab="cardio" aria-selected="false">Controle Cardiovascular</button>
-    <button data-tab="evolucao" aria-selected="false">Evolução por Exame</button>
-    <button data-tab="data" aria-selected="false">Histórico por Data</button>
-    <button data-tab="alteracoes" aria-selected="false">Alterações</button>
+    <button data-tab="resumo" aria-selected="true">
+      <span class="tab-icon" aria-hidden="true">📊</span>
+      <span class="tab-label">Resumo</span>
+      <span class="tab-label-short">Resumo</span>
+    </button>
+    <button data-tab="cardio" aria-selected="false">
+      <span class="tab-icon" aria-hidden="true">❤️</span>
+      <span class="tab-label">Controle Cardiovascular</span>
+      <span class="tab-label-short">Cardio</span>
+    </button>
+    <button data-tab="evolucao" aria-selected="false">
+      <span class="tab-icon" aria-hidden="true">📈</span>
+      <span class="tab-label">Evolução por Exame</span>
+      <span class="tab-label-short">Evolução</span>
+    </button>
+    <button data-tab="data" aria-selected="false">
+      <span class="tab-icon" aria-hidden="true">📅</span>
+      <span class="tab-label">Histórico por Data</span>
+      <span class="tab-label-short">Histórico</span>
+    </button>
+    <button data-tab="alteracoes" aria-selected="false">
+      <span class="tab-icon" aria-hidden="true">⚠️</span>
+      <span class="tab-label">Alterações</span>
+      <span class="tab-label-short">Alterações</span>
+    </button>
   </nav>
 
   <!-- RESUMO -->
