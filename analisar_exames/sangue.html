@@ -98,6 +98,19 @@
   }
   .theme-btn:hover, .icon-btn:hover { background: var(--chip-bg); }
 
+  .back-to-top {
+    position: fixed; right: 20px; bottom: 24px; z-index: 25;
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary);
+    font-size: 18px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    opacity: 0; visibility: hidden; transform: translateY(8px);
+    transition: opacity .15s, transform .15s, visibility .15s;
+  }
+  .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+  .back-to-top:hover { background: var(--chip-bg); }
+
   /* ---- share / QR modal ---- */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex;
@@ -160,6 +173,9 @@
     display: flex; gap: 4px; border-bottom: 1px solid var(--border);
     margin-bottom: 20px; flex-wrap: wrap;
   }
+  @media (min-width: 641px) {
+    nav.tabs { position: sticky; top: 0; z-index: 30; background: var(--page); }
+  }
   nav.tabs button {
     appearance: none; border: none; background: none; color: var(--text-secondary);
     font: inherit; font-size: 13.5px; font-weight: 600; padding: 10px 14px; cursor: pointer;
@@ -193,7 +209,7 @@
   .stat-card .unit { font-size: 11.5px; color: var(--text-muted); }
   .stat-card .row2 { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
   .stat-card .date { font-size: 11px; color: var(--text-muted); }
-  .stat-card svg.spark { display: block; margin-top: 6px; }
+  .stat-card svg.spark { display: block; width: 100%; margin-top: 6px; }
 
   .badge {
     display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 700;
@@ -326,6 +342,11 @@
 
     .stat-grid, .cardio-kpi-grid { gap: 8px; }
     .stat-card { padding: 10px 12px; }
+
+    .back-to-top {
+      right: 14px; width: 40px; height: 40px;
+      bottom: calc(78px + env(safe-area-inset-bottom) + 12px);
+    }
 
     .cardio-settings { gap: 12px 16px; }
     .field-group { flex: 1 1 140px; }
@@ -502,6 +523,8 @@
     Relatório gerado automaticamente a partir dos PDFs de exames laboratoriais (Núcleo Medicina Laboratorial e outros). Uso pessoal — os valores devem ser interpretados por um médico, em conjunto com o histórico clínico completo.
   </div>
 </div>
+
+<button class="back-to-top" id="backToTop" type="button" title="Voltar ao topo" aria-label="Voltar ao topo">↑</button>
 
 <div class="modal-overlay" id="shareModal" hidden>
   <div class="modal-card">
@@ -2884,11 +2907,25 @@ var qrcode = function() {
     const saved = localStorage.getItem('exam-report-theme');
     if (saved) applyTheme(saved);
   } catch(e) {}
+  function effectiveTheme() {
+    const attr = document.documentElement.getAttribute('data-theme');
+    if (attr) return attr;
+    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
   themeBtn.addEventListener('click', () => {
-    const cur = document.documentElement.getAttribute('data-theme');
-    const next = cur === 'dark' ? 'light' : cur === 'light' ? null : 'dark';
+    const next = effectiveTheme() === 'dark' ? 'light' : 'dark';
     applyTheme(next);
-    try { localStorage.setItem('exam-report-theme', next || ''); } catch(e) {}
+    try { localStorage.setItem('exam-report-theme', next); } catch(e) {}
+    // sparkline/chart SVGs bake theme colors in as literal fill/stroke values at render
+    // time, so switching themes needs to redraw them or they keep the old palette.
+    buildResumo();
+    renderAlt(document.getElementById('altSearch').value);
+    if (currentKey) {
+      const s = SERIES.find(x => x.key === currentKey);
+      const numericPoints = s.points.filter(p => p.value !== null);
+      if (numericPoints.length >= 2) renderChart(s, numericPoints);
+    }
+    if (document.getElementById('panel-cardio').classList.contains('active')) renderCardioChart();
   });
 
   // ---------- share / QR ----------
@@ -2926,6 +2963,15 @@ var qrcode = function() {
       try { document.execCommand('copy'); copyFeedback.textContent = 'Link copiado!'; }
       catch (e2) { copyFeedback.textContent = 'Selecione e copie manualmente.'; }
     }
+  });
+
+  // ---------- back to top ----------
+  const backToTop = document.getElementById('backToTop');
+  document.addEventListener('scroll', () => {
+    backToTop.classList.toggle('show', window.scrollY > 500);
+  }, { passive: true });
+  backToTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   // ---------- tabs ----------
@@ -2977,7 +3023,7 @@ var qrcode = function() {
       bandSvg = `<path d="${top}${bot}Z" fill="${bandColor}" opacity="0.8"/>`;
     }
 
-    return `<svg class="spark" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    return `<svg class="spark" width="100%" height="${h}" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
       ${bandSvg}
       <path d="${d}" fill="none" stroke="${color}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.75"/>
       <circle cx="${lastX.toFixed(1)}" cy="${lastY.toFixed(1)}" r="2.5" fill="${color}"/>
