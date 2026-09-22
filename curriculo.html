@@ -217,10 +217,12 @@
   .footer-bottom{font-size:12.5px;color:var(--muted2);}
 
   @media (max-width:760px){
+    .hero-left,.about-text{min-width:0;}
+    .focus-card{flex:1 1 100%;min-width:0;}
     .hero h1{font-size:36px;}
     .stats-grid{grid-template-columns:repeat(2,1fr);}
     .stat{border-right:none;border-bottom:1px solid var(--line);padding:16px;}
-    .skills-grid{grid-template-columns:1fr;}
+    .skills-grid,.tech-grid{grid-template-columns:1fr;}
     .edu-grid{grid-template-columns:1fr;}
     .project-stats{grid-template-columns:repeat(2,1fr);}
     .courses-cols{columns:1;}
@@ -297,9 +299,19 @@
     .edu-grid{display:block !important;column-count:2;column-gap:16px;}
     .edu-card{border:1px solid #000 !important;background:#fff !important;padding:8px 10px !important;break-inside:avoid;margin-bottom:8px;}
     .edu-deg,.edu-title,.edu-org,.edu-date{color:#000 !important;}
+    .edu-deg{font-size:9px !important;}
+    .edu-title{font-size:11.5px !important;}
+    .edu-org{font-size:10.5px !important;}
+    .edu-date{font-size:9.5px !important;margin-top:3px !important;}
 
     .cert-item{border-bottom:1px solid #ccc !important;padding:8px 0 !important;}
     .cert-name,.cert-meta{color:#000 !important;}
+    .cert-list{margin-top:12px !important;}
+    .cert-item{break-inside:avoid;}
+    .cert-name{font-size:11px !important;}
+    .cert-meta{font-size:10px !important;}
+    #cursos{break-inside:avoid;}
+    h2.section-title{break-after:avoid;}
 
     .courses-cols{columns:2;column-gap:22px;}
     .courses-year{break-inside:avoid;margin-bottom:10px;}
@@ -323,7 +335,7 @@
     .footer-links a,.btn,.btn-primary,.btn-ghost{background:#fff !important;border:1px solid #000 !important;color:#000 !important;font-size:10.5px !important;padding:6px 12px !important;}
     .footer-bottom{color:#000 !important;font-size:9.5px !important;}
 
-    /* ================= PRINT v2: formal, condensed 2-3 page resume ================= */
+    /* ================= PRINT v2: formal, condensed resume ================= */
     .badge-row{display:none !important;}
     .contact-item.phone-item{display:flex !important;}
     .btn.phone-item{display:inline-flex !important;}
@@ -340,7 +352,9 @@
     .tag::after{content:", ";}
     .tag:last-child::after{content:"";}
 
-    .exp-item:nth-child(n+4){display:none !important;}
+    .exp-item:nth-child(n+4) .exp-desc,
+    .exp-item:nth-child(n+4) .tag-row,
+    .exp-item:nth-child(n+4) .exp-loc{display:none !important;}
     .timeline{padding-left:0 !important;}
     .timeline::before{display:none !important;}
     .exp-dot{display:none !important;}
@@ -423,8 +437,8 @@
     <h2 class="section-title">Quem é Marcelo</h2>
     <div class="about-grid">
       <div class="about-text">
-        <p>Profissional com mais de <b>10 anos de experiência em Data Analytics, Business Intelligence e Engenharia de Dados</b>, e mais de 20 anos de trajetória em TI. Atuação recente na <b>Minsait (Indra Company)</b>, atendendo Setores Internos e Administração Pública de empresas terceirizadas, com destaque para o <b>Projeto Transformação PR</b> — arquitetura e implementação de plataforma web corporativa (Azure, Power BI, automação e governança de dados) que substituiu mais de 500 planilhas Excel/VBA.</p>
-        <p>Expertise consolidada em <b>ETL/ELT, Data Warehouse, modelagem multidimensional, Big Data (Spark, Hadoop, Databricks)</b> e ferramentas de BI (Power BI, Tableau, Qlik Sense, Pentaho, SSAS/SSRS). Em expansão ativa para <b>Engenharia de Dados</b>, com formação recente em Databricks, Spark, PySpark, Apache Airflow, dbt e mensageria (Apache Kafka, MQTT).</p>
+        <p>Profissional com mais de <b>10 anos de experiência em Data Analytics, Business Intelligence e Engenharia de Dados</b>, e mais de 20 anos de trajetória em TI. Atualmente, <b>Engenheiro de Dados na Engesoftware Tecnologia S.A.</b>, em atuação remota para o cliente <b>Caixa Econômica Federal</b>. Experiência anterior na <b>Minsait (Indra Company)</b>, atendendo Setores Internos e Administração Pública de empresas terceirizadas, com destaque para o <b>Projeto Transformação PR</b> — arquitetura e implementação de plataforma web corporativa (Azure, Power BI, automação e governança de dados) que substituiu mais de 500 planilhas Excel/VBA.</p>
+        <p>Expertise consolidada em <b>ETL/ELT, Data Warehouse, modelagem multidimensional, Big Data (Spark, Hadoop, Databricks)</b> e ferramentas de BI (Power BI, Tableau, Qlik Sense, Pentaho, SSAS/SSRS). Aprofundamento contínuo em <b>Engenharia de Dados</b>, com formação recente em Databricks, Spark, PySpark, Apache Airflow, dbt e mensageria (Apache Kafka, MQTT).</p>
         <p>Motivado pela colaboração em equipe e pela entrega de resultados que impulsionam eficiência, governança de dados e inovação. Busca sempre agregar valor às decisões organizacionais e otimizar processos ponta a ponta — da ingestão dos dados à visualização final.</p>
       </div>
       <div class="focus-card">
@@ -506,6 +520,18 @@
     <h2 class="section-title">Experiência Profissional</h2>
 
     <div class="timeline">
+      <div class="exp-item">
+        <div class="exp-dot"></div>
+        <div class="exp-card">
+          <div class="exp-date">Set 2026 — Atual</div>
+          <div class="exp-role">Engenheiro de Dados</div>
+          <div class="exp-org">Engesoftware Tecnologia S.A.</div>
+          <div class="exp-loc">🌐 Remoto · Contrato temporário</div>
+          <div class="exp-desc">Atuação como Engenheiro de Dados para o cliente Caixa Econômica Federal.</div>
+          <div class="tag-row"><span class="tag">Arquitetura de Dados</span><span class="tag">Relatórios e Análises</span></div>
+        </div>
+      </div>
+
       <div class="exp-item">
         <div class="exp-dot"></div>
         <div class="exp-card">
@@ -654,10 +680,6 @@
       <div class="cert-item">
         <div class="cert-ic">🐘</div>
         <div><div class="cert-name">Formação PostgreSYS — Pool de Conexões</div><div class="cert-meta">Tecnisys · Abr/2023</div></div>
-      </div>
-      <div class="cert-item">
-        <div class="cert-ic">🧱</div>
-        <div><div class="cert-name">Databricks Certified Data Analyst Associate — Exam Preparation</div><div class="cert-meta">Udemy · 2026 · 6 horas</div></div>
       </div>
       <div class="cert-item">
         <div class="cert-ic">📜</div>
